@@ -1,5 +1,7 @@
 /*
- *
+ *单例 整个路由中只出现一次  防止出现多次
+ *              { launchMode: LaunchMode.MOVE_TO_TOP_SINGLETON }); //从栈底向栈顶查找，如果指定的名称已经存在，则将对应的NavDestination页面移到栈顶
+
  *
  * */
 import { navPathStack } from './utils'
@@ -77,7 +79,7 @@ struct Index {
         // navPathStack.pushPath({ name: 'list' })
         navPathStack.pushPathByName('list', "", (popInfo) => {
           console.log('Pop page name is: ' + popInfo.info.name + ', result: ' + JSON.stringify(popInfo.result));
-        });
+        },false);//第三个参数 去掉动画
       })
 
       Button('去我的').onClick(() => {
@@ -98,7 +100,7 @@ struct Index {
     .menus(this.navItem())
     .toolbarConfiguration(this.toolBar)
     .onAppear(() => {
-      this.addInterCeption()
+      // this.addInterCeption()
     })
 
 

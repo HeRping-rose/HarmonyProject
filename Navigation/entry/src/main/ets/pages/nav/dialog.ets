@@ -1,13 +1,13 @@
 import { navPathStack } from './utils'
 @Builder
-function mineFn() {
-  mine()
+function dialogFn() {
+  dialog()
 
 
 }
 
 @ComponentV2
-struct mine {
+struct dialog {
   build() {
     NavDestination() {
       Text('mine')
@@ -19,13 +19,14 @@ struct mine {
         navPathStack.clear()
       })
 
-      Button('查看个人信息').onClick(() => {
+      Button('个人信息弹窗').onClick(() => {
         // navPathStack.pop({mine:'我的页面'})
-        navPathStack.pushPath({name:"dialog"})
+        navPathStack.pushPath({name:"Dialog"})
       })
     }
+    .mode(NavDestinationMode.DIALOG)
 
   }
 }
 
-export { mine }
+export { dialog }

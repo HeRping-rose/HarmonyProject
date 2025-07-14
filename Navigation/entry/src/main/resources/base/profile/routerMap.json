@@ -26,6 +26,15 @@
         "title": "login",
         "info": "登录"
       }
+    },
+    {
+      "name": "dialog",
+      "pageSourceFile": "src/main/ets/pages/nav/dialog.ets",
+      "buildFunction": "dialogFn",
+      "data": {
+        "title": "dialog",
+        "info": "登录"
+      }
     }
   ]
 }
