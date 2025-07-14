@@ -1,0 +1,9 @@
+{
+  "src": [
+    "pages/router/Index",
+    "pages/router/ListIndex",
+    "pages/router/Mine",
+    "pages/navigation/Index",
+    "pages/nav/Index"
+  ]
+}

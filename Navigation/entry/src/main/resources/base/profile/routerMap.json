@@ -1,0 +1,31 @@
+{
+  "routerMap": [
+    {
+    "name": "list",
+      "pageSourceFile": "src/main/ets/pages/nav/list.ets",
+      "buildFunction": "listFn",
+      "data": {
+        "title": "list",
+        "info": "列表页"
+      }
+    },
+    {
+      "name": "mine",
+      "pageSourceFile": "src/main/ets/pages/nav/mine.ets",
+      "buildFunction": "mineFn",
+      "data": {
+        "title": "mine",
+        "info": "我的"
+      }
+    },
+    {
+      "name": "login",
+      "pageSourceFile": "src/main/ets/pages/nav/login.ets",
+      "buildFunction": "loginFn",
+      "data": {
+        "title": "login",
+        "info": "登录"
+      }
+    }
+  ]
+}
