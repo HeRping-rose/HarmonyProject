@@ -1,0 +1,48 @@
+{
+  "modulePathMap": {
+    "entry": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry",
+    "harA": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harA",
+    "harB": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harB",
+    "hspA": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspA",
+    "hspB": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB"
+  },
+  "compileMode": "esmodule",
+  "projectRootPath": "C:\\Users\\EDY\\Desktop\\system-router-map-master",
+  "nodeModulesPath": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\build\\default\\intermediates\\loader_out\\default\\node_modules",
+  "byteCodeHarInfo": {},
+  "declarationEntry": [],
+  "moduleName": "hspB",
+  "hspNameOhmMap": {},
+  "harNameOhmMap": {},
+  "packageManagerType": "ohpm",
+  "compileEntry": [
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\src\\main\\ets\\pages\\HspBPageOne.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\src\\main\\ets\\pages\\HspBPageTwo.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\src\\main\\ets\\pages\\Index.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\src\\main\\ets\\utils\\Calc.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\src\\main\\ets\\common\\utils\\Logger.ets"
+  ],
+  "otherCompileFiles": [],
+  "dynamicImportLibInfo": {},
+  "routerMap": [
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/hspB/ets/pages/HspBPageOne",
+      "name": "HspBPageOne",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\src\\main\\ets\\pages\\HspBPageOne.ets",
+      "buildFunction": "HspBPageOneBuilder"
+    },
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/hspB/ets/pages/HspBPageTwo",
+      "name": "HspBPageTwo",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\src\\main\\ets\\pages\\HspBPageTwo.ets",
+      "buildFunction": "HspBPageTwoBuilder"
+    }
+  ],
+  "hspResourcesMap": {},
+  "updateVersionInfo": {},
+  "anBuildOutPut": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\build\\default\\intermediates\\loader_out\\default\\an\\arm64-v8a",
+  "anBuildMode": "type",
+  "patchConfig": {
+    "changedFileList": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\build\\default\\intermediates\\patch\\default\\changedFileList.json"
+  }
+}

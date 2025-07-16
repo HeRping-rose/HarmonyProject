@@ -1,6 +1,10 @@
 {
   "string": [
     {
+      "name": "location_reason",
+      "value": "我需要定位才能找到你"
+    },
+    {
       "name": "module_desc",
       "value": "module description"
     },
@@ -10,6 +14,22 @@
     },
     {
       "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "Ability_desc",
+      "value": "description"
+    },
+    {
+      "name": "Ability_label",
+      "value": "label"
+    },
+    {
+      "name": "FoodEntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "FoodEntryAbility_label",
       "value": "label"
     }
   ]

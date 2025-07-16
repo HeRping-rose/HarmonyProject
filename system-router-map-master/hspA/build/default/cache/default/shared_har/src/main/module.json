@@ -1,0 +1,1 @@
+{"app":{"bundleName":"com.samples.systemrouter","bundleType":"app","debug":true,"versionCode":1000000,"versionName":"1.0.0","minAPIVersion":50000012,"targetAPIVersion":50101019,"apiReleaseType":"Release"},"module":{"name":"hspA","type":"shared","deliveryWithInstall":true,"deviceTypes":["phone","tablet","2in1"],"dependencies":[]}}

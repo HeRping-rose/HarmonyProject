@@ -1,0 +1,79 @@
+{
+  "modulePathMap": {
+    "entry": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry",
+    "harA": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harA",
+    "harB": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harB",
+    "hspA": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspA",
+    "hspB": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB"
+  },
+  "compileMode": "esmodule",
+  "projectRootPath": "C:\\Users\\EDY\\Desktop\\system-router-map-master",
+  "nodeModulesPath": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry\\build\\default\\intermediates\\loader_out\\default\\node_modules",
+  "byteCodeHarInfo": {},
+  "declarationEntry": [],
+  "moduleName": "entry",
+  "hspNameOhmMap": {
+    "hspATest": "@bundle:com.samples.systemrouter/hspA/Index",
+    "hspBTest": "@bundle:com.samples.systemrouter/hspB/Index"
+  },
+  "harNameOhmMap": {},
+  "packageManagerType": "ohpm",
+  "compileEntry": [
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry\\src\\main\\ets\\pages\\EntryPageOne.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry\\src\\main\\ets\\pages\\EntryPageTwo.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harA\\src\\main\\ets\\pages\\HarAPageOne.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harA\\src\\main\\ets\\pages\\HarAPageTwo.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harB\\src\\main\\ets\\pages\\HarBPageOne.ets",
+    "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harB\\src\\main\\ets\\pages\\HarBPageTwo.ets"
+  ],
+  "otherCompileFiles": [],
+  "dynamicImportLibInfo": {},
+  "routerMap": [
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/entry/ets/pages/EntryPageOne",
+      "name": "pageOne",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry\\src\\main\\ets\\pages\\EntryPageOne.ets",
+      "buildFunction": "PageOneBuilder"
+    },
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/entry/ets/pages/EntryPageTwo",
+      "name": "pageTwo",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry\\src\\main\\ets\\pages\\EntryPageTwo.ets",
+      "buildFunction": "PageTwoBuilder"
+    },
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/entry@harA/ets/pages/HarAPageOne",
+      "name": "HarAPageOne",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harA\\src\\main\\ets\\pages\\HarAPageOne.ets",
+      "buildFunction": "HarAPageOneBuilder"
+    },
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/entry@harA/ets/pages/HarAPageTwo",
+      "name": "HarAPageTwo",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harA\\src\\main\\ets\\pages\\HarAPageTwo.ets",
+      "buildFunction": "HarAPageTwoBuilder"
+    },
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/entry@harB/ets/pages/HarBPageOne",
+      "name": "HarBPageOne",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harB\\src\\main\\ets\\pages\\HarBPageOne.ets",
+      "buildFunction": "HarBPageOneBuilder"
+    },
+    {
+      "ohmurl": "@bundle:com.samples.systemrouter/entry@harB/ets/pages/HarBPageTwo",
+      "name": "HarBPageTwo",
+      "pageSourceFile": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\harB\\src\\main\\ets\\pages\\HarBPageTwo.ets",
+      "buildFunction": "HarBPageTwoBuilder"
+    }
+  ],
+  "hspResourcesMap": {
+    "hspA": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspA\\build\\default\\intermediates\\res\\default\\ResourceTable.txt",
+    "hspB": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\hspB\\build\\default\\intermediates\\res\\default\\ResourceTable.txt"
+  },
+  "updateVersionInfo": {},
+  "anBuildOutPut": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry\\build\\default\\intermediates\\loader_out\\default\\an\\arm64-v8a",
+  "anBuildMode": "type",
+  "patchConfig": {
+    "changedFileList": "C:\\Users\\EDY\\Desktop\\system-router-map-master\\entry\\build\\default\\intermediates\\patch\\default\\changedFileList.json"
+  }
+}

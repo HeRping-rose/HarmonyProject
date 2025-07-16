@@ -4,6 +4,14 @@
     "pages/router/ListIndex",
     "pages/router/Mine",
     "pages/navigation/Index",
-    "pages/nav/Index"
+    "pages/nav/Index",
+    "pages/navstage/Index",
+    "pages/Index1",
+    "pages/main/Main",
+    "pages/main/Main2",
+    "pages/main/newIndex",
+    "pages/main/AxiosStudy",
+    "pages/food/Food",
+    "pages/Animate"
   ]
 }

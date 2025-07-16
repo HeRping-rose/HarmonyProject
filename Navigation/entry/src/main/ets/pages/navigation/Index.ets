@@ -5,7 +5,7 @@
 
 @Entry
 @ComponentV2
-struct Index {
+struct Index2 {
   // 实例化一个独立的导航栈 用来单独管理我们当前窗口  导航站管理和页面切换
   @Provider() navPathStack:NavPathStack =new NavPathStack()
 

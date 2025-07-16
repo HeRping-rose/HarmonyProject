@@ -1,6 +1,32 @@
 {
   "module": {
-    "routerMap": "$profile:routerMap",
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.INTERNET",
+      },
+      {
+        "name": "ohos.permission.LOCATION",
+        "reason": "$string:location_reason",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility",
+            "FoodEntryAbility"
+          ],
+          "when": "always"
+        }
+
+      },
+      {
+        "name": "ohos.permission.APPROXIMATELY_LOCATION",
+        "reason": "$string:location_reason",
+        "usedScene": {
+          "abilities": ["EntryAbility","FoodEntryAbility"],
+          "when": "always",
+
+        }
+      }
+    ],
+    "routerMap": "$profile:routerMap6",
     "name": "entry",
     "type": "entry",
     "description": "$string:module_desc",
@@ -27,10 +53,20 @@
               "entity.system.home"
             ],
             "actions": [
-              "ohos.want.action.home"
+              "action.system.home"
             ]
           }
         ]
+      },
+      {
+        "name": "FoodEntryAbility",
+        "srcEntry": "./ets/foodentryability/FoodEntryAbility.ets",
+        "description": "$string:FoodEntryAbility_desc",
+        "icon": "$media:layered_image",
+        "label": "$string:FoodEntryAbility_label",
+        "startWindowIcon": "$media:startIcon",
+        "startWindowBackground": "$color:start_window_background",
+
       }
     ],
     "extensionAbilities": [

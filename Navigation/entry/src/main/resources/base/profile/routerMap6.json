@@ -1,0 +1,23 @@
+{
+  "routerMap": [
+    {
+      "name": "newsDetail",
+      "pageSourceFile": "src/main/ets/pages/main/newDetail.ets",
+      "buildFunction": "newDetailFn",
+      "data": {
+        "title": "newDetail",
+        "info": "新闻详情页"
+      }
+    },
+    {
+      "name": "publishNews",
+      "pageSourceFile": "src/main/ets/pages/main/publishNews.ets",
+      "buildFunction": "publishNewsFn",
+      "data": {
+        "title": "publishNews",
+        "info": "发表新闻页"
+      }
+    }
+
+  ]
+}

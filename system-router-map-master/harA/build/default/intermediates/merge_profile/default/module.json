@@ -1,0 +1,28 @@
+{
+	"app": {
+		"bundleName": "com.samples.systemrouter",
+		"debug": true,
+		"versionCode": 1000000,
+		"versionName": "1.0.0",
+		"minAPIVersion": 50000012,
+		"targetAPIVersion": 50101019,
+		"apiReleaseType": "Release",
+		"compileSdkVersion": "5.1.1.202",
+		"compileSdkType": "HarmonyOS",
+		"appEnvironments": [],
+		"bundleType": "app",
+		"buildMode": "debug"
+	},
+	"module": {
+		"name": "harA",
+		"type": "har",
+		"deviceTypes": [
+			"default",
+			"tablet",
+			"2in1"
+		],
+		"routerMap": "$profile:router_map",
+		"packageName": "hara",
+		"installationFree": false
+	}
+}
