@@ -1,19 +1,19 @@
+import { AppStorageV2 } from '@kit.ArkUI'
+import { OutArea, TabInterface } from '../models'
+import { Home } from './home'
+import { Project } from './project'
+import { Interview } from './interview'
+import { Mine } from './mine'
 
 
-interface TabInterface {
-  icon: ResourceStr
-  selectIcon: ResourceStr
-  name: string
-  title: string
-}
 // builder 构造器
 @Entry
 @ComponentV2
 struct Index {
-
+  outArea = AppStorageV2.connect(OutArea, () => new OutArea(0, 0))!
   @Local currentIndex:number=0
 
-  @Local list: TabInterface[] = [{
+  @Local tabList: TabInterface[] = [{
     icon: $r("app.media.tabbar_home" ),
     selectIcon: $r('app.media.tabbar_home_fill'),
     name: 'home',
@@ -42,48 +42,54 @@ struct Index {
 
   // tab单个组件框架封装
   @Builder
-  tabItem(item:TabInterface){
-    Column(){
-      Image(this.list[this.currentIndex].name==item.name?item.selectIcon: item.icon)
+  tabItem(item:TabInterface,index:number){
+    Column({space: 4}){
+      Image(this.tabList[this.currentIndex].name==item.name?item.selectIcon: item.icon)
         .height(30)
         .width(30)
         .fillColor($r('app.color.common_gray_01'))
       Text(item.title)
-        .fontColor(this.list[this.currentIndex].name==item.name? $r('app.color.black'): $r('app.color.common_gray_01'))
+        .fontSize(14)
+        .fontColor(this.tabList[this.currentIndex].name==item.name? $r('app.color.black'): $r('app.color.common_gray_01'))
     }
     // .backgroundColor('#ccc')
   }
 
+
   build() {
-    Column({space: 10}){
+    Navigation(){
 
       //布局之选项卡Tabs
       Tabs({index:$$this.currentIndex}){
-        ForEach(this.list, (item:TabInterface) => {
+        ForEach(this.tabList, (item:TabInterface,index: number) => {
           TabContent(){
             //todo 添加内容 实现不同结构
             Column(){
               if(item.name=="home"){
-                Text("首页")
+                Home()
               }else if(item.name=="project"){
-                Text("项目")
+                Project()
               }else if(item.name=="interview"){
-                Text("面经")
+                Interview()
               }else {
-                Text("我的")
-                .width('100%')
+                Mine()
               }
             }
           }
-          .tabBar( this.tabItem(item))
+          .tabBar( this.tabItem(item, index))
         })
       }
+      .width('100%')
+      .height('100%')
+      .layoutWeight(1)
       .vertical(false)//垂直
       .scrollable(true)//滑动
       .barPosition(BarPosition.End)//结束位置
 
     }
     .margin({left: 10, right: 10})
+    .padding({top: this.outArea.topHeight, bottom: this.outArea.bottomHeight})
+    .hideTitleBar( true)  // tabBar与navigation混合使用的bug  因为navigation有预制标题栏 应去掉
   }
 }
 

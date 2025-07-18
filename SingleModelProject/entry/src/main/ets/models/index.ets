@@ -18,4 +18,11 @@ class OutArea{
   }
 }
 
-export { savedContext , OutArea }
+interface TabInterface {
+  icon: ResourceStr //resourse
+  selectIcon: ResourceStr
+  name: string
+  title: string
+}
+
+export { savedContext , OutArea , TabInterface  }
