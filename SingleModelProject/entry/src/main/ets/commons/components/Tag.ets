@@ -16,6 +16,7 @@ struct Tag {
   @Param level: number = 1
   @Param font: string = ""
   @Param color: ResourceColor =''
+  @Param difficulty: number = 1
 
   build() {
     Column(){

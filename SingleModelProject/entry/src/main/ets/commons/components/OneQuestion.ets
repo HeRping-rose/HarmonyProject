@@ -1,20 +1,9 @@
+import { QuestionItem } from "../../models";
 import { Tag } from "./Tag";
 
-interface QuestionItem {
-  id: string;
-  /* 题干 */
-  stem: string;
-  /* 难度 */
-  difficulty: number;
-  /* 点赞数 */
-  likeCount: number;
-  /* 浏览数 */
-  views: number;
-  /* 是否已看 */
-  readFlag: 0 | 1;
-}
 
 
+// 自定义单个列表详情组件
 @ComponentV2
 struct OneQuestion {
   @Param item: QuestionItem={
@@ -26,11 +15,14 @@ struct OneQuestion {
     readFlag: 1
   }
   build() {
-    Column({space:10}){
+    Column({space:5}){
       Row(){
-        Tag()
-
+        // 自定义标签组件
+        Tag({ level:this.item.difficulty})
         Text(this.item.stem).padding({left:10}).fontSize(18)
+          .layoutWeight(1)
+          .maxLines(1)
+          .textOverflow({overflow: TextOverflow.Ellipsis})
       }
       RowSplit(){
         Text(`点赞：${this.item.likeCount} `).padding({ left: 10, right: 10 })
@@ -43,7 +35,7 @@ struct OneQuestion {
     }
     .width('100%')
     .alignItems(HorizontalAlign.Start)
-    .padding({left:20,right:20})
+    .padding({left:20,right:20,top:5,bottom:5})
   }
 }
-export { OneQuestion , QuestionItem }
+export { OneQuestion  }
