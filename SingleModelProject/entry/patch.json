@@ -1,0 +1,11 @@
+{
+  "app": {
+    "bundleName": "com.ron.single_model_project",
+    "patchVersionCode": 2000031,
+    "versionCode": 1000000
+  },
+  "module": {
+    "name": "entry",
+    "type": "hotreload"
+  }
+}

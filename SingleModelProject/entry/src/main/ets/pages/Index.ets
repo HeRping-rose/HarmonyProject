@@ -4,13 +4,14 @@ import { Home } from './home'
 import { Project } from './project'
 import { Interview } from './interview'
 import { Mine } from './mine'
+import { navPathStack } from '../commons/utils/navPathStack'
 
 
 // builder 构造器
 @Entry
 @ComponentV2
 struct Index {
-  outArea = AppStorageV2.connect(OutArea, () => new OutArea(0, 0))!
+  // outArea = AppStorageV2.connect(OutArea, () => new OutArea(0, 0))!
   @Local currentIndex:number=0
 
   @Local tabList: TabInterface[] = [{
@@ -57,7 +58,7 @@ struct Index {
 
 
   build() {
-    Navigation(){
+    Navigation(navPathStack){
 
       //布局之选项卡Tabs
       Tabs({index:$$this.currentIndex}){
@@ -87,8 +88,8 @@ struct Index {
       .barPosition(BarPosition.End)//结束位置
 
     }
-    .margin({left: 10, right: 10})
-    .padding({top: this.outArea.topHeight, bottom: this.outArea.bottomHeight})
+    // .margin({left: 10, right: 10})
+    // .padding({top: this.outArea.topHeight, bottom: this.outArea.bottomHeight})
     .hideTitleBar( true)  // tabBar与navigation混合使用的bug  因为navigation有预制标题栏 应去掉
   }
 }

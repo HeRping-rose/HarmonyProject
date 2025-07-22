@@ -1,4 +1,5 @@
 import { Context } from '@kit.AbilityKit'
+import { Type } from '@ohos.arkui.StateManagement'
 
 class savedContext{
   context:Context
@@ -66,4 +67,32 @@ interface PageData<T> {
   pageTotal: number
   rows: T[]
 }
-export { savedContext , OutArea , TabInterface , QuestionItem, QuestionListParams , PageData}
+
+//登录请求数据类型格式
+interface  LoginParam {
+  username:string
+  password:string
+}
+
+// 响应返回的数据类型
+@ObservedV2
+export class  UserClass {
+// token jwt json web token 以json字符串的形式用来验证前端登录状态的令牌
+//   由三段组成 用户名 密码 过期时间
+  @Trace token: string ='' //后续交互使用的token
+  @Trace refreshToken: string =''//token过期后，刷新token使用
+  @Trace id: string=''
+  @Trace username: string=''
+  @Trace avatar: string=''
+  @Trace nickName: string='' //昵称
+  @Trace totalTime: number=0//学习时长，单位s
+  @Trace clockinNumber:number =0//连续打卡天数
+}
+@ObservedV2
+export class  AppUser{
+  @Type(UserClass) //观测这个类整体
+  @Trace user:UserClass=new UserClass()
+}
+
+
+export { savedContext , OutArea , TabInterface , QuestionItem, QuestionListParams , PageData, LoginParam}

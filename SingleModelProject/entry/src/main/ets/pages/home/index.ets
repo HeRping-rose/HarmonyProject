@@ -3,10 +3,13 @@ import { SearchBox } from "../../commons/components/SearchBox"
 import { CateQuestion } from "./components/CateQuestion"
 import { everyDayQuestion } from "./components/everyDayQuestion"
 import { HotQuestion } from "./components/HotQuestion"
+import { AppStorageV2 } from "@kit.ArkUI"
+import { OutArea } from "../../models"
 
 @Preview
 @ComponentV2
 struct Home {
+  outArea = AppStorageV2.connect(OutArea, () => new OutArea(0, 0))!
   @Local searchResult:string = ''
   @Local clockInNumber:number = 0
   build() {
@@ -55,6 +58,7 @@ struct Home {
     }
     .width('100%')
     .height('100%')
+    .padding({ top: this.outArea.topHeight, bottom: this.outArea.bottomHeight })
   }
 }
 
