@@ -5,6 +5,7 @@ import { navPathStack } from "../../commons/utils/navPathStack"
 import { Agreement, AppUser, LoginParam, UserClass, webParams } from "../../models"
 import emitter from "@ohos.events.emitter"
 import { HcNavBar } from "../../commons/components/HcNavBar"
+import { apiLogin } from "../../api"
 
 @ComponentV2
 struct Login {
@@ -38,14 +39,17 @@ struct Login {
     // }
     this.isLoading=true
 
-    let res =await httpClient.request<UserClass, LoginParam >({
-      method: 'post',
-      url:'login',
-      data: {
-        username: this.mobile,
-        password: this.code
-      } as LoginParam
-    })
+    // let res =await httpClient.request<UserClass, LoginParam >({
+    //   method: 'post',
+    //   url:'login',
+    //   data: {
+    //     username: this.mobile,
+    //     password: this.code
+    //   } as LoginParam
+    // })
+    //登录请求接口封装
+    const res=await apiLogin(this.mobile,this.code)
+
     this.isLoading = false
 
     console.log(JSON.stringify(res))

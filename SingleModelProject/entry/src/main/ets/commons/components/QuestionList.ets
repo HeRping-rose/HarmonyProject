@@ -3,6 +3,7 @@ import { promptAction } from "@kit.ArkUI"
 import { PageData, QuestionItem, QuestionListParams, SortType } from "../../models"
 import { httpClient } from "../utils/httpClient"
 import { navPathStack } from "../utils/navPathStack"
+import { apiGetQuesList } from "../../api"
 
 @ComponentV2
 struct QuestionList {
@@ -22,17 +23,27 @@ struct QuestionList {
     }
   }
   // 封装请求接口方法  只要成功返回的是 Promise<T>  T= <PageData<QuestionItem>>返回成功的结果数据类型
-   getData(): Promise<PageData<QuestionItem>>{
-   return  httpClient.request<PageData<QuestionItem>>({
-      url: 'question/list',
-      params: {
-        type: this.typeID, //id从447才有数据
-        questionBankType: 10, //10 表示题库
-        sort: this.overSort, //默认排序  传入的sort
-        page: this.page,
-        pageSize: 8
-      } as QuestionListParams
-    })
+  //  getData(): Promise<PageData<QuestionItem>>{
+  //    return  httpClient.request<PageData<QuestionItem>>({
+  //       url: 'question/list',
+  //       params: {
+  //         type: this.typeID, //id从447才有数据
+  //         questionBankType: 10, //10 表示题库
+  //         sort: this.overSort, //默认排序  传入的sort
+  //         page: this.page,
+  //         pageSize: 8
+  //       } as QuestionListParams
+  //    })
+  // }
+  // 请求获取面试试题列表接口封装测试
+  async getData(){
+    return apiGetQuesList({
+      type:this.typeID,
+      questionBankType:10,
+      sort:this.overSort,
+      page:this.page,
+      pageSize:10,
+    } as QuestionListParams )
   }
 
   // 获取题目数据  不用第一次就刷新
