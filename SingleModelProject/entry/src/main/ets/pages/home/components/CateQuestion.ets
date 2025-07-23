@@ -4,26 +4,22 @@ import { skeletonBox } from "../../../commons/components/skeletonBox"
 import { skeletonItem } from "../../../commons/components/skeletonItem"
 import { Tag } from "../../../commons/components/Tag"
 import { httpClient } from "../../../commons/utils/httpClient"
-import { SortType } from "../../../models"
+import { IList, SortType } from "../../../models"
 import { FilterButton } from "./FilterButton"
+import emitter from "@ohos.events.emitter"
+import { QuestionTypeApi } from "../../../api"
 
-interface IList{
-  id: number
-  name: string
-  displayNewestFlag:0|1
-}
+// interface IList{
+//   id: number
+//   name: string
+//   displayNewestFlag:0|1
+// }
 
 @ComponentV2
 struct CateQuestion {
   @Local titleList:IList[]=[
     // { id: 1, name: 'ArkTS', displayNewestFlag: 1 },
     // { id: 2, name: 'ArkUI', displayNewestFlag: 1 },
-    // { id: 3, name: 'Hap', displayNewestFlag: 1 },
-    // { id: 4, name: 'Hsp', displayNewestFlag: 0 },
-    // { id: 5, name: 'Har', displayNewestFlag: 0 },
-    // { id: 6, name: 'Ability', displayNewestFlag: 0 },
-    // { id: 7, name: 'Stage', displayNewestFlag: 0 },
-    // { id: 8, name: 'Kit', displayNewestFlag: 0 }
   ]
   @Local isShow:boolean=false
   @Local tempIndex:number=0
@@ -33,20 +29,19 @@ struct CateQuestion {
   difficultyArr: SortType[] = [SortType.DifficultyLow, SortType.DifficultyHigh]
   @Local isLoading:boolean=false
 
-
   //  获取分类 列表
   async getCate(){
     //res=res.data.data
     try {
       this.isLoading=true
-      let res = await httpClient.request<IList[]>({
-        // method:'get', 默认是get 可以不用写
-        url: 'question/type'
-      })
+      // let res = await httpClient.request<IList[]>({
+      //   // method:'get', 默认是get 可以不用写
+      //   url: 'question/type'
+      // })
+      let  res=await QuestionTypeApi()
       this.titleList = res //真数据列表
 
       this.isLoading=false
-
       console.log(JSON.stringify(res))
     }catch (e) {
       //请求失败返回  401
@@ -55,6 +50,11 @@ struct CateQuestion {
   }
   aboutToAppear(): void {
     this.getCate()
+    //事件发布
+    emitter.on('refresh',()=>{
+    //   回调
+      this.getCate()
+    })
   }
   @Local activeIndex:number=0 //默认索引从0开始
 
@@ -177,6 +177,7 @@ struct CateQuestion {
     .height('100%')
   }
 
+  //骨架结构
   @Builder
   skeletonBuilder(){
     skeletonBox(){
@@ -197,18 +198,12 @@ struct CateQuestion {
           .alignItems(HorizontalAlign.Start)
         })
       }
-
-
     }
-
   }
-
 
   build() {
     if(this.isLoading){
-
       this.skeletonBuilder()
-
     }else {
       Stack({ alignContent: Alignment.TopEnd }) {
         Tabs({ index: $$this.activeIndex }) {
@@ -239,7 +234,6 @@ struct CateQuestion {
           this.activeIndex = index //点击切换index
         })
 
-
         //图标 模态框
         Row() {
           Image($r('app.media.ic_home_filter'))
@@ -254,9 +248,7 @@ struct CateQuestion {
           this.tempIndex = this.activeIndex //临时索引 当前索引赋值给模态框的临时索引
         })
       }
-
     }
-
   }
 }
 
@@ -268,8 +260,5 @@ function textTitle() {
   .width('100%')
   .margin({ top: 20 })
 }
-
-
-
 
 export { CateQuestion }

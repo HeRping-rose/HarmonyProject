@@ -1,6 +1,7 @@
 //用户 作者 简写
 import { PersistenceV2 } from '@kit.ArkUI'
 import { AppUser, UserClass } from '../../models'
+import { navPathStack } from './navPathStack'
 
 class Auth{
   //存用户 信息
@@ -20,9 +21,19 @@ class Auth{
   getUser(){
     let appUser = PersistenceV2.connect(AppUser, () => new AppUser())!
     return appUser.user
-
-
   }
+
+  //检查用户是否登录
+  checkUser(fn:Function){
+    const user=this.getUser()
+    if(user.token){
+      //go on
+      fn()
+    }else{
+      navPathStack.pushPath({name:'login'})
+    }
+  }
+
 }
 
 export const auth = new Auth()

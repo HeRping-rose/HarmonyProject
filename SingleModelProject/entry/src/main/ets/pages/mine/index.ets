@@ -125,7 +125,13 @@ struct Mine {
             navPathStack.pushPath({ name: 'login' })
 
           })
-
+        Button("测试破坏token")
+          .backgroundColor('#f90')
+          .fontColor('#ccc')
+          .onClick(() => {
+            //改变了token list页面访问不了
+            this.user.token='ABC23'
+          })
       }
       .margin({ right: 20, left: 20 ,top: 20 })
       .padding(16)

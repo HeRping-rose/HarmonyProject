@@ -2,6 +2,7 @@ import { OneQuestion } from "./OneQuestion"
 import { promptAction } from "@kit.ArkUI"
 import { PageData, QuestionItem, QuestionListParams, SortType } from "../../models"
 import { httpClient } from "../utils/httpClient"
+import { navPathStack } from "../utils/navPathStack"
 
 @ComponentV2
 struct QuestionList {
@@ -72,8 +73,14 @@ struct QuestionList {
       List({space:10}) {
         ForEach(this.questionList, (item: QuestionItem, index: number) => {
           ListItem() {
-            //单个列表组件
+            //单个列表组件 一道题目  传Id给详情页
             OneQuestion({ item: item })
+              .onClick(()=>{
+                navPathStack.pushPath({
+                  name:'question',
+                  param:item.id
+                })
+              })
           }
           .outline({
             style: OutlineStyle.DASHED,

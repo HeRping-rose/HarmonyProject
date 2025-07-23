@@ -1,15 +1,21 @@
-import { PersistenceV2, promptAction } from "@kit.ArkUI"
+import { AppStorageV2, PersistenceV2, promptAction } from "@kit.ArkUI"
 import { auth } from "../../commons/utils/auth"
 import { httpClient } from "../../commons/utils/httpClient"
 import { navPathStack } from "../../commons/utils/navPathStack"
-import { AppUser, LoginParam, UserClass } from "../../models"
+import { Agreement, AppUser, LoginParam, UserClass, webParams } from "../../models"
+import emitter from "@ohos.events.emitter"
+import { HcNavBar } from "../../commons/components/HcNavBar"
 
 @ComponentV2
 struct Login {
   @Local mobile:string='hmheima'
   @Local code:string='Hmheima%123'
+  // @Local mobile:string=''
+  // @Local code:string=''
   @Local isAgree: boolean = false
   @Local isLoading:boolean=false
+  agree: Agreement = AppStorageV2.connect(Agreement, 'AgreeKey', () => new Agreement())!
+
   async  login(){
     if(this.isLoading){
       return
@@ -22,10 +28,14 @@ struct Login {
       promptAction.openToast({ message: '密码没有填写' })
       return
     }
-    if (this.isAgree) {
+    if (!this.isAgree) {
       promptAction.openToast({ message: '请勾选用户协议和隐私政策' })
       return
     }
+    // if(!this.agree.toBottom1 || !this.agree.toBottom2){
+    //   promptAction.openToast({ message: '请阅读用户协议和隐私政策' })
+    //   return
+    // }
     this.isLoading=true
 
     let res =await httpClient.request<UserClass, LoginParam >({
@@ -56,11 +66,14 @@ struct Login {
     // appUser.user.token=res.token
     //封装一个方法存储数据
     auth.setUser( res )
+    // 触发订阅事件
+    emitter.emit('refresh')
     navPathStack.pop()
   }
   build() {
     NavDestination(){
       Column() {
+        HcNavBar({ title: '', showRightIcon: false }).margin({ top: 0 })
         Column({space:10}){
           Image($r('app.media.ic_mine_logo')).width(80)
             .margin({top:30,bottom:10})
@@ -70,18 +83,19 @@ struct Login {
             .fontSize(13)
             .fontColor('#ccc')
             .margin({bottom:20})
-          TextInput({ placeholder: '请输入用户名' })
+          // TextInput({ placeholder: '请输入用户名', text: $$this.mobile })
+          TextInput({ placeholder: '请输入用户名', text: $$this.mobile })
             .placeholderColor('#ccc')
             .backgroundColor('#fff')
             .margin({left:20,right:20})
             .border({width:{bottom:1} ,radius:0,color:'#ccc'})
-          TextInput({ placeholder: '请输入密码' ,})
+
+          TextInput({ placeholder: '请输入密码' ,text:$$this.code})
             .type(InputType.Password)
             .placeholderColor('#ccc')
             .backgroundColor('#fff')
             .margin({ left: 20, right: 20 })
             .border({ width: { bottom: 1 },radius:0, color: '#ccc' })
-
 
           Row(){
             Checkbox()
@@ -91,7 +105,8 @@ struct Login {
               .width(14)
               .height(14)
               .onChange((value: boolean) => {
-                this.isAgree==value
+                console.log(value.toString()+"value")
+                this.isAgree=value
               })
             Text('已阅读并同意')
               .fontColor('#ccc')
@@ -99,6 +114,12 @@ struct Login {
             // TODO 跳转
             Text('《用户协议》')
               .fontSize(14)
+              .onClick(() => {
+                navPathStack.pushPath({
+                  name:'web',
+                  param:{title:'用户协议',url:'http://110.41.143.89/user'} as webParams
+                })
+              })
 
             Text('和')
               .fontColor('#ccc')
@@ -106,6 +127,12 @@ struct Login {
             // TODO 跳转
             Text('《隐私政策》')
               .fontSize(14)
+              .onClick(() => {
+                navPathStack.pushPath({
+                  name: 'web' ,
+                  param: { title: '隐私政策', url: 'http://110.41.143.89/user' } as webParams
+                })
+              })
 
           }.width('100%')
           .margin({left:20})
@@ -129,17 +156,14 @@ struct Login {
             .fontColor('#ccc')
           Image($r('app.media.ic_mine_huawei')).width(30)
         }
-
       }
     }
-    // .hideTitleBar( true)
-
+    .hideTitleBar( true)
   }
 }
 @Builder
 function LoginFn(){
   Login()
 }
-
 
 export { LoginFn }

@@ -3,7 +3,6 @@ import { Type } from '@ohos.arkui.StateManagement'
 
 class savedContext{
   context:Context
-
   constructor(context: Context){
   this.context=context
   }
@@ -28,21 +27,18 @@ interface TabInterface {
 
 interface QuestionItem {
   id: string;
+  stem: string; /* 题干 */
+  difficulty: number; /* 难度 */
+  likeCount: number; /* 点赞数 */
+  views: number; /* 浏览数 */
+  readFlag: 0 | 1; /* 是否已看 */
+}
+export interface QuestionDetail extends QuestionItem{
+  answer: string //答案
+  stage: string[] //特定阶段的知识点
+  collectFlag:number //收藏
+  likeFlag:number //点赞
 
-  /* 题干 */
-  stem: string;
-
-  /* 难度 */
-  difficulty: number;
-
-  /* 点赞数 */
-  likeCount: number;
-
-  /* 浏览数 */
-  views: number;
-
-  /* 是否已看 */
-  readFlag: 0 | 1;
 }
 
 interface QuestionListParams {
@@ -77,8 +73,7 @@ interface  LoginParam {
 // 响应返回的数据类型
 @ObservedV2
 export class  UserClass {
-// token jwt json web token 以json字符串的形式用来验证前端登录状态的令牌
-//   由三段组成 用户名 密码 过期时间
+// token jwt json web token 以json字符串的形式用来验证前端登录状态的令牌 //   由三段组成 用户名 密码 过期时间
   @Trace token: string ='' //后续交互使用的token
   @Trace refreshToken: string =''//token过期后，刷新token使用
   @Trace id: string=''
@@ -94,5 +89,23 @@ export class  AppUser{
   @Trace user:UserClass=new UserClass()
 }
 
+// 用户协议 隐私政策 传递参数类型
+export interface webParams{
+  title:string
+  url:string
+}
+
+@ObservedV2
+export class Agreement{
+  @Trace title:string=''
+  @Trace url:string=''
+  @Trace toBottom1: boolean = false
+  @Trace toBottom2: boolean = false
+}
+export  interface IList{
+  id: number
+  name: string
+  displayNewestFlag:0|1
+}
 
 export { savedContext , OutArea , TabInterface , QuestionItem, QuestionListParams , PageData, LoginParam}

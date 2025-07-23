@@ -3,10 +3,10 @@ import { SearchBox } from "../../commons/components/SearchBox"
 import { CateQuestion } from "./components/CateQuestion"
 import { everyDayQuestion } from "./components/everyDayQuestion"
 import { HotQuestion } from "./components/HotQuestion"
-import { AppStorageV2 } from "@kit.ArkUI"
+import { AppStorageV2, promptAction } from "@kit.ArkUI"
 import { OutArea } from "../../models"
+import { auth } from "../../commons/utils/auth"
 
-@Preview
 @ComponentV2
 struct Home {
   outArea = AppStorageV2.connect(OutArea, () => new OutArea(0, 0))!
@@ -18,13 +18,17 @@ struct Home {
       Row(){
         Image($r('app.media.ic_home_scan'))
           .width(25)
+          .onClick(()=>{
+            auth.checkUser(()=>{
+              promptAction.openToast({message:"扫码"})
+            })
+          })
         SearchBox({
           searchResult:this.searchResult!!
         })
         ClockIn({
           clockInNumber:this.clockInNumber!!
         })
-
       }
       // .width('100%')
       .height(25)
@@ -48,13 +52,9 @@ struct Home {
     //   分类题目列表
       Column(){
         CateQuestion()
-
       }
       .width('100%')
       .layoutWeight(1)
-
-
-
     }
     .width('100%')
     .height('100%')

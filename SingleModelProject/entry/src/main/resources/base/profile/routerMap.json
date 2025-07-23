@@ -4,6 +4,16 @@
       "name": "login",
       "pageSourceFile": "src/main/ets/pages/login/index.ets",
       "buildFunction": "LoginFn"
+    },
+    {
+      "name": "question",
+      "pageSourceFile": "src/main/ets/pages/question/index.ets",
+      "buildFunction": "questionFn"
+    },
+    {
+      "name": "web",
+      "pageSourceFile": "src/main/ets/pages/web/index.ets",
+      "buildFunction": "webBuilder"
     }
 
 

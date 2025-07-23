@@ -4,7 +4,12 @@
 //返回最终需要的数据的类型  参2服务器 返回的数据类型 发送请求时携带headers信息  参3 post发送的参数类型
 import axios, { Axios, AxiosError, AxiosInstance,
   AxiosRequestConfig,
-  AxiosResponse } from "@ohos/axios"
+  AxiosResponse,
+  InternalAxiosRequestConfig} from "@ohos/axios"
+import { UserClass } from "../../models"
+import { auth } from "./auth"
+import promptAction from "@ohos.promptAction"
+import { navPathStack } from "./navPathStack"
 
 
 // url1 : 根地址提取出来 域名 +参数
@@ -20,10 +25,28 @@ const instance:AxiosInstance =axios.create({
   timeout:10000,//超时时间5000
 
 })
+
+//须有携带token的请求地址
+let axiosValueDate: string[] = ["question/list","question"]
+// let axiosValueDate: string[] = []
 //请求拦截器   判断登录 发送请求的时候处理一些公共事务
-// instance.interceptors.request.use((res: AxiosRequest) => {
-//   return res
-// })
+instance.interceptors.request.use((req: InternalAxiosRequestConfig) => {
+  // 在请求发出时 给请求上携带一个信息 然后继续向服务器发送请求
+  console.log("当前的url:"+req.url)
+  //先判断需不需要携带凭证
+  // if(axiosValueDate.includes(req.url as string)){
+    const user=auth.getUser()
+    //拦截token 有没有 token
+    if(user.token){
+      //Authorization 用于携带jwt的字段凭证 专用 固定格式
+      req.headers.Authorization=`Bearer ${user.token}`
+    }
+  //   return req
+  // }
+  return req  //request
+},(err:AxiosError)=>{
+  return Promise.reject(err)
+})
 
 // 响应拦截器 返回res 包含很多层 第一层固定返回  只剩下data了
 // {headers,code,state,info,xx,data:{
@@ -37,6 +60,15 @@ instance.interceptors.response.use((res: AxiosResponse) => {
   return Promise.reject(res.data)  //返回错误信息
 },(error:AxiosError)=>{
 //   失败回调  网络崩溃 ...等等
+//   401错误 权限不够 访问这个接口需要携带token访问 如果没有正确携带 token返回401
+  if(error.response?.status==401){
+    //退出之前的那个登录 跳转到登录页面
+    auth.setUser({} as UserClass)
+    promptAction.openToast({message:'请重新登录'})
+    //MOVE_TO_TOP_SINGLETON 跳转模式 单例模式  只会出现一次
+    // 找到login放到顶部
+    navPathStack.pushPath({name:'login'},{launchMode:LaunchMode.MOVE_TO_TOP_SINGLETON})
+  }
   return Promise.reject(error)
 })
 

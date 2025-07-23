@@ -28,17 +28,15 @@ struct everyDayQuestion {
         .alignItems(HorizontalAlign.Start)
         .width(200)
         .translate({x:40})
-
       }
       .borderRadius(20)
       .width('100%')
       .backgroundColor('#edecf2')
       .backgroundImage($r('app.media.card04'))
       .backgroundImagePosition({x:300,y:50})
-
-    }.width('100%')
+    }
+    .width('100%')
     .padding(12)
-
   }
 }
 
