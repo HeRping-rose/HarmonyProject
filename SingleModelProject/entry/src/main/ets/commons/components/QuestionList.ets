@@ -1,12 +1,12 @@
 import { OneQuestion } from "./OneQuestion"
-import { promptAction } from "@kit.ArkUI"
-import { PageData, QuestionItem, QuestionListParams, SortType } from "../../models"
+import { AppStorageV2, promptAction } from "@kit.ArkUI"
+import { JumpInfoClass, PageData, QuestionItem, QuestionListParams, SortType } from "../../models"
 import { httpClient } from "../utils/httpClient"
 import { navPathStack } from "../utils/navPathStack"
 import { apiGetQuesList } from "../../api"
 
 @ComponentV2
-struct QuestionList {
+export  struct QuestionList {
   @Local refreshing:boolean=false
   @Local totalPage:number=5
   @Local questionList: QuestionItem[]=[]
@@ -80,28 +80,34 @@ struct QuestionList {
   }
 
   build() {
-    Refresh({refreshing:$$this.refreshing}){
-      List({space:10}) {
+    Refresh({ refreshing: $$this.refreshing }) {
+      List({ space: 10 }) {
         ForEach(this.questionList, (item: QuestionItem, index: number) => {
           ListItem() {
             //单个列表组件 一道题目  传Id给详情页
             OneQuestion({ item: item })
-              .onClick(()=>{
+              .onClick(() => {
                 navPathStack.pushPath({
-                  name:'question',
-                  param:item.id
+                  name: 'question',
+                  param: item.id
                 })
+                //   上一页 下一页
+                //   1.可以切换的列表 id 2.当前题目的索引index 3.列表长度
+                let jumpInfo: JumpInfoClass = AppStorageV2.connect(JumpInfoClass, () => new JumpInfoClass())!
+                jumpInfo.idList = this.questionList.map(item => item.id)
+                jumpInfo.activeIndex = index  //当前页索引
+                jumpInfo.ListLength = this.questionList.length
               })
           }
-          .outline({
-            style: OutlineStyle.DASHED,
-            width: { bottom: 1 },
-            color: '#ccc'
-          })
         })
       }
-      // 列表触底事件  子容器高度比父容器高 会触发  触发一次
-      .onReachEnd(()=>{
+      .outline({
+        style: OutlineStyle.DASHED,
+        width: { bottom: 1 },
+        color: '#ccc'
+      })
+      .onReachEnd(() => {
+        // 列表触底事件  子容器高度比父容器高 会触发  触发一次
         if(this.isFinish){
             promptAction.openToast({ message: "没有了" })
         }else {
@@ -109,21 +115,20 @@ struct QuestionList {
           promptAction.openToast({ message: "加载完成" })
         }
         // 加载数据 更多
-        // if(this.totalPage<=0){
-        //   promptAction.openToast({ message: "没有了" })
-        // }else {
-        //   promptAction.openToast({ message: "已到达底部" })
-        // }
-        // this.totalPage--
+        if(this.totalPage<=0){
+          promptAction.openToast({ message: "没有了" })
+        }else {
+          promptAction.openToast({ message: "已到达底部" })
+        }
+        this.totalPage--
       })
     }
-    .onRefreshing(()=>{
-      setTimeout(()=>{
+    .onRefreshing(() => {
+      setTimeout(() => {
         // this.refreshing=false
         // promptAction.openToast({message:"数据已刷新"})
         this.onRefreshing()
-      },1000)
+      }, 1000)
     })
   }
 }
-export { QuestionList }

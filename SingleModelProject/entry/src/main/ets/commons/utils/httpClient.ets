@@ -27,7 +27,7 @@ const instance:AxiosInstance =axios.create({
 })
 
 //须有携带token的请求地址
-let axiosValueDate: string[] = ["question/list","question"]
+let axiosValueDate: string[] = ["question/list","question","question/unOpt","question/opt"]
 // let axiosValueDate: string[] = []
 //请求拦截器   判断登录 发送请求的时候处理一些公共事务
 instance.interceptors.request.use((req: InternalAxiosRequestConfig) => {

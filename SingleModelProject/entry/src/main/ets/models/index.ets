@@ -33,12 +33,12 @@ interface QuestionItem {
   views: number; /* 浏览数 */
   readFlag: 0 | 1; /* 是否已看 */
 }
+// QuestionDetail
 export interface QuestionDetail extends QuestionItem{
   answer: string //答案
   stage: string[] //特定阶段的知识点
   collectFlag:number //收藏
   likeFlag:number //点赞
-
 }
 
 interface QuestionListParams {
@@ -107,5 +107,41 @@ export  interface IList{
   name: string
   displayNewestFlag:0|1
 }
+
+export interface questionOptParam{
+  id: string
+  type: 0|1
+  optType: 1|2
+}
+
+@ObservedV2
+export  class JumpInfoClass{
+  idList:string[]=[]
+  @Trace activeIndex:number=0
+  ListLength:number=0
+}
+
+
+// 响应返回的数据类型
+@ObservedV2
+export class QuestionLocalItem {
+  id: string= '';
+  stem: string=''; /* 题干 */
+  difficulty: number=0; /* 难度 */
+  likeCount: number=0; /* 点赞数 */
+  views: number=0; /* 浏览数 */
+  readFlag: 0 | 1=0; /* 是否已看 */
+  answer: string =''//答案
+  stage: string[] =[]//特定阶段的知识点
+  collectFlag: number =0//收藏
+  likeFlag: number =0//点赞
+}
+
+@ObservedV2
+export class QuestionLocalClass {
+  @Type(QuestionLocalItem) //观测这个类整体
+  @Trace question : QuestionLocalItem = new QuestionLocalItem()
+}
+
 
 export { savedContext , OutArea , TabInterface , QuestionItem, QuestionListParams , PageData, LoginParam}
