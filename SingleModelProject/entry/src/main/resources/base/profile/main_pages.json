@@ -2,6 +2,7 @@
   "src": [
     "pages/Index",
     "pages/Test/Test02",
-    "pages/Test/SaveSharePic"
+    "pages/Test/SaveSharePic",
+    "pages/Test/PreferencesPage"
   ]
 }

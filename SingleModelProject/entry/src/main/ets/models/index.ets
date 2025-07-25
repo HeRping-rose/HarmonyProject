@@ -47,6 +47,7 @@ interface QuestionListParams {
   sort?: SortType
   page?: number
   pageSize?: number
+  keyword?: string
 }
 
 export enum SortType {
@@ -141,6 +142,17 @@ export class QuestionLocalItem {
 export class QuestionLocalClass {
   @Type(QuestionLocalItem) //观测这个类整体
   @Trace question : QuestionLocalItem = new QuestionLocalItem()
+}
+
+//统计学习时长埋点 数据类型
+export interface  TrackingItem{
+  questionId:string,
+  startTime: number
+  endTime:number
+}
+
+export interface  TrackingArray {
+  timeList:TrackingItem []
 }
 
 

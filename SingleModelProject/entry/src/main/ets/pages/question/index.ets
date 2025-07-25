@@ -8,6 +8,7 @@ import { myCustomDialog } from "./components/customDialog"
 import { navPathStack } from "../../commons/utils/navPathStack"
 import { questionLocal } from "../../commons/components/QuestionLocal"
 import { myQuestionSharedDialog } from "./components/QuestionSharedDialog"
+import { tracking } from "../../commons/utils/Tracking"
 
 @ComponentV2
 struct question {
@@ -17,6 +18,8 @@ struct question {
   @Local isLike: number = 0
   @Local isCollect: number = 0
   @Local controller:webview.WebviewController=new webview.WebviewController()
+  @Local startTime:number=0
+  @Local endTime:number=0
 
 
   // 详情页自定义弹窗
@@ -134,6 +137,9 @@ struct question {
 
         })
       MenuItem({ content: '点我反馈' })
+        .onClick(() => {
+          navPathStack.pushPath({name:'feedBack'})
+        })
 
       MenuItem({ content: '试题分享' })
         .onClick(() => {
@@ -284,6 +290,17 @@ struct question {
 
       //页面出来之后在加载一次URL
       this.controller.loadUrl($rawfile('question.html'))
+    })
+    .onShown(()=>{
+      this.startTime=Date.now()
+    })
+    .onHidden(()=>{
+      this.endTime=Date.now()
+      //
+      // 记录到数组
+      tracking.record(this.item.id,this.startTime,this.endTime)
+      //上报
+      tracking.report()
     })
   }
 

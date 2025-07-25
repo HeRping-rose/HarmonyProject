@@ -15,8 +15,9 @@ export  struct QuestionList {
   @Param typeID: number = 447
   @Param activeIndex: number = 0
   @Param index: number = 0
+  @Param keyword:string=''
   @Param overSort:SortType= SortType.Default  //观察overSort变了没有 变了才更新视图
-  @Monitor('overSort')
+  @Monitor('overSort','keyword')
   overSortChange(){
     if(this.activeIndex==this.index){
       this.refreshing = true
@@ -43,6 +44,7 @@ export  struct QuestionList {
       sort:this.overSort,
       page:this.page,
       pageSize:10,
+      keyword:this.keyword
     } as QuestionListParams )
   }
 

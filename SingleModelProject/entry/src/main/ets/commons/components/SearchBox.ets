@@ -13,6 +13,7 @@ struct SearchBox {
   @Event $searchResult: (value: string) => void = (value: string) => {}
 
   @Local opacity1:number=1
+  @Event searchFn: () => void = () => {}
 
   build() {
     Stack(){
@@ -35,6 +36,9 @@ struct SearchBox {
         })
         .onFocus(()=>{this.opacity1=0})
         .onBlur(()=>{this.searchResult? this.opacity1 = 0: this.opacity1=1})
+        .onClick(() => {
+          this.searchFn()
+        })
 
     }
     .layoutWeight(this.full)

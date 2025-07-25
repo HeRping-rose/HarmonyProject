@@ -24,10 +24,6 @@ class  FullScreen{
     let outArea=AppStorageV2.connect(OutArea,()=>new OutArea(0,0))!
     outArea.topHeight=topHeight
     outArea.bottomHeight= bottomHeight
-
-
-
-
   }
 
   //关闭全屏

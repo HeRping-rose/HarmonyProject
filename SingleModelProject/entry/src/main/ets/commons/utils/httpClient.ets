@@ -27,7 +27,7 @@ const instance:AxiosInstance =axios.create({
 })
 
 //须有携带token的请求地址
-let axiosValueDate: string[] = ["question/list","question","question/unOpt","question/opt"]
+let axiosValueDate: string[] = ["question/list","question","question/unOpt","question/opt","time/tracking"]
 // let axiosValueDate: string[] = []
 //请求拦截器   判断登录 发送请求的时候处理一些公共事务
 instance.interceptors.request.use((req: InternalAxiosRequestConfig) => {
@@ -41,9 +41,9 @@ instance.interceptors.request.use((req: InternalAxiosRequestConfig) => {
       //Authorization 用于携带jwt的字段凭证 专用 固定格式
       req.headers.Authorization=`Bearer ${user.token}`
     }
-  //   return req
+    return req
   // }
-  return req  //request
+  // return req  //request
 },(err:AxiosError)=>{
   return Promise.reject(err)
 })

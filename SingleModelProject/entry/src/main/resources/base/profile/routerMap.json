@@ -14,6 +14,16 @@
       "name": "web",
       "pageSourceFile": "src/main/ets/pages/web/index.ets",
       "buildFunction": "webBuilder"
+    },
+    {
+      "name": "search",
+      "pageSourceFile": "src/main/ets/pages/search/index.ets",
+      "buildFunction": "SearchBuilder"
+    },
+    {
+      "name": "feedBack",
+      "pageSourceFile": "src/main/ets/pages/feedBack/index.ets",
+      "buildFunction": "FeedBackFn"
     }
 
 

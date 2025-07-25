@@ -6,6 +6,7 @@ import { HotQuestion } from "./components/HotQuestion"
 import { AppStorageV2, promptAction } from "@kit.ArkUI"
 import { OutArea } from "../../models"
 import { auth } from "../../commons/utils/auth"
+import { navPathStack } from "../../commons/utils/navPathStack"
 
 @ComponentV2
 struct Home {
@@ -16,6 +17,7 @@ struct Home {
     Column(){
       // 头部
       Row(){
+        // 扫码
         Image($r('app.media.ic_home_scan'))
           .width(25)
           .onClick(()=>{
@@ -24,8 +26,13 @@ struct Home {
             })
           })
         SearchBox({
-          searchResult:this.searchResult!!
+          searchResult:this.searchResult!!,
+          // 也可以传一个内部函数
+          searchFn:()=>{
+            navPathStack.pushPath({name:'search'})}
         })
+        // 由于有layoutWeight=1 所以不能使用onclick
+
         ClockIn({
           clockInNumber:this.clockInNumber!!
         })
