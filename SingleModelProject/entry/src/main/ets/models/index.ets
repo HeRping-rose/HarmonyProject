@@ -121,6 +121,14 @@ export  class JumpInfoClass{
   @Trace activeIndex:number=0
   ListLength:number=0
 }
+// 在 models 文件中添加
+export class CurrentQuestionId {
+  id: string = '';
+
+  constructor(id: string = '') {
+    this.id = id;
+  }
+}
 
 
 // 响应返回的数据类型

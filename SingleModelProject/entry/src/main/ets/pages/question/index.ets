@@ -1,7 +1,9 @@
 import { HcNavBar } from "../../commons/components/HcNavBar"
 import { Tag } from "../../commons/components/Tag"
 import { AppStorageV2, promptAction } from "@kit.ArkUI"
-import { JumpInfoClass, OutArea, QuestionDetail, QuestionLocalItem, questionOptParam } from "../../models"
+import {
+  CurrentQuestionId,
+  JumpInfoClass, OutArea, QuestionDetail, QuestionLocalItem, questionOptParam } from "../../models"
 import { httpClient } from "../../commons/utils/httpClient"
 import { webview } from "@kit.ArkWeb"
 import { myCustomDialog } from "./components/customDialog"
@@ -20,6 +22,8 @@ struct question {
   @Local controller:webview.WebviewController=new webview.WebviewController()
   @Local startTime:number=0
   @Local endTime:number=0
+  // 添加 AppStorage 连接
+  currentQuestionId = AppStorageV2.connect(CurrentQuestionId, () => new CurrentQuestionId())!
 
 
   // 详情页自定义弹窗
@@ -138,7 +142,12 @@ struct question {
         })
       MenuItem({ content: '点我反馈' })
         .onClick(() => {
-          navPathStack.pushPath({name:'feedBack'})
+          // 保存当前题目ID到AppStorage
+          this.currentQuestionId.id = this.item.id;
+          navPathStack.pushPath({
+            name:'feedBack',
+          })
+
         })
 
       MenuItem({ content: '试题分享' })

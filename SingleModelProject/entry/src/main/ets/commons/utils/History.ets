@@ -1,6 +1,5 @@
 import { savedContext, TrackingArray, TrackingItem } from '../../models'
 import { AppStorageV2, promptAction } from '@kit.ArkUI'
-import { httpClient } from './httpClient'
 import { preferences } from '@kit.ArkData'
 
 //数据埋点

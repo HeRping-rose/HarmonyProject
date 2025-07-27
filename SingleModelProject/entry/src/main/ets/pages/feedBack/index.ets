@@ -1,6 +1,7 @@
-import { AppStorageV2 } from "@kit.ArkUI"
+import { AppStorageV2, promptAction } from "@kit.ArkUI"
 import { HcNavBar } from "../../commons/components/HcNavBar"
-import { OutArea } from "../../models"
+import { httpClient } from "../../commons/utils/httpClient"
+import { CurrentQuestionId, OutArea } from "../../models"
 import { FeedBackDialog } from "./components/FeedBackDialog"
 
 interface ErrorItem {
@@ -8,10 +9,27 @@ interface ErrorItem {
   value: string,
   checked: boolean
 }
+interface FeedbackItem {
+  questionId: string
+  type: string[]
+  feedbackInfo: string
+}
+
+interface ResItem {
+  id: string;
+}
+
+interface FeedbackRes {
+  success: boolean,
+  code: number,
+  message: string,
+  data: ResItem
+}
 
 @ComponentV2
 struct FeedBack {
   outArea = AppStorageV2.connect(OutArea, () => new OutArea(0, 0))!
+  currentQuestionId = AppStorageV2.connect(CurrentQuestionId, () => new CurrentQuestionId())!
   @Local errorTypes: ErrorItem[] = [
     { label: '知识点不准确', value: 'inaccurate', checked: false },
     { label: '内容不准或错误', value: 'wrong', checked: false },
@@ -20,6 +38,56 @@ struct FeedBack {
   ]
   @Local description: string = ''
   @Local showDialog: boolean = false
+  @Local ResId:string=''
+  // @Local questionId:string=''
+
+  // feedBackDialog =new CustomDialogController({
+  //   builder: FeedBackDialog(),
+  //   customStyle:true,
+  //   alignment:DialogAlignment.Bottom
+  // })
+  aboutToAppear(): void {
+    console.log('当前试题id:'+JSON.stringify(this.currentQuestionId))
+  }
+
+  async subFeedBack() {
+    // 构建反馈类型数组
+    const feedbackTypes: string[] = this.errorTypes
+      .filter(item => item.checked)
+      .map(item => {
+        const typeMap: Record<string, string> = {
+          'inaccurate': '2',  // 知识点不准确
+          'wrong': '1',       // 内容不准或错误
+          'repeat': '3',      // 题目重复
+          'other': '4'        // 其他
+        };
+        return typeMap[item.value] || '4';
+      });
+
+    try {
+      // 发送请求
+      let res = await httpClient.request<ResItem, FeedbackItem>({
+        method: 'post',
+        url: 'question/feedback',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          feedbackInfo: this.description,
+          questionId:this.currentQuestionId.id, // 如果需要传题目ID，可以从上下文获取
+          type: feedbackTypes.length > 0 ? feedbackTypes : ['4'] // 至少选择一个类型
+        }
+      });
+
+      this.ResId = res.id;
+      // 提示
+      console.log(JSON.stringify(res))
+      promptAction.openToast({ message: "反馈成功" + res.id });
+    }catch (error) {
+      promptAction.openToast({ message: "反馈失败" + error });
+    }
+  }
+
 
   build() {
     NavDestination(){
@@ -38,12 +106,11 @@ struct FeedBack {
           Column() {
             ForEach(this.errorTypes, (item: ErrorItem, index: number) => {
               Row({ space: 8 }) {
-                Checkbox({
-                  // checked: item.checked,
-                  // onChange: (value: boolean) => {
-                  //   this.errorTypes[index].checked = value
-                  // }
-                })
+                Checkbox()
+                  .select(item.checked)
+                  .onChange((value: boolean) => {
+                    this.errorTypes[index].checked = value
+                  })
                 Text(item.label)
                   .fontSize(16)
               }
@@ -62,23 +129,26 @@ struct FeedBack {
 
           TextArea({
             text: this.description,
-            placeholder: '请输入问题描述（可选填）',
-            // maxLength: 200,
-            // onChange: (value: string) => {
-            //   this.description = value
-            // }
+            placeholder: '请输入问题描述（可选填）'
           })
             .maxLength(200)
             .height(80)
             .border({ color: '#e0e0e0', width: 1 })
             .margin({ bottom: 4 })
+            .onChange((value: string) => {
+              this.description = value
+            })
           // 字数统计
           Row() {
             Text(`${this.description.length}/200`)
               .fontSize(12)
               .fontColor('#888')
+              .width('100%')
+              .alignSelf(ItemAlign.End)
             Blank()
           }
+          .width('100%')
+
           .justifyContent(FlexAlign.End)
 
           // 提交按钮
@@ -93,7 +163,9 @@ struct FeedBack {
               let selectedTypes = this.errorTypes.filter(item => item.checked).map(item => item.label)
               console.log('选中的类型:', selectedTypes)
               console.log('描述:', this.description)
-              this.showDialog = false
+              //发送post请求
+              this.subFeedBack()
+
             })
             .margin({ top: 20 })
         }
@@ -101,7 +173,7 @@ struct FeedBack {
         .margin({ top: 10 })
         .width('100%')
         .height('100%')
-        FeedBackDialog({ isShow: this.showDialog })
+
       }
 
     }
@@ -111,9 +183,16 @@ struct FeedBack {
     .padding({left:10,right:10,
       })
     // .margin({ top: this.outArea.topHeight, bottom: this.outArea.bottomHeight})
-    // .backgroundColor('#ccc')
+    .onReady(async (ctx:NavDestinationContext) => {
+
+      console.log(ctx.pathInfo.param as string)
+      // 可以将题目ID存储到组件状态中供反馈使用
+      // this.questionId = ctx.pathInfo.param as string
+    })
 
   }
+
+
 }
 
 @Builder

@@ -2,23 +2,12 @@
 export struct FeedBackDialog {
   // 控制弹窗显示
   @Param isShow: boolean= false
-  // 按钮点击回调
-  // @Param onClose: () => void={}
+  //分享的自定义弹窗
+
 
   build() {
-    // if (!this.show) {
-    //   // 不显示弹窗
-    //   return
-    // }
-    // 弹窗内容
+
     Stack() {
-      // 半透明遮罩
-      // Blank()
-      //   .backgroundColor('rgba(0,0,0,0.3)')
-      //   .width('100%')
-      //   .height('100%')
-      //   .position({ x: 0, y: 0 })
-      //   .zIndex(99)
 
       // 弹窗主体
       Column() {
