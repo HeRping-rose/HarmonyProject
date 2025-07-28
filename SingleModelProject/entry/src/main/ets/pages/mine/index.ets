@@ -94,10 +94,21 @@ struct Mine {
         toolsBuilder({
           icon:$r('app.media.ic_mine_notes'),
           name:"开发常用词",
-          onClick:()=>{}
+          onClick:()=>{
+            navPathStack.pushPath({
+              name:'word'
+            })
+          }
         })
         toolsBuilder({ icon: $r('app.media.ic_mine_ai'), name: '面通AI' })
-        toolsBuilder({ icon: $r('app.media.ic_mine_invite'), name: '推荐分享' })
+        toolsBuilder({ icon: $r('app.media.ic_mine_invite'), name: '面试录音',
+          onClick:() => {
+            navPathStack.pushPath({
+              name: 'audio'
+            })
+          }
+        })
+
         toolsBuilder({ icon: $r('app.media.ic_mine_file'), name: '意见反馈' })
         toolsBuilder({ icon: $r('app.media.ic_mine_info'), name: '关于我们' })
         toolsBuilder({

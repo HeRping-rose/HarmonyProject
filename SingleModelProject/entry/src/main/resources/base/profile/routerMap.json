@@ -24,6 +24,21 @@
       "name": "feedBack",
       "pageSourceFile": "src/main/ets/pages/feedBack/index.ets",
       "buildFunction": "FeedBackFn"
+    },
+    {
+      "name": "calendarPage",
+      "pageSourceFile": "src/main/ets/pages/calenderPage/index.ets",
+      "buildFunction": "calenderPageBuilder"
+    },
+    {
+      "name": "word",
+      "pageSourceFile": "src/main/ets/pages/word/index.ets",
+      "buildFunction": "WordFn"
+    },
+    {
+      "name": "audio",
+      "pageSourceFile": "src/main/ets/pages/audio/index.ets",
+      "buildFunction": "audioFn"
     }
 
 

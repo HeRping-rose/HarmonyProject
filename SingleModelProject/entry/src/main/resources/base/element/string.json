@@ -15,6 +15,10 @@
     {
       "name": "EntryAbility_label1",
       "value": "面试通"
+    },
+    {
+      "name": "microPhone",
+      "value": "我要使用录音 权限"
     }
   ]
 }

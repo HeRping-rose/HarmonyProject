@@ -74,7 +74,8 @@ struct FeedBack {
         },
         data: {
           feedbackInfo: this.description,
-          questionId:this.currentQuestionId.id, // 如果需要传题目ID，可以从上下文获取
+          questionId: this.currentQuestionId.id, // 如果需要传题目ID，可以从上下文获取
+          // questionId: '1234123123123', // 如果需要传题目ID，可以从上下文获取
           type: feedbackTypes.length > 0 ? feedbackTypes : ['4'] // 至少选择一个类型
         }
       });
@@ -85,6 +86,7 @@ struct FeedBack {
       promptAction.openToast({ message: "反馈成功" + res.id });
     }catch (error) {
       promptAction.openToast({ message: "反馈失败" + error });
+      console.log( JSON.stringify( error))
     }
   }
 

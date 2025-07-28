@@ -1,7 +1,7 @@
 {
   "app": {
     "bundleName": "com.ron.single_model_project",
-    "patchVersionCode": 2000113,
+    "patchVersionCode": 2000128,
     "versionCode": 1000000
   },
   "module": {

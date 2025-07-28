@@ -3,6 +3,13 @@
     "routerMap": "$profile:routerMap",
     "requestPermissions": [
       {"name": "ohos.permission.INTERNET"},
+      {
+        "name": "ohos.permission.MICROPHONE",
+        "reason":"$string:microPhone",
+        "usedScene": {
+          "abilities": ["EntryAbility"]
+        }
+      }
     ],
     "name": "entry",
     "type": "entry",

@@ -82,7 +82,7 @@ export class  UserClass {
   @Trace avatar: string=''
   @Trace nickName: string='' //昵称
   @Trace totalTime: number=0//学习时长，单位s
-  @Trace clockinNumber:number =0//连续打卡天数
+  @Trace clockinNumber?:number =0//连续打卡天数
 }
 @ObservedV2
 export class  AppUser{
@@ -163,5 +163,31 @@ export interface  TrackingArray {
   timeList:TrackingItem []
 }
 
+export interface ClockInParams{
+  month:string,
+  year:string
+}
+
+export interface ClockInResItem {
+  id: string;
+  createdAt: string;
+}
+// 打卡返回数据类型
+export interface ClockInRes {
+  clockinNumbers: number;//连续签到天数
+  clockins: ClockInResItem[];//签到信息
+  flag: boolean; //当天是否签到
+  totalClockinNumber: number; //累计签到天数
+
+}
+export interface wordItem{
+  en:string,
+  zh:string,
+  down:number,
+  code?:string
+}
+// 别名 不确定对象中的key  Record<> 指定该类型的值是一个对象
+// 属性名是字符串 属性值是wordItem[]
+export type WordType=Record<string,wordItem[]>
 
 export { savedContext , OutArea , TabInterface , QuestionItem, QuestionListParams , PageData, LoginParam}

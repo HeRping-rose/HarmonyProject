@@ -4,15 +4,17 @@ import { CateQuestion } from "./components/CateQuestion"
 import { everyDayQuestion } from "./components/everyDayQuestion"
 import { HotQuestion } from "./components/HotQuestion"
 import { AppStorageV2, promptAction } from "@kit.ArkUI"
-import { OutArea } from "../../models"
+import { OutArea, UserClass } from "../../models"
 import { auth } from "../../commons/utils/auth"
 import { navPathStack } from "../../commons/utils/navPathStack"
+import { clockInUtil } from "../../commons/utils/clockInUtil"
 
 @ComponentV2
 struct Home {
   outArea = AppStorageV2.connect(OutArea, () => new OutArea(0, 0))!
   @Local searchResult:string = ''
   @Local clockInNumber:number = 0
+  user:UserClass = auth.getUser() // 用户
   build() {
     Column(){
       // 头部
@@ -33,9 +35,21 @@ struct Home {
         })
         // 由于有layoutWeight=1 所以不能使用onclick
 
+        // 打卡
         ClockIn({
-          clockInNumber:this.clockInNumber!!
+          // clockInNumber:this.clockInNumber!!
+          //替换为用户身上的打卡天数
+          clockInNumber:this.user.clockinNumber
         })
+          .onClick( () => {
+            // console.log('number:' + this.user.clockinNumber.toString())
+            // console.log('1')
+            //先判断 是否登录
+              clockInUtil()
+            // console.log('number:' + this.user.clockinNumber.toString())
+            // console.log(2+'')
+          })
+        // Text((this.user.clockinNumber as number).toString())
       }
       // .width('100%')
       .height(25)
