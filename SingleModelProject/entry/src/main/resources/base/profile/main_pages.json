@@ -3,6 +3,7 @@
     "pages/Index",
     "pages/Test/Test02",
     "pages/Test/SaveSharePic",
-    "pages/Test/PreferencesPage"
+    "pages/Test/PreferencesPage",
+    "pages/Test/TestSqlPage"
   ]
 }
