@@ -11,7 +11,7 @@ export struct AudioPlayer {
   @Local playing: boolean = false
   @Local total: number = 0
   @Local value: number = 0
-  avPlayer?: media.AVPlayer
+  avPlayer: media.AVPlayer|null = null
   context = this.getUIContext().getHostContext() as common.UIAbilityContext
 
   // async startPlay() {
@@ -50,16 +50,22 @@ export struct AudioPlayer {
   async startAvPlayer() {
 
     const avPlayer = await media.createAVPlayer()
-    // const filePath = this.context.filesDir + '/' + '1753769844141' + '.m4a'
-    const filePath = this.item.path
-    console.log('filePath' + filePath)
+    ///data/app/el2/100/base/com.ron.single_model_project/haps/entry/files/1753882464557.m4a
+    // const filePath = this.context.filesDir + '/' + '1753882464557' + '.m4a'
+    // const filePath = this.item.path
+    // console.log('filePath' + filePath)
     ///data/app/el2/100/base/com.ron.single_model_project/haps/entry/files/1753759642415.m4a
     ///data/app/el2/100/base/com.ron.single_model_project/haps/entry/files/1753769844141.m4a
-    const file = fs.openSync(filePath, fs.OpenMode.READ_ONLY)
+    // const file = fs.openSync(filePath, fs.OpenMode.READ_ONLY)
+    console.log('nameId'+this.item.name +  "id:"+this.item.id)
+    console.log('path:'+ this.item.path)
+    const file = fileIo.openSync(this.item.path, fileIo.OpenMode.READ_ONLY)
+    console.log('file'+ JSON.stringify(file))
     avPlayer.url = `fd://${file.fd}`
     avPlayer.on('stateChange', state => {
       if (state == 'initialized') {
         avPlayer.prepare()
+        console.log('initialized')
       } else if (state == 'prepared') {
         this.total = avPlayer.duration
         avPlayer.play()
@@ -80,14 +86,16 @@ export struct AudioPlayer {
     }
   }
 
+  async aboutToAppear(): Promise<void> {
+    console.log('Received item:', JSON.stringify(this.item));
 
-
-
-
-  aboutToAppear(): void {
     if (this.playing) {
-      this.endAvPlayer()
+      await this.startAvPlayer()
     }
+  }
+
+  async aboutToDisappear(): Promise<void> {
+    await this.endAvPlayer()
   }
 
   build() {

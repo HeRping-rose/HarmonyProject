@@ -23,10 +23,20 @@ export struct AudioView {
   @Local activeItem: AudioItem ={} as AudioItem
   user:UserClass=auth.getUser()
   @Local isShow:boolean=false
+
   @Builder
   audioBuilder(){
     Column(){
-      AudioPlayer({item:this.activeItem})
+      // 父组件中
+      if (this.activeItem && this.activeItem.path) {
+        AudioPlayer({ item: this.activeItem })
+          .onClick(() => {
+          console.log('Passing activeItem:', JSON.stringify(this.activeItem));
+        })
+      }
+
+      // AudioPlayer({item:this.activeItem})
+
 
     }.width('100%')
     .height('100%')
@@ -35,6 +45,10 @@ export struct AudioView {
 
   async getAudioList(){
     this.list=await audioDB.query(this.user.id)
+    // 如果列表不为空，将第一个元素赋值给 activeItem
+    // if (this.list.length > 0 && (!this.activeItem || !this.activeItem.id)) {
+    //   this.activeItem = this.list[0]
+    // }
   }
 
   @Builder
@@ -62,7 +76,12 @@ export struct AudioView {
 
   async aboutToAppear(): Promise<void> {
     await audioDB.initStore()
-     this.getAudioList()
+    await this.getAudioList()
+    // 如果列表不为空，将第一个元素赋值给 activeItem
+    // if (this.list.length > 0) {
+    //   this.activeItem = this.list[0]
+    // }
+
   }
 
   dialog=new CustomDialogController({
@@ -75,6 +94,7 @@ export struct AudioView {
         item.name=name
         await audioDB.update(item)
         await this.getAudioList()
+
       }
     }),
     customStyle:true,
@@ -99,6 +119,8 @@ export struct AudioView {
                 // }
                 item: item
               }).onClick(() => {
+                // 点击时设置当前项为 activeItem
+                this.activeItem = item
                 this.isShow=true  //显示弹窗
               })
             }.swipeAction({
@@ -119,7 +141,8 @@ export struct AudioView {
         returnAudioData: async (item: AudioItem) => {
           let  res= await audioDB.insert(item)
           console.log('res' + JSON.stringify(item))
-          this.getAudioList()
+          await this.getAudioList()
+          this.activeItem=item
           //
           // console.log('data' + JSON.stringify(this.list))
 
