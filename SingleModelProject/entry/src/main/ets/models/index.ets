@@ -1,5 +1,6 @@
 import { Context } from '@kit.AbilityKit'
 import { Type } from '@ohos.arkui.StateManagement'
+import { ValuesBucket } from '@kit.ArkData'
 
 class savedContext{
   context:Context
@@ -185,6 +186,17 @@ export interface wordItem{
   zh:string,
   down:number,
   code?:string
+}
+
+// 音频数据 类型
+export  interface AudioItem extends ValuesBucket {
+  id: number | null // 主键
+  user_id: string, //用户id
+  name: string, //音频名称
+  path: string, // 音频路径
+  duration: number, //总时长
+  size: number, // 音频质量大小
+  create_time: number // 创建时间
 }
 // 别名 不确定对象中的key  Record<> 指定该类型的值是一个对象
 // 属性名是字符串 属性值是wordItem[]

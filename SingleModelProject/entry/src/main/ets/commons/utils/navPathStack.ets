@@ -4,7 +4,7 @@ import { promptAction } from "@kit.ArkUI"
 export const navPathStack=new NavPathStack()
 
 // 创建一个要维护的路由的数组
-const routerNames=["question"]
+const routerNames=["question","audio"]
 
 // 路由拦截
 // 设置路由跳转拦截器
