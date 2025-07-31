@@ -100,7 +100,16 @@ struct Mine {
             })
           }
         })
-        toolsBuilder({ icon: $r('app.media.ic_mine_ai'), name: '面通AI' })
+        toolsBuilder({
+          icon: $r('app.media.ic_mine_ai'),
+          name: '面通AI' ,
+          onClick:()=>{
+            navPathStack.pushPath({
+              name:'ai'
+            })
+          }
+        })
+
         toolsBuilder({ icon: $r('app.media.ic_mine_invite'), name: '面试录音',
           onClick:() => {
             navPathStack.pushPath({

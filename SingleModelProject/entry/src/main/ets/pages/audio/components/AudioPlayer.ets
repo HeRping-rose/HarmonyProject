@@ -69,7 +69,9 @@ export struct AudioPlayer {
       } else if (state == 'prepared') {
         this.total = avPlayer.duration
         avPlayer.play()
-        this.playing = true
+        this.playing = !this.playing
+      }else if(state == 'completed'){
+        this.playing = !this.playing
       }
     })
     // 监听事件改变
@@ -83,6 +85,7 @@ export struct AudioPlayer {
     if (this.avPlayer) {
       this.avPlayer.stop()
       this.avPlayer.release()
+      this.playing = !this.playing
     }
   }
 

@@ -39,6 +39,11 @@
       "name": "audio",
       "pageSourceFile": "src/main/ets/pages/audio/index.ets",
       "buildFunction": "audioFn"
+    },
+    {
+      "name": "ai",
+      "pageSourceFile": "src/main/ets/pages/Ai/index.ets",
+      "buildFunction": "AiBuilder"
     }
 
 
