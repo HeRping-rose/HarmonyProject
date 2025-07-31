@@ -1,0 +1,104 @@
+在普通命令行中使用mysql，需要先登录
+mysql -uroot -proot  
+
+\c 返回 或 ctrl+c  也是返回 
+exit 退出
+
+查看在mysql中所有的数据库
+show databases; 
+
+创建一个数据库
+create database shopcar; 
+
+进入到某个库
+use shopcar;
+
+查看当前数据库中所有的表;
+show tables;
+
+删除数据库
+drop database bookshop;       或 drop database bookshop if exists bookshop;
+
+创建数据表 （PRIMARY KEY主键[代表不为空不可重复]  AUTO_INCREMENT自增  NOT NULL不能为空 ）
+create table students (  
+    id INT AUTO_INCREMENT PRIMARY KEY,   
+    name VARCHAR(100) NOT NULL,  
+    age INT  
+);
+
+在表中插入一行数据
+INSERT INTO students (name, age) VALUES ('张三', 20);
+
+查询表中所有的数据
+SELECT * FROM students;
+
+
+条件查询
+SELECT * FROM students WHERE age = 20;
+select * from user2 where age>20 or height>180
+select * from user2 where length(pwd)>=4;
+select * from user2 where name != "x"
+select * from user2 where name in ("李四","王五");    
+select * from user2 where name not in ("李四","王五");
+select * from goods where isnull(content);   找到所有的content为空的行
+select * from goods where not isnull(content);   找到所有的content不为空的行
+
+模糊查询
+select * from user2 where name like '张%';    %匹配多个任意字符， _匹配一个任意字符
+select * from user2 where name like '李_';
+select * from user2 where pwd like '%2%';
+
+排序
+select * from user2 order by height desc; 降序
+select * from user2 order by height asc; 升序
+select * from user2 where name like "李%" order by age desc;
+
+限制 limit(startindex,length)
+select * from user2 order by age desc limit 2;    starindex：0省略
+select * from user2 order by age desc limit 1,2;  从索引1开始取2条
+
+
+数量
+SELECT COUNT(*) FROM students;
+SELECT COUNT(*) FROM students WHERE age > 20;
+
+
+修改
+update user2 set age=20;  全改
+update user2 set age=26 where id=1;
+update user2 set name="张伦",pwd="333",age=12 where id=1;
+
+删除行
+delete from user2 where id=1;    没有条件会全部删除
+
+删除表
+drop table user2;
+
+清空表
+TRUNCATE TABLE table_name;
+
+
+约束 
+给字段约束，为了数据的合法性、有效性、完整性.
+非空 not null
+唯一  unique        create table user ( username varchar(233) unique )
+主键 primary key   不null 也不能重复, 提供自增  auto_increment
+外键 foreign key
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
