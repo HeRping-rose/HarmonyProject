@@ -203,7 +203,7 @@ export  interface AudioItem extends ValuesBucket {
 export class  MessageItem {
   id: string=''
   role: 'user'  | 'system' | 'assistant'='system'
-  content: string=''
+  @Trace content: string=''   //记得内容要追踪
 }
 
 export interface LLMDataMsg {

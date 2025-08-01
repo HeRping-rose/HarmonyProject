@@ -5,6 +5,7 @@ import util from "@ohos.util"
 import { auth } from "../../commons/utils/auth"
 import { DeepSeekMsgItem } from "./components/DeepSeekMsgItem"
 import { rcpClient } from "../../commons/utils/rcpClient"
+import utils from "@arkts.utils"
 
 
 @ComponentV2
@@ -74,12 +75,12 @@ struct Ai {
         { role: "user", content: this.inputText } //this.inputText
       ],
       //是否开启流式推理,  默认为False, 表示不开启流式推理
-      "stream": true,
+      stream: true,
       //在流式输出时是否展示使用的token数目。只有当stream为True时改参数才会生效
 
       // "stream_options": { "include_usage": true },
       //控制采样随机性的浮点数,值较低时模型更具确定性，值较高时模型更具创造性"0"表示贪婪取样。默认为0.6。
-      "temperature": 0.6
+      temperature: 0.6
 
     } as LLMData
 
@@ -100,8 +101,10 @@ struct Ai {
       }else {
         // 第一次创建
         let sysMsg = new MessageItem()
-        sysMsg.id = util.generateRandomUUID()
-        this.sysId = sysMsg.id
+        // sysMsg.id = util.generateRandomUUID()
+        // this.sysId = sysMsg.id
+        this.sysId = util.generateRandomUUID()
+        sysMsg.id = this.sysId
         sysMsg.role = 'system'
         sysMsg.content = content
         this.list.push(sysMsg)
@@ -122,8 +125,8 @@ struct Ai {
     NavDestination(){
       Column() {
         //头部
-        HcNavBar({ title: 'AI面试官', showRightIcon: true})
-        Text(this.temp)
+          HcNavBar({ title: 'AI面试官', showRightIcon: true})
+        // Text(this.temp)
 
         //对话 列表
         List({space: 10}){
@@ -141,6 +144,7 @@ struct Ai {
         Row({space: 10}){
           TextInput({text: $$this.inputText}).layoutWeight(1)
             .onSubmit(() => {
+              this.sendData()
             })
           Image($r('app.media.start')).width(50)
             .onClick(() => {
@@ -161,4 +165,4 @@ function AiBuilder(){
   Ai()
 }
 
-export { AiBuilder }
+export { AiBuilder, Ai }
