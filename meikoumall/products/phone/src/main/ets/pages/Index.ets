@@ -1,3 +1,9 @@
+import { Log } from 'basic'
+import { CartView } from 'cart'
+import { CategoryView } from 'category'
+import { HomeView } from 'home'
+import { MyView } from 'my'
+
 interface tabItem{
   title:string,
   normal: ResourceStr,
@@ -32,12 +38,25 @@ struct Index {
       active: $r('app.media.ic_public_my_active')
     }
   ]
+
+  aboutToAppear(): void {
+    Log.info('phoneIndex aboutToAppear')
+    Log.info('Index:'+this.activeIndex)
+  }
   build() {
 
     Tabs({barPosition:BarPosition.End,index:$$this.activeIndex}){
       ForEach(this.list, (item:tabItem, index:number)=>{
         TabContent(){
-          Text(item.title)
+          if(index==0){
+            HomeView()
+          }else if(index==1){
+            CategoryView()
+          }else if(index==2){
+            CartView()
+          }else if(index==3){
+            MyView()
+          }
         }.tabBar(this.tabBuilder(item,index))
       })
     }
