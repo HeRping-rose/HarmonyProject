@@ -1,11 +1,17 @@
-import { CategoryItem, HDMGoodsItem } from "basic"
+import { AppBreakPoint, AppSafeArea, BreakPointEnum, BreakPointType, CategoryItem, HDMGoodsItem,
+  screenManager } from "basic"
 import { HDMDiscountGoods } from "../components/HDMDiscountGoods"
 import { HDMGoods } from "../components/HDMGoods"
 import { Banner, Params } from "../viewmodels/home"
 import { DiscountType } from "../viewmodels/home"
+import { AppStorageV2 } from "@kit.ArkUI"
+import { getBannerAPI, getCategoryAPI, getHomeNewAPI, getHotResultAPI, getInVogueAPI, getOneStopAPI } from "../api"
 
 @ComponentV2
 export  struct HomeView {
+  // breakObj: AppBreakPoint = AppStorageV2.connect(AppBreakPoint, () => new AppBreakPoint())!
+  app: AppBreakPoint = AppStorageV2.connect(AppBreakPoint, () => new AppBreakPoint())!
+  safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!
   @Local banner:Banner[]=[]
   @Local categories:CategoryItem[]=[]
   @Local saleGoods:HDMGoodsItem[]=[]
@@ -22,51 +28,57 @@ export  struct HomeView {
   recommendGoods: HDMGoodsItem[] = []
 
   // 用于模拟首页上的数据
-  mockData(){
-    this.banner=new Array(6).fill({
-      id:'42',
-      imgUrl:'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/nuandong_sj.png',
-      hrfUrl:'/category/1181622006',
-      type:'1'
-    })
-
-    this.categories=new Array(10).fill({
-      id:'1181622001',
-      name:'女装',
-      picture:'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/c1/qznz.png'
-    })
-    this.saleGoods=new Array(12).fill({
-      "id": "1111002",
-      "name": "剪出精致感，金致圆柄复古剪刀",
-      "desc": "轻薄设计，简约大方",
-      "price": "9.90",
-      "picture": "https://yanxuan-item.nosdn.127.net/4c6a9c8a579b00e5e9c7b002d15a33a2.jpg",
-      "orderNum": 172
-    })
-    this.hotGoods = new Array(8).fill({
-      "id": "1135059",
-      "name": "手工八年老陈醋500毫升",
-      "desc": "地道醇香，醋酸浓郁",
-      "price": "30.00",
-      "picture": "https://yanxuan-item.nosdn.127.net/77da20e77b02830a26f931901ac1a9e0.png",
-      "orderNum": 147
-    },)
-    this.oneGoods = new Array(8).fill({
-      "id": "1135079",
-      "name": "免浸泡，12种谷物一次同享，五谷米400克",
-      "desc": "无需浸泡，同煮同熟",
-      "price": "9.90",
-      "picture": "https://yanxuan-item.nosdn.127.net/bfe70bd66efe94f2f18061c707d2a097.png",
-      "orderNum": 144
-    })
-    this.newGoods = new Array(8).fill({
-      "id": "4027998",
-      "name": "亮碟多效合一洗涤块495g",
-      "desc": "洗碗机专用，强力去污",
-      "price": "69.90",
-      "picture": "https://yanxuan-item.nosdn.127.net/e07c2b63765cf9f4a46d489c6e09c1c1.jpg",
-      "orderNum": 643
-    })
+  async mockData(){
+    // this.banner=new Array(6).fill({
+    //   id:'42',
+    //   imgUrl:'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/nuandong_sj.png',
+    //   hrfUrl:'/category/1181622006',
+    //   type:'1'
+    // })
+    this.banner=await getBannerAPI()
+    // this.categories=new Array(10).fill({
+    //   id:'1181622001',
+    //   name:'女装',
+    //   picture:'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/c1/qznz.png'
+    // })
+    this.categories=await getCategoryAPI()
+    // this.saleGoods=new Array(12).fill({
+    //   "id": "1111002",
+    //   "name": "剪出精致感，金致圆柄复古剪刀",
+    //   "desc": "轻薄设计，简约大方",
+    //   "price": "9.90",
+    //   "picture": "https://yanxuan-item.nosdn.127.net/4c6a9c8a579b00e5e9c7b002d15a33a2.jpg",
+    //   "orderNum": 172
+    // })
+    const result = await getHotResultAPI()
+    this.saleGoods = result.subTypes?.[0]?.goodsItems?.items || []
+    // this.hotGoods = new Array(8).fill({
+    //   "id": "1135059",
+    //   "name": "手工八年老陈醋500毫升",
+    //   "desc": "地道醇香，醋酸浓郁",
+    //   "price": "30.00",
+    //   "picture": "https://yanxuan-item.nosdn.127.net/77da20e77b02830a26f931901ac1a9e0.png",
+    //   "orderNum": 147
+    // },)
+    this.hotGoods = (await getInVogueAPI()).subTypes?.[0]?.goodsItems?.items || []
+    // this.oneGoods = new Array(8).fill({
+    //   "id": "1135079",
+    //   "name": "免浸泡，12种谷物一次同享，五谷米400克",
+    //   "desc": "无需浸泡，同煮同熟",
+    //   "price": "9.90",
+    //   "picture": "https://yanxuan-item.nosdn.127.net/bfe70bd66efe94f2f18061c707d2a097.png",
+    //   "orderNum": 144
+    // })
+    this.oneGoods = (await getOneStopAPI()).subTypes?.[0]?.goodsItems?.items || []
+    // this.newGoods = new Array(8).fill({
+    //   "id": "4027998",
+    //   "name": "亮碟多效合一洗涤块495g",
+    //   "desc": "洗碗机专用，强力去污",
+    //   "price": "69.90",
+    //   "picture": "https://yanxuan-item.nosdn.127.net/e07c2b63765cf9f4a46d489c6e09c1c1.jpg",
+    //   "orderNum": 643
+    // })
+    this.newGoods = await getHomeNewAPI()
 
     this.recommendGoods = new Array(8).fill({
       "id": "4033959",
@@ -77,8 +89,10 @@ export  struct HomeView {
     })
 
   }
-  aboutToAppear(): void {
+
+  async aboutToAppear(): Promise<void> {
     this.mockData()
+    await screenManager.setStatusBarColor('#ffffff')
   }
 
   build() {
@@ -92,7 +106,23 @@ export  struct HomeView {
               Image(item.imgUrl)
             })
 
-          }.onChange((index: number) => {})
+          }
+
+          .onChange((index: number) => {})
+          // .displayCount(this.app.breakPoint==BreakPointEnum.SM?1:2)
+          //传入各个屏幕对应的值 然后根据当前断点的值来匹配对应的值
+          .displayCount(new BreakPointType({
+            sm: 1,
+            md: 2,
+            lg: 3
+          }).getValue(this.app.breakPoint))
+          //同理
+          .itemSpace(new BreakPointType({
+            sm: 0,
+            md: 10,
+            lg: 20
+          }).getValue(this.app.breakPoint))
+          // .itemSpace(10)
 
           // Row() 搜索框
           Row(){
@@ -107,11 +137,17 @@ export  struct HomeView {
             .backgroundColor('#33191919')
 
           }.position({ top: 10, left: 30 })
-        }.width('100%').height(260)
+        }
+        .width('100%').height(260)
+        .padding({ top:this.safeArea.topHeight})
 
         // 分类
         Column(){
-          List({space:10}){
+          List({space: new BreakPointType({
+            sm: 14,
+            md: 36,
+            lg: 72
+          }).getValue(this.app.breakPoint)}){
             ForEach(this.categories,(item:CategoryItem,index:number)=>{
               ListItem(){
                 Column(){
@@ -175,7 +211,11 @@ export  struct HomeView {
           Image($r('app.media.home_new'))
             .width(146)
             .height(19)
-          List({ space: 10 }) {
+          List({ space: new BreakPointType({
+            sm: 14,
+            md: 36,
+            lg: 72
+          }).getValue(this.app.breakPoint)}) {
             ForEach(this.newGoods, (item: HDMGoodsItem) => {
               ListItem() {
                 HDMDiscountGoods({ type: DiscountType.NEW, goods: item })
@@ -202,7 +242,11 @@ export  struct HomeView {
             }
           })
         }
-        .columnsTemplate('1fr 1fr')
+        .columnsTemplate(new BreakPointType({
+          sm: "1fr 1fr",
+          md: "1fr 1fr 1fr",
+          lg: "1fr 1fr 1fr 1fr"
+        }).getValue(this.app.breakPoint))
         .columnsGap(8)
         .rowsGap(10)
 
@@ -214,6 +258,7 @@ export  struct HomeView {
     .scrollBar(BarState.Off)
     .align(Alignment.Top)
     .width('100%')
+
   }
 
   @Builder

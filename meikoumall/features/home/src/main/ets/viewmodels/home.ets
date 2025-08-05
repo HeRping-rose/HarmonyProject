@@ -4,6 +4,7 @@ export interface Banner {
   id: string;
   imgUrl: string;
   type: string;
+  hrefUrl: string;
 }
 
 export interface Params {
@@ -17,4 +18,25 @@ export enum DiscountType {
   COMMAND,
   DISCOUNT,
   NEW
+}
+
+// 特惠推荐的接口
+export interface HotResult {
+  id: string;
+  subTypes: SubType[];
+  title: string;
+}
+
+export interface SubType {
+  goodsItems: GoodsItems;
+  id: string;
+  title: string;
+}
+
+export interface GoodsItems {
+  counts: number;
+  items: HDMGoodsItem[];
+  page: number;
+  pages: number;
+  pageSize: number;
 }

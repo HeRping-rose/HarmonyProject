@@ -1,8 +1,9 @@
-import { Log } from 'basic'
+import { AppBreakPoint, AppSafeArea, BreakPointType, Log } from 'basic'
 import { CartView } from 'cart'
 import { CategoryView } from 'category'
 import { HomeView } from 'home'
 import { MyView } from 'my'
+import { AppStorageV2 } from '@kit.ArkUI'
 
 interface tabItem{
   title:string,
@@ -14,7 +15,8 @@ interface tabItem{
 @ComponentV2
 struct Index {
   @Local activeIndex:number=0
-
+  app: AppBreakPoint = AppStorageV2.connect(AppBreakPoint, () => new AppBreakPoint())!
+  safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!
   @Local list:tabItem[]=[
 
     {
@@ -40,12 +42,18 @@ struct Index {
   ]
 
   aboutToAppear(): void {
-    Log.info('phoneIndex aboutToAppear')
-    Log.info('Index:'+this.activeIndex)
+    // Log.info('phoneIndex aboutToAppear')
+    // Log.info('Index:'+this.activeIndex)
   }
   build() {
 
-    Tabs({barPosition:BarPosition.End,index:$$this.activeIndex}){
+    Tabs({
+      barPosition: new BreakPointType({
+        sm: BarPosition.End,
+        md: BarPosition.End,
+        lg: BarPosition.Start
+      }).getValue(this.app.breakPoint),
+      index:$$this.activeIndex}){
       ForEach(this.list, (item:tabItem, index:number)=>{
         TabContent(){
           if(index==0){
@@ -60,6 +68,25 @@ struct Index {
         }.tabBar(this.tabBuilder(item,index))
       })
     }
+    .padding({
+      bottom: this.safeArea.bottomHeight
+    })
+    .barHeight(new BreakPointType({
+      sm: 60,
+      md: 60,
+      lg: 220
+    }).getValue(this.app.breakPoint))
+    .vertical(new BreakPointType({
+      sm: false,
+      md: false,
+      lg: true
+    }).getValue(this.app.breakPoint))
+    .scrollable(false)
+    .animationDuration(new BreakPointType({
+      sm: 300,
+      md: 300,
+      lg: 0
+    }).getValue(this.app.breakPoint))
     .scrollable(false)
   }
 
