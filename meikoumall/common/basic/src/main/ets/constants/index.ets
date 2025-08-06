@@ -1,1 +1,1 @@
-export * from './GlobalVariaable'
+export * from '../constants/GlobalVariaable'

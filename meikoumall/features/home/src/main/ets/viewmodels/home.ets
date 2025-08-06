@@ -40,3 +40,8 @@ export interface GoodsItems {
   pages: number;
   pageSize: number;
 }
+
+// 推荐列表的请求的参数的类型
+export interface RecommendParams {
+  limit: number
+}

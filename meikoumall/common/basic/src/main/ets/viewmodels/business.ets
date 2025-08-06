@@ -20,3 +20,10 @@ export interface CategoryItemChild {
   name: string
   picture: ResourceStr
 }
+
+@ObservedV2
+export class AppCategory{
+  // 一组数据
+  @Trace category: CategoryItem[] = []
+
+}
