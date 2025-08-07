@@ -4,6 +4,7 @@ import { AppBreakPoint,
   HDMLoading,
   ListDataSource,
   Log,
+  PAGE_PATH,
   screenManager } from "basic"
 import { HDMDiscountGoods } from "../components/HDMDiscountGoods"
 import { HDMGoods } from "../components/HDMGoods"
@@ -12,6 +13,7 @@ import { DiscountType } from "../viewmodels/home"
 import { AppStorageV2, promptAction } from "@kit.ArkUI"
 import { getBannerAPI, getCategoryAPI, getHomeNewAPI, getHotResultAPI, getInVogueAPI, getOneStopAPI,
   getRecommendAPI } from "../api"
+import { HMRouterMgr } from "@hadss/hmrouter"
 
 @ComponentV2
 export  struct HomeView {
@@ -207,12 +209,18 @@ export  struct HomeView {
                       .height(20)
                       .fillColor($r('[basic].color.white'))
                       .margin({ left: 10, right: 5 })
+                      .onClick(() => {
+                        HMRouterMgr.push({
+                          pageUrl: PAGE_PATH.SEARCH_PAGE
+                        })
+                      })
                     Text('搜索...')
                       .fontColor($r('[basic].color.white'))
                       .fontSize(14)
                   }
                   .border({ radius: 50 }).height(30).width('85%')
                   .backgroundColor('#33191919')
+
 
                 }.position({ top: 10, left: 30 })
               }
@@ -401,6 +409,11 @@ export  struct HomeView {
           Image($r('[basic].media.ic_public_search'))
             .width(20).height(20)
             .fillColor($r('[basic].color.white'))
+            .onClick(() => {
+              HMRouterMgr.push({
+                pageUrl: PAGE_PATH.SEARCH_PAGE
+              })
+            })
             // .margin({ left: 10, right: 5 })
           TextInput({placeholder:'搜索...'})
             // .backgroundColor('#fff')
@@ -412,6 +425,7 @@ export  struct HomeView {
         .height(30).width('85%')
         .backgroundColor('#33191919')
         .padding({left:12})
+
 
       }
       .position({left:16})

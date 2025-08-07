@@ -8,6 +8,13 @@ import { promptAction } from '@kit.ArkUI'
 class myInterceptor implements rcp.Interceptor {
   async intercept(context: rcp.RequestContext, next: rcp.RequestHandler): Promise<rcp.Response> {
     // 请求`拦截
+    // 搜索 格式化参数请求拦截
+    // context.request.content :对请求的参数拦截并处理 = {__ob_keyword:'maoZi',xxx:'ss'}
+    if(typeof context.request.content=='object'){
+      //replaceAll()匹配到了全部替换 没有就略过   /__ob_/  正则表达式
+      context.request.content = JSON.parse(JSON.stringify(context.request.content).replaceAll(/__ob_/g, ""))
+    }
+
     let res=await next.handle((context))
     // 响应拦截
     return res
@@ -40,7 +47,10 @@ export class RequestRcp {
     return RequestRcp.toRightData<T>(insGet)
 
   }
-  static post<T>(url:string,data?:object){}
+  static post<T>(url:string,data?:object): Promise<T>{
+    return RequestRcp.toRightData<T>(instance.post(url,data))
+
+  }
   static put<T>(url:string,data?:object){}
   static delete<T>(url:string,params?:object){}
   static patch<T>(url:string,data?:object){}

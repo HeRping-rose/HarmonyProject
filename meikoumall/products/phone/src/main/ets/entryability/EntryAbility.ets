@@ -2,6 +2,8 @@ import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.Ab
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window ,UIContext, AppStorageV2} from '@kit.ArkUI';
 import { AppBreakPoint, BreakPointEnum, Log, screenManager } from 'basic';
+import { HMRouterUtils } from '@hadss/hmrouter/src/main/ets/utils/HMRouterUtils';
+import { HMRouterMgr } from '@hadss/hmrouter';
 
 const DOMAIN = 0x0000;
 
@@ -9,6 +11,14 @@ export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
+
+
+    //初始化 HmRouter  NavPathStack路由栈对象 提供历史页面管理 pushPathStack()
+    // Mgr Manager管理器 管理路由栈对象 管理路由跳转 传参  对NavPathStack进行封装的
+    HMRouterMgr.init({
+      context:this.context,//在这里初始化 是为了 在封装的类中 获取上下文对象
+
+    })
   }
 
   onDestroy(): void {

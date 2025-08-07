@@ -1,6 +1,8 @@
 import { CategoryItem, HDMGoodsItem, RequestRcp } from "basic"
 import { Banner, HotResult, RecommendParams } from "../viewmodels/home"
 
+import { SearchResult, SearchParams } from "../viewmodels"
+
 //二次封装
 
 // 获取轮播图数据banner
@@ -37,3 +39,6 @@ export const getHomeNewAPI = () => {
 export const getRecommendAPI = (params: RecommendParams) => {
   return RequestRcp.get<HDMGoodsItem[]>("/home/recommend", params)
 }
+
+export const getSearchResultAPI = (data: SearchParams) =>
+RequestRcp.post<SearchResult>("/search/all", data)
