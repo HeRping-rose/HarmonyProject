@@ -3,7 +3,7 @@ import { SearchParams, SearchRouterParam, SortCompAttr, SortField, SortMethod } 
 import { SearchSortItem } from './SearchSortItem'
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
 import { AppStorageV2, promptAction } from '@kit.ArkUI'
-import { HDMGoods } from '../components/HDMGoods'
+import { HDMGoods } from 'basic/src/main/ets/components/HDMGoods'
 import { getSearchResultAPI } from '../api'
 
 
@@ -59,7 +59,6 @@ export struct SearchResultView {
     this.getSearchResult()
   }
 
-
   async aboutToAppear(): Promise<void> {
     const params = HMRouterMgr.getCurrentParam() as SearchRouterParam
 
@@ -101,7 +100,6 @@ export struct SearchResultView {
             // this.params.keyword = this.params.keyword
             this.finished = false
             this.getSearchResult()
-
           })
       }
       .padding({ top: this.safeArea.topHeight, right: 16 })
@@ -115,14 +113,15 @@ export struct SearchResultView {
         ForEach(this.sortList, (item: SortCompAttr) => {
           // 筛选组件
           SearchSortItem({
-            label: item.label,
-            field: item.field,
-            sortField: this.params.sortField,
-            sortMethod: this.params.sortMethod,
+            label: item.label, // 筛选条件
+            field: item.field,  // 排序字段
+            sortField: this.params.sortField, // 排序字段  传给子组件
+            sortMethod: this.params.sortMethod, // 排序方式
+            //接收子组件传递过来的排序字段和排序方式
             onSortChange: (field: SortField, method: SortMethod) => {
               this.params.sortField = field // 相当于重新加载数据 排序字段
               this.params.sortMethod = method // 排序方式
-              this.onRefresh()
+              this.onRefresh()  // 重新加载数据  重新发请求
             }
           })
         })
@@ -167,14 +166,12 @@ export struct SearchResultView {
       .onReachEnd(async () => {
         //当滚动到底部时触发回调   1.正在请求  2.没有数据了
         if(!this.finished&& !this.loading){
-          this.loading=true
+          this.loading=true  // 正在请求
           promptAction.openToast({ message: '正在加载...' })
           await this.getSearchResult()
 
-          this.loading=false
+          this.loading=false// 完成
         }
-
-
       })
     }
   }

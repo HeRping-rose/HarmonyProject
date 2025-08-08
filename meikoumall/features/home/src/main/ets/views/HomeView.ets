@@ -7,7 +7,7 @@ import { AppBreakPoint,
   PAGE_PATH,
   screenManager } from "basic"
 import { HDMDiscountGoods } from "../components/HDMDiscountGoods"
-import { HDMGoods } from "../components/HDMGoods"
+import { HDMGoods } from "basic/src/main/ets/components/HDMGoods"
 import { Banner, Params, RecommendParams } from "../viewmodels/home"
 import { DiscountType } from "../viewmodels/home"
 import { AppStorageV2, promptAction } from "@kit.ArkUI"
@@ -17,12 +17,12 @@ import { HMRouterMgr } from "@hadss/hmrouter"
 
 @ComponentV2
 export  struct HomeView {
-  // breakObj: AppBreakPoint = AppStorageV2.connect(AppBreakPoint, () => new AppBreakPoint())!
+  // 用于监听屏幕宽度
   app: AppBreakPoint = AppStorageV2.connect(AppBreakPoint, () => new AppBreakPoint())!
-  safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!
-  dataSource: ListDataSource<HDMGoodsItem> = new ListDataSource<HDMGoodsItem>()
-  @Local searchOpacity: number = 0
-  @Local totalScrollY: number = 0
+  safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!//安全区
+  dataSource: ListDataSource<HDMGoodsItem> = new ListDataSource<HDMGoodsItem>() // 数据源
+  @Local searchOpacity: number = 0 // 搜索透明度
+  @Local totalScrollY: number = 0  // 屏幕滚动距离Y
 
   @Local banner:Banner[]=[]
   @Local categories:CategoryItem[]=[]
@@ -93,7 +93,6 @@ export  struct HomeView {
     //   "picture": "https://yanxuan-item.nosdn.127.net/e07c2b63765cf9f4a46d489c6e09c1c1.jpg",
     //   "orderNum": 643
     // })
-
     // this.recommendGoods = new Array(8).fill({
     //   "id": "4033959",
     //   "name": "3秒快速拆琴轻松保养odin奥丁12半音阶口琴",
@@ -101,7 +100,6 @@ export  struct HomeView {
     //   "picture": "https://yanxuan-item.nosdn.127.net/937a8e46a9284e8f7e00e13911ecfbe7.png",
     //   "payCount": 0
     // })
-
   }
   async  getHomeData(flag:boolean){
     if(flag){
@@ -125,7 +123,6 @@ export  struct HomeView {
       // todo 存本地缓存
       let cate=AppStorageV2.connect(AppCategory,()=>new AppCategory())!
       cate.category=results[1].value
-
     }
     if(results[2].status=='fulfilled'){
       this.newGoods = results[2].value
@@ -209,20 +206,19 @@ export  struct HomeView {
                       .height(20)
                       .fillColor($r('[basic].color.white'))
                       .margin({ left: 10, right: 5 })
-                      .onClick(() => {
-                        HMRouterMgr.push({
-                          pageUrl: PAGE_PATH.SEARCH_PAGE
-                        })
-                      })
                     Text('搜索...')
                       .fontColor($r('[basic].color.white'))
                       .fontSize(14)
                   }
                   .border({ radius: 50 }).height(30).width('85%')
                   .backgroundColor('#33191919')
-
-
-                }.position({ top: 10, left: 30 })
+                  .onClick(() => {
+                    HMRouterMgr.push({
+                      pageUrl: PAGE_PATH.SEARCH_PAGE
+                    })
+                  })
+                }
+                .position({ top: 10, left: 30 })
               }
               .width('100%').height(260)
               .padding({ top: this.safeArea.topHeight })
@@ -390,7 +386,6 @@ export  struct HomeView {
             }
             // Log.info('滚动Y: ' + this.totalScrollY)
           })
-
         }
         .onRefreshing(async ()=>{
           // 重新发送请求
@@ -398,10 +393,7 @@ export  struct HomeView {
           await this.getHomeData(false)
           this.isRefreshing=false
         }) //在刷新的时候要做什么
-
       }
-
-
       // .width('100%')
 
       Row() {
@@ -409,24 +401,22 @@ export  struct HomeView {
           Image($r('[basic].media.ic_public_search'))
             .width(20).height(20)
             .fillColor($r('[basic].color.white'))
-            .onClick(() => {
-              HMRouterMgr.push({
-                pageUrl: PAGE_PATH.SEARCH_PAGE
-              })
-            })
-            // .margin({ left: 10, right: 5 })
-          TextInput({placeholder:'搜索...'})
-            // .backgroundColor('#fff')
-            .placeholderColor($r('[basic].color.white'))
+            .margin({ left: 10, right: 5 })
+          Text('搜索...')
+            .fontColor($r('[basic].color.white'))
             .fontSize(14)
-            .margin({left:0,right:16})
+            // .backgroundColor('#fff')
+            // .margin({left:0,right:16})
         }
         .border({ radius: 50 })
-        .height(30).width('85%')
+        .height(30).width('87%')
         .backgroundColor('#33191919')
-        .padding({left:12})
-
-
+        // .padding({left:12})
+        .onClick(() => {
+          HMRouterMgr.push({
+            pageUrl: PAGE_PATH.SEARCH_PAGE
+          })
+        })
       }
       .position({left:16})
       .padding({left:16,top:this.safeArea.topHeight})

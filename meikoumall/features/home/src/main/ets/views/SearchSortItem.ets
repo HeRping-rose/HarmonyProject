@@ -14,7 +14,7 @@ export struct SearchSortItem {
   // 父组件的排序方法
   @Param sortMethod: SortMethod = 'desc'
 
-  // 定义子传父的函数
+  // 定义子传父的函数  自定义事件 回传field: SortField, method: SortMethod
   @Event
   onSortChange: (field: SortField, method: SortMethod) => void = () => {
   }
@@ -43,9 +43,13 @@ export struct SearchSortItem {
 
       // 排序字段相同,修改排序方式
       if (this.field === this.sortField) {
+        // field: SortField = 'publishTime' 默认
+        // @Param sortField: SortField = 'publishTime' 默认
+        // 内部调用 需要把选择好的排序字段和排序方式传给父组件
         this.onSortChange(this.field, this.sortMethod === "asc" ? "desc" : 'asc')
       } else {
         // 排序字段不同，排序方式 desc，修改排序字段
+        //SortField:'publishTime' | 'orderNum' | 'price'  // 排序字段
         this.onSortChange(this.field, "desc") // 如果选择不是一个字段 默认按照倒序
       }
 

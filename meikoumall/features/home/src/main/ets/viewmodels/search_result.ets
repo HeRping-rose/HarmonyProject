@@ -1,9 +1,9 @@
 import { GoodsItems } from "."
 
-// 联合类型
+// 联合类型  时间 销量 价格
 export type SortField = 'publishTime' | 'orderNum' | 'price'  // 排序字段
 
-export type SortMethod = 'desc' | 'asc' // 排序方式
+export type SortMethod = 'desc' | 'asc' // 排序方式  降序 升序
 
 // 提交给服务器的参数
 // 提交给服务器的参数
