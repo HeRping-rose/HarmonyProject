@@ -4,6 +4,9 @@ import { staticMap } from '@kit.MapKit'
 import { Log } from './Logger'
 import { ResponseData } from '../viewmodels'
 import { promptAction } from '@kit.ArkUI'
+import { auth } from './Auth'
+import { HMRouterMgr } from '@hadss/hmrouter'
+import { PAGE_PATH } from '../constants'
 
 class myInterceptor implements rcp.Interceptor {
   async intercept(context: rcp.RequestContext, next: rcp.RequestHandler): Promise<rcp.Response> {
@@ -15,7 +18,26 @@ class myInterceptor implements rcp.Interceptor {
       context.request.content = JSON.parse(JSON.stringify(context.request.content).replaceAll(/__ob_/g, ""))
     }
 
-    let res=await next.handle((context))
+    //常规拦截  请求拦截
+    //  注入token
+    const user = auth.getUser()
+    // ['index','xxx'].includes(  context.request.url )根据xxx来判断拦截
+    if (user.token) {
+      context.request.headers!.authorization = `Bearer ${user.token}`
+    }
+
+    let res=await next.handle((context))   //next 分割
+
+    //处理401错误
+    //  处理401异常问题
+
+    // 响应拦截
+    if (res.statusCode === 401) {
+      auth.removeUser()
+      HMRouterMgr.push({
+        pageUrl: PAGE_PATH.LOGIN_PAGE
+      })
+    }
     // 响应拦截
     return res
   }

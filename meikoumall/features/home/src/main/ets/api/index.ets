@@ -1,7 +1,7 @@
 import { CategoryItem, HDMGoodsItem, RequestRcp } from "basic"
 import { Banner, HotResult, RecommendParams } from "../viewmodels/home"
 
-import { SearchResult, SearchParams } from "../viewmodels"
+import { SearchResult, SearchParams, Goods, GoodsParams } from "../viewmodels"
 
 //二次封装
 
@@ -42,3 +42,9 @@ export const getRecommendAPI = (params: RecommendParams) => {
 
 export const getSearchResultAPI = (data: SearchParams) =>
 RequestRcp.post<SearchResult>("/search/all", data)
+
+
+// 获取商品详情
+export const getGoodsDetailAPI = (params: GoodsParams) => {
+  return RequestRcp.get<Goods>("/goods", params)
+}

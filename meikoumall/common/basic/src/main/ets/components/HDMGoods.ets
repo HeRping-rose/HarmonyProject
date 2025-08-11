@@ -1,4 +1,5 @@
-
+import { HMRouterMgr } from "@hadss/hmrouter"
+import { PAGE_PATH } from "../constants"
 import { HDMGoodsItem } from "../viewmodels"
 
 @ComponentV2
@@ -53,5 +54,12 @@ export struct HDMGoods {
     .backgroundColor($r('app.color.white'))
     .borderRadius(8)
     .clip(true)
+    .onClick(() => {
+      // 跳转到商品详情
+      HMRouterMgr.push({
+        pageUrl: PAGE_PATH.GOODS_PAGE,
+        param: this.goods
+      })
+    })
   }
 }

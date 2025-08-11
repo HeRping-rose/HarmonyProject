@@ -7,7 +7,8 @@
   "license": "Apache-2.0",
   "packageType": "InterfaceHar",
   "dependencies": {
-    "@abner/log": "^1.0.5"  //第三方日志打印
+    "@abner/log": "^1.0.5",
+    "@ohmos/sku": "^1.0.1"
   },
   "devDependencies": {},
   "dynamicDependencies": {}

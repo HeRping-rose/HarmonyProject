@@ -49,7 +49,7 @@ export struct HDMNavBar {
           })
           .onClick(() => {
             this.onLeftClick()
-          })
+          }).zIndex(2)
       }
       if (this.showRightIcon) {
         Image(this.rightIcon)
