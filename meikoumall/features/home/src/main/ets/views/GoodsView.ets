@@ -1,7 +1,11 @@
 import {
+  addCartAPI,
+  AddCartParams,
   AppBreakPoint,
   AppSafeArea,
   auth,
+  authCart,
+  CartGoodsModel,
   HDMGuessGoods,
   HDMLoading,
   HDMNavBar,
@@ -11,7 +15,7 @@ import {
   RequestRcp
 } from 'basic'
 import { Goods } from '../viewmodels'
-import { AppStorageV2 } from '@kit.ArkUI'
+import { AppStorageV2, promptAction } from '@kit.ArkUI'
 import { GoodsInfo, GoodsComment, GoodsDetail } from '../components'
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
 import { getGoodsDetailAPI } from '../api'
@@ -32,6 +36,34 @@ export struct GoodsView {
   sku: HDMSkuType = {} as HDMSkuType
   scroller = new Scroller()
   tabsList: string[] = ["商品", "评价", "详情", "推荐"]
+  user = auth.getUser()
+  //添加到购物车
+  async addCart(){
+    // 1.是否登录
+    if(this.user.token){
+      //是否正常选择sku
+      if(this.sku.id){
+        // 添加到购物车  发送添加请求
+        await addCartAPI( {skuId: this.sku.id, count: this.count.toString()} as AddCartParams)
+        //提示
+        promptAction.openToast({ message: '添加成功' })
+
+        await authCart.updateCartCount()
+        HMRouterMgr.push({
+          pageUrl: PAGE_PATH.CART,
+        })
+
+      }else{
+        promptAction.openToast({ message: '请选择商品规格' })
+      }
+    }else{
+      // 提示 还未登录
+      promptAction.openToast({ message: '还未登陆,不能加入购物车' })
+      HMRouterMgr.push({
+        pageUrl: PAGE_PATH.LOGIN_PAGE,
+      })
+    }
+  }
 
   @Builder
   CustomTitleBuilder() {
@@ -192,14 +224,13 @@ export struct GoodsView {
       Row() {
         Button(this.loading ? '加入中...' : '加入购物袋')
           .buyButton($r('[basic].color.black'), true)
-          .onClick(() => {
+          .onClick(async () => {
             // 实现加入购物车
-
+            await this.addCart()
           })
         Button('立即购买')
           .buyButton($r('[basic].color.red'), false)
           .onClick(async () => {
-
           })
       }
       .width('100%')
@@ -287,13 +318,16 @@ export struct GoodsView {
         Image($r('[basic].media.ic_public_comment'))
           .iconButton()
         Badge({
-          count: 0,
+          count: authCart.getCartCount(),
           style: {},
           position: { x: 30, y: 4 }
         }) {
           Image($r('[basic].media.ic_public_cart'))
             .iconButton()
             .onClick(() => {
+              HMRouterMgr.push({
+                pageUrl: PAGE_PATH.CART
+              })
 
             })
         }

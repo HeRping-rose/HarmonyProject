@@ -67,17 +67,26 @@ export class RequestRcp {
     // https://meikou-api.itheima.net/xxx ? id=1&name=xxx
     let insGet= instance.get(url+RequestRcp.objectToQueryString(params))
     return RequestRcp.toRightData<T>(insGet)
-
   }
+
   static post<T>(url:string,data?:object): Promise<T>{
     return RequestRcp.toRightData<T>(instance.post(url,data))
-
   }
-  static put<T>(url:string,data?:object){}
-  static delete<T>(url:string,params?:object){}
+
+  static put<T>(url:string,data?:object):Promise<T>{
+    return RequestRcp.toRightData<T>(instance.put(url, data))
+  }
+
+  static delete<T>(url:string,params?:object, data?:object):Promise<T>{
+    const req=new rcp.Request(url+RequestRcp.objectToQueryString(params),'DELETE',{},data)
+    return RequestRcp.toRightData<T>(instance.fetch(req))
+    // return RequestRcp.toRightData<T>(instance.delete(url+RequestRcp.objectToQueryString(params)))
+  }
+
   static patch<T>(url:string,data?:object){}
 
   static upload<T>(url:string,data?:object){}
+
   static download<T>(url:string,params?:object){}
 
   //请求发出后返回响应的结果 但是这个结果包含了复杂信息 要挑出body响应体中的信息

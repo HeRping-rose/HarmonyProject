@@ -1,6 +1,6 @@
 
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
-import { User, HDMNavBar, HDMCellGroup, HDMCell, PAGE_PATH, AppSafeArea, AppUser, auth } from 'basic'
+import { User, HDMNavBar, HDMCellGroup, HDMCell, PAGE_PATH, AppSafeArea, AppUser, auth, authCart } from 'basic'
 import { AppStorageV2, PersistenceV2 } from '@kit.ArkUI'
 
 
@@ -125,8 +125,9 @@ export struct SettingView {
                 },
                 secondaryButton:{
                     value: '确定',
-                    action:()=>{
+                    action: async ()=>{
                       auth.removeUser()
+                      await authCart.updateCartCount()
                       // HMRouterMgr.replace({
                       //   pageUrl:PAGE_PATH.SETTING_PAGE
                       // })

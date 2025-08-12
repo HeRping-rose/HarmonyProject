@@ -1,5 +1,5 @@
 
-import { AppSafeArea, auth, HDMNavBar, Log, PAGE_PATH } from 'basic'
+import { AppSafeArea, auth, authCart, AuthCart, HDMNavBar, Log, PAGE_PATH } from 'basic'
 import { AppStorageV2, promptAction } from '@kit.ArkUI'
 
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
@@ -14,7 +14,7 @@ export struct LoginView {
   // @Local password: string = '123456'
 
   loginForm:LoginFormModel=new LoginFormModel({
-  account:'13200000010',
+  account:'13200000008',
   password:'123456'
 })
   @Local agree: boolean = false
@@ -46,6 +46,8 @@ export struct LoginView {
     let res =await loginAPI(this.loginForm)
     Log.info(res)
     auth.setUser(res)
+
+    await authCart.updateCartCount()
 
     Log.info(auth.getUser())
 

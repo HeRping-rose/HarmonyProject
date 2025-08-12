@@ -13,8 +13,10 @@ import { DiscountType } from "../viewmodels/home"
 import { AppStorageV2, promptAction } from "@kit.ArkUI"
 import { getBannerAPI, getCategoryAPI, getHomeNewAPI, getHotResultAPI, getInVogueAPI, getOneStopAPI,
   getRecommendAPI } from "../api"
-import { HMRouterMgr } from "@hadss/hmrouter"
+import { HMRouter, HMRouterMgr } from "@hadss/hmrouter"
 
+
+// @HMRouter({pageUrl:PAGE_PATH.HOME})
 @ComponentV2
 export  struct HomeView {
   // 用于监听屏幕宽度

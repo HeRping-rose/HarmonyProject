@@ -1,10 +1,13 @@
-import { AppBreakPoint, AppSafeArea, BreakPointType, Log, PAGE_PATH } from 'basic'
+import { AppBreakPoint, AppSafeArea, auth,
+  authCart,
+  AuthCart, BreakPointType, GlobalVariable, Log, PAGE_PATH } from 'basic'
 import { CartView } from 'cart'
 import { CategoryView } from 'category'
 import { HomeView } from 'home'
 import { MyView } from 'my'
 import { AppStorageV2, AttributeUpdater } from '@kit.ArkUI'
 import { HMDefaultGlobalAnimator, HMNavigation } from '@hadss/hmrouter'
+import { emitter } from '@kit.BasicServicesKit'
 
 interface tabItem{
   title:string,
@@ -15,6 +18,7 @@ interface tabItem{
 @Entry
 @ComponentV2
 struct Index {
+  controller: TabsController = new TabsController()
   modifier: MyNavModifier = new MyNavModifier();
   @Local activeIndex:number=0
   app: AppBreakPoint = AppStorageV2.connect(AppBreakPoint, () => new AppBreakPoint())!
@@ -43,10 +47,28 @@ struct Index {
     }
   ]
 
+  // 监听switch  Tab  发布订阅
+  registerEvent() {
+    // 发布者
+    emitter.on(GlobalVariable.SWITCH_TAB, (event) => {
+      if (event.data) {
+        // 直接切换
+        // this.activeIndex = event.data.index as number
+        // 过渡切换
+        this.controller.changeIndex(event.data.index as number)
+      }
+    })
+  }
+
   aboutToAppear(): void {
     // Log.info('phoneIndex aboutToAppear')
     // Log.info('Index:'+this.activeIndex)
+    this.registerEvent() // 注册监听事件
+    authCart.updateCartCount()
+
+
   }
+
 
   build() {
     // @Entry中需要再套一层容器组件,Column或者Stack
@@ -66,6 +88,7 @@ struct Index {
 
       }){
         Tabs({
+          controller: this.controller,
           barPosition: new BreakPointType({
             sm: BarPosition.End,
             md: BarPosition.End,
@@ -116,10 +139,23 @@ struct Index {
   @Builder
   tabBuilder(item:tabItem,index:number){
     Column(){
-      Image(this.activeIndex==index?item.active:item.normal)
-        .width(26).aspectRatio(1)
-      Text(item.title)
-        .fontColor(this.activeIndex==index?$r('[basic].color.black'):'#999')
+      if(index==2){
+        Badge({count:authCart.getCartCount(),style:{}}){
+          Column(){
+            Image(this.activeIndex == index ? item.active : item.normal)
+              .width(26).aspectRatio(1)
+            Text(item.title)
+              .fontColor(this.activeIndex == index ? $r('[basic].color.black') : '#999')
+          }
+        }
+
+      }else {
+        Image(this.activeIndex == index ? item.active : item.normal)
+          .width(26).aspectRatio(1)
+        Text(item.title)
+          .fontColor(this.activeIndex == index ? $r('[basic].color.black') : '#999')
+      }
+
     }
   }
 
