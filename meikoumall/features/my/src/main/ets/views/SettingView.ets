@@ -127,7 +127,7 @@ export struct SettingView {
                     value: '确定',
                     action: async ()=>{
                       auth.removeUser()
-                      await authCart.updateCartCount()
+                      auth.getUser()
                       // HMRouterMgr.replace({
                       //   pageUrl:PAGE_PATH.SETTING_PAGE
                       // })
@@ -135,6 +135,9 @@ export struct SettingView {
                       HMRouterMgr.pop({
                         navigationId: PAGE_PATH.MAIN_PAGE_ID // 替换为你的登录页面路径
                       })
+                      HMRouterMgr.removeAll()
+
+                      await authCart.updateCartCount()
                   },
                 },
 

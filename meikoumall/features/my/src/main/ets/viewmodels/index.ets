@@ -1,3 +1,5 @@
+import { OrderItem } from "basic"
+
 export  interface LoginForm{
   account: string,
   password: string
@@ -21,4 +23,18 @@ export interface loginResult{
   avatar: string,
   nickName: string,
 
+}
+
+export interface GetOrderParams {
+  page: number
+  pageSize: number
+  orderState: number
+}
+
+export interface GetOrderResult {
+  counts: number
+  pageSize: number
+  pages: number
+  page: number
+  items: OrderItem[]
 }

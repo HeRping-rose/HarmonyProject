@@ -117,3 +117,97 @@ export interface DeleteCartParams {
   ids: string[]
 }
 
+
+// 结算信息  (预订单)
+export interface PreOrder {
+  goods: OrderGoodsItem[]  // 商品
+  userAddresses: AddressItem[]  // 用户地址
+  summary: Summary  // 订单摘要
+}
+// 订单
+export interface OrderGoodsItem {
+  attrsText: string;  // 属性
+  count: number; // 数量
+  id: string;  // 商品id
+  name: string;  // 商品名称
+  payPrice: string;  // 订单价格(支付)
+  picture: string; // 图片
+  price: string;  // 商品价格
+  skuId: string;   // skuId
+  totalPayPrice: string;  // 总价(支付)
+  totalPrice: string;   // 总价
+}
+// 地址
+export interface AddressItem {
+  address: string  // 地址
+  contact: string  // 联系人
+  fullLocation: string  // 地址全部信息
+  id: string  // id
+  isDefault: 0 | 1   // 是否默认
+  receiver: string  // 收货人
+  provinceCode: number  // 省
+  cityCode: number  // 市
+  countyCode: number //  区
+}
+// 摘要
+export interface Summary {
+  discountPrice: number;
+  goodsCount: number;
+  postFee: number;
+  totalPayPrice: number;
+  totalPrice: number;
+}
+
+// 生成订单参数
+export interface CreateOrderParams {
+  deliveryTimeType: number
+  payType: number
+  buyerMessage: string
+  payChannel: number
+  goods: CreateOrderParamsGoods[]
+  addressId: string
+}
+// 创建订单商品信息
+export interface CreateOrderParamsGoods {
+  skuId: string
+  count: number
+}
+
+// 创建订单结果
+export interface CreateOrderResult {
+  id: string
+}
+// 订单
+export interface OrderItem {
+  countdown: number;
+  createTime: string;
+  id: string;
+  orderState: 1 | 2 | 3 | 4 | 5 | 6;
+  payChannel: number;
+  payLatestTime: string;
+  payMoney: number;
+  payType: number;
+  postFee: number;
+  skus: OrderSku[];
+  totalMoney: number;
+  totalNum: number;
+}
+
+// 订单 sku
+export interface OrderSku {
+  attrsText: string;
+  curPrice: number;
+  id: string;
+  image: string;
+  name: string;
+  properties: Property[];
+  quantity: number;
+  realPay: number;
+  spuId: string;
+}
+
+// 属性
+export interface Property {
+  propertyMainName: string;
+  propertyValueName: string;
+}

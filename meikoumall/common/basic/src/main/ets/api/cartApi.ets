@@ -1,6 +1,9 @@
 import { RequestRcp } from "../utils/RequestRcp"
 import { AddCartParams, CartCount, CartGoodsModel,
+  CreateOrderParams,
+  CreateOrderResult,
   DeleteCartParams,
+  PreOrder,
   SelectCartParams, UpdateCartParams } from "../viewmodels"
 
 // 获取购物车列表
@@ -30,4 +33,14 @@ export const selectOrUnSelectAPI = (data: SelectCartParams) => RequestRcp.put<nu
 
 export const delCartAPI = (data: DeleteCartParams) =>{
   RequestRcp.delete<null>("/member/cart", undefined, data)
+}
+
+//获取订单预览信息
+export const  getPreOrderAPI= ()=>{
+  return RequestRcp.get<PreOrder>(`/member/order/pre`)
+}
+
+//创建订单  CreateOrderParams请求携带的参数   CreateOrderResult返回结果是一个id
+export const createOrderAPI = (data: CreateOrderParams) => {
+  return RequestRcp.post<CreateOrderResult>('/member/order', data)
 }

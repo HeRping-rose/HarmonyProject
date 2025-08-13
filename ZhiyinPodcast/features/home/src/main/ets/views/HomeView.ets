@@ -1,12 +1,16 @@
+import { Banner, EditorChoice, podcastExpress, popularPodcast, quickCategory, RecentlyNew } from "../viewmodels/home"
+
 @ComponentV2
 export struct HomeView {
+
   @Local currentBannerIndex: number = 0
   @Local searchText: string = ''
   // safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!//安全区
 
-
   // 轮播横幅数据
    banner:Banner[] = []
+   editorChoice: EditorChoice[]=[]
+   recentlyNew: RecentlyNew[] = []
 
   // 快速分类数据
    quickCategories: quickCategory[] = [
@@ -46,7 +50,12 @@ export struct HomeView {
       rank: 2,
       title: 'Vol.198 | 历史长河中,情感才更...',
       category: '历史情感'
-    }
+    },
+     {
+       rank: 3,
+       title: '1997 | 历史长河中,情感才更...',
+       category: '历史情感'
+     }
   ]
 
   async mockData() {
@@ -57,6 +66,28 @@ export struct HomeView {
         hrfUrl:'/category/1181622006',
         type:'1'
       })
+    this.editorChoice=new Array(6).fill({
+        imgUrl:$r('app.media.swiper1'),
+        title:'听风吟',
+        authorAvatar:$r('app.media.swiper1'),
+        author:'小橘',
+        subtitle:'听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟'
+      })
+    this.recentlyNew=new Array(6).fill({
+      // imgUrl: ResourceStr;
+      //   title: string;
+      //   authorAvatar: ResourceStr;
+      //   author: ResourceStr;
+      //   listenCount: number;
+      //   signature: string; //描述
+      imgUrl:$r('app.media.swiper1'),
+        title:'听风吟',
+        authorAvatar:$r('app.media.swiper1'),
+        author:'小橘',
+        listenCount: 1000,
+        signature:'听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟'
+      })
+
   }
 
   aboutToAppear(): void {
@@ -100,160 +131,252 @@ export struct HomeView {
       .padding({ left: 16, right: 16, bottom: 16 })
 
       // 主要内容区域
-      Column() {
-        // 轮播图
-        Swiper() {
-          ForEach(this.banner, (item: Banner, index: number) => {
-            Image(item.imgUrl)
-          })
-
-        }
-        .width('100%').height(200)
-        .margin({bottom: 16})
-        // .padding({ top: this.safeArea.topHeight })
-
-
-
-        // 快速分类
-        Row() {
-          ForEach(this.quickCategories, (category: quickCategory) => {
-            Column() {
-              Image(category.icon)
-                .width(30).aspectRatio(1)
-                .fillColor('#87CEEB')
-              // {
-              //   Text(category.icon)
-              //     .fontSize(24)
-              //     .fontColor(Color.White)
-              // }
-              
-              Text(category.name)
-                .fontSize(12)
-                .fontColor('#333333')
-                .margin({ top: 8 })
-            }
-            .layoutWeight(1)
-          })
-        }
-        .width('100%')
-        .margin({ bottom: 24 })
-
-        // 播客速递
+      Scroll(){
         Column() {
-          Row() {
-            Text('播客速递')
-              .fontSize(18)
-              .fontColor('#333333')
-
-            Image($r('app.media.ic_right')).width(16).aspectRatio(1)
-          }
-          .width('100%')
-          .margin({bottom:16})
-          .justifyContent(FlexAlign.SpaceBetween)
-        }
-
-        Column(){
-          List({space:10}){
-            ForEach(this.podcastExpress, (podcast: podcastExpress) => {
-              ListItem() {
-                Column() {
-                  Text(podcast.tag)
-                }
-              }
-              .width(120)
-              .height('100%')
-              .backgroundColor('#ccc')
+          // 轮播图
+          Swiper() {
+            ForEach(this.banner, (item: Banner, index: number) => {
+              Image(item.imgUrl)
             })
-          }.align(Alignment.Center)
-          .listDirection(Axis.Horizontal)
-          .scrollBar(BarState.Off)
-        }.height(120)
-        .margin({bottom:16})
+          }
+          .width('100%').height(200)
+          .margin({ bottom: 16 })
 
-
-
-        // 热门播客
-        Column() {
+          // 快速分类
           Row() {
-            Text('热门播客')
-              .fontSize(18)
-              .fontColor('#333333')
-            
-            Image($r('app.media.ic_right')).width(16).aspectRatio(1)
+            ForEach(this.quickCategories, (category: quickCategory) => {
+              Column() {
+                Image(category.icon)
+                  .width(30).aspectRatio(1)
+                  .fillColor('#87CEEB')
+                Text(category.name)
+                  .fontSize(12)
+                  .fontColor('#333333')
+                  .margin({ top: 8 })
+              }
+              .layoutWeight(1)
+            })
           }
           .width('100%')
-          .margin({bottom:16})
-          .justifyContent(FlexAlign.SpaceBetween)
+          .margin({ bottom: 24 })
 
-          ForEach(this.popularPodcasts, (podcast: popularPodcast) => {
+          // 播客速递
+          Column() {
             Row() {
-              // 排名徽章
-              Image($r('app.media.ic_no1'))
-                .width(32)
-                .height(32)
-                .fillColor(podcast.rank === 1 ? '#FFD700' : '#C0C0C0')
-              // {
-              //   Text(podcast.rank.toString())
-              //     .fontSize(14)
-              //     .fontColor(Color.White)
-              // }
-              .margin({ right: 16 })
+              Text('播客速递')
+                .fontSize(18)
+                .fontColor('#333333')
 
-              // 播客信息
-              Column() {
-                Text(podcast.title)
-                  .fontSize(16)
-                  .fontColor('#333333')
-                  .maxLines(2)
-                  .width(240)
-                  .margin({ bottom: 4 })
-                
-                Text(podcast.category)
-                  .fontSize(14)
-                  .fontColor('#666666')
-              }
-              .alignItems(HorizontalAlign.Start)
-              .layoutWeight(1)
-
-              Image($r('app.media.swiper1')).width(30).aspectRatio(1)
+              Image($r('app.media.ic_right')).width(16).aspectRatio(1)
             }
             .width('100%')
-            .padding({ top: 12, bottom: 12 })
-          })
+            .margin({ bottom: 16 })
+            .justifyContent(FlexAlign.SpaceBetween)
+          }
+
+          Column() {
+            List({ space: 10 }) {
+              ForEach(this.podcastExpress, (podcast: podcastExpress) => {
+                ListItem() {
+                  Column() {
+                    Text(podcast.tag)
+                  }
+                }
+                .width(120)
+                .height('100%')
+                .backgroundColor('#ccc')
+              })
+            }.align(Alignment.Center)
+            .listDirection(Axis.Horizontal)
+            .scrollBar(BarState.Off)
+          }.height(120)
+          .margin({ bottom: 16 })
+
+
+          // 热门播客
+          Column() {
+            Row() {
+              Text('热门播客')
+                .fontSize(18)
+                .fontColor('#333333')
+              Image($r('app.media.ic_right')).width(16).aspectRatio(1)
+            }
+            .width('100%')
+            .margin({ bottom: 16 })
+            .justifyContent(FlexAlign.SpaceBetween)
+
+            ForEach(this.popularPodcasts, (podcast: popularPodcast) => {
+              Row() {
+                // 排名徽章
+                Image($r('app.media.ic_no1'))
+                  .width(32)
+                  .height(32)
+                  .fillColor(podcast.rank === 1 ? '#FFD700' : '#C0C0C0')
+                  .margin({ right: 16 })
+                // 播客信息
+                Column() {
+                  Text(podcast.title)
+                    .fontSize(16)
+                    .fontColor('#333333')
+                    .maxLines(2)
+                    .width(240)
+                    .margin({ bottom: 4 })
+
+                  Text(podcast.category)
+                    .fontSize(14)
+                    .fontColor('#666666')
+                }
+                .alignItems(HorizontalAlign.Start)
+                .layoutWeight(1)
+
+                Image($r('app.media.swiper1')).width(30).aspectRatio(1)
+              }
+              .width('100%')
+              .padding({ top: 12, bottom: 12 })
+            })
+          }
+
+          //编辑精选
+
+          Column(){
+            Row() {
+              Text('编辑精选')
+                .fontSize(18)
+                .fontColor('#333333')
+              Image($r('app.media.ic_right')).width(16).aspectRatio(1)
+            }
+            .width('100%')
+            .margin({ bottom: 16 })
+            .justifyContent(FlexAlign.SpaceBetween)
+
+            Column(){
+              List({}){
+                ForEach(this.editorChoice, (item: EditorChoice) => {
+                  ListItem(){
+                    Column({space:5}){
+                      Row() {
+                        Image($r('app.media.swiper1'))
+                          .width(80)
+                          .height(80)
+                          .margin({ right: 16 })
+                        Column({space:5}) {
+                          Text(item.title)
+                            .fontSize(18)
+                            .fontColor('#333333')
+                            .maxLines(2)
+                            .width(240)
+                            .margin({ bottom: 4 })
+                          Image($r('app.media.ic_vip')).width(16).aspectRatio(1)
+                          Row() {
+                            Image(item.authorAvatar).width(16).aspectRatio(1).borderRadius(32)
+                            Text(item.author)
+                          }
+                        }
+                        .width('100%')
+                        .alignItems(HorizontalAlign.Start)
+                      }
+
+                      Row() {
+                        Text(item.subtitle)
+                          .fontSize(16)
+                          .fontColor('#666666')
+                          .margin({ right: 8 })
+                          .maxLines(2)
+                          .textOverflow({ overflow: TextOverflow.Ellipsis })
+                          .textAlign(TextAlign.Start)
+                      }
+                      .width('100%')
+                      .backgroundColor('#ccc')
+                    }.alignItems(HorizontalAlign.Start)
+                  }
+                })
+              }
+              .width('100%')
+              .listDirection(Axis.Horizontal)
+              .scrollBar(BarState.Off)
+            }
+            .margin({ bottom: 16 })
+            .width('100%')
+          }.width('100%')
+
+          //最近新上
+          Column() {
+            Row() {
+              Text('最近新上')
+                .fontSize(18)
+                .fontColor('#333333')
+            }
+            .width('100%')
+            .margin({ bottom: 16 })
+            .justifyContent(FlexAlign.SpaceBetween)
+
+            List({space:10}) {
+              ForEach(this.recentlyNew, (item: RecentlyNew) => {
+                ListItem() {
+                  Column({space:5}) {
+                    Row() {
+                      Image($r('app.media.swiper1'))
+                        .width(80)
+                        .height(80)
+                        .margin({ right: 16 })
+                      Column({space:5}) {
+                        Text(item.title)
+                          .fontSize(18)
+                          .fontColor('#333333')
+                        Row(){
+                          Image($r('app.media.ic_vip')).width(16).aspectRatio(1)
+                          Row(){
+                            Image(item.authorAvatar).width(12).aspectRatio(1)
+                            Text(item.listenCount.toString()).fontSize(12)
+                          }
+                        }.justifyContent(FlexAlign.SpaceBetween)
+                      }
+                      Image($r('app.media.ic_play')).width(24).aspectRatio(1)
+                    }.justifyContent(FlexAlign.SpaceBetween)
+                    .width('100%')
+                    Column(){
+                      Row(){
+                        Text(item.author+':'+item.signature)
+                          .fontSize(16)
+                          .fontColor('#666666')
+                          .maxLines(1)
+                          .textOverflow({ overflow: TextOverflow.Ellipsis })
+                          .textAlign(TextAlign.Start)
+                      }
+                    }
+                  }
+                }
+                .backgroundColor('#ff7fbcaf')
+              })
+            }
+          }
         }
+        .padding({ left: 16, right: 16, bottom: 100 })
       }
-      .padding({ left: 16, right: 16, bottom: 100 })
+      .scrollBar(BarState.Off)
+      .layoutWeight(1)
+
+      //播放栏
+      Column() {
+        Row({space:10}) {
+          Image($r('app.media.swiper1'))
+          .width(60).aspectRatio(1).borderRadius(10)
+          .margin({ right: 16 })
+          Column() {
+            Text('最近上新')
+              .fontSize(18)
+              .fontColor('#333333')
+            Text('00:00/60:00')
+          }.layoutWeight(1).alignItems(HorizontalAlign.Start)
+          Image($r('app.media.ic_play')).width(30).aspectRatio(1)
+          Image($r('app.media.ic_pod')).width(24).aspectRatio(1)
+        }.width('100%')
+        .margin({right: 16,left: 16})
+      }
+
     }
     .width('100%')
     .height('100%')
     // .backgroundColor('#ff52acd0')
   }
-}
-
-interface Banner{
-  id:string,
-  imgUrl:ResourceStr,
-  hrfUrl:ResourceStr,
-  type:string
-
-}
-interface  quickCategory{
-  icon: ResourceStr;
-  name: string;
-}
-
-interface podcastExpress{
-  tag: string;
-  title: string;
-  subtitle: string;
-}
-class podcast{
-  title: string='';
-  category: string='';
-}
-
-interface popularPodcast{
-  rank: number;
-  title: string;
-  category: string;
 }

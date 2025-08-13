@@ -185,6 +185,11 @@ export struct CartView {
             .height(36)
             .backgroundColor($r('[basic].color.red'))
             .onClick(() => {
+              //跳转订单结算页面
+              HMRouterMgr.push({
+                pageUrl:PAGE_PATH.CHECK_PAGE,
+
+              })
 
             })
         }

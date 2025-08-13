@@ -12,4 +12,10 @@ export class PAGE_PATH {
   static readonly HOME: string = "HomeView" // 商品详情页面
   //CART_PAGE
   static readonly CART: string = "CartView"
+  static readonly CHECK_PAGE: string = "CheckPageView" // 核对订单页面
+  static readonly PAY_PAGE: string = "PayView" // 支付页面
+  static readonly PAY_RESULT_PAGE: string = "PayResultView" // 支付页面
+  //我的订单
+  static readonly ORDER_PAGE: string = "OrderView"
+
 }

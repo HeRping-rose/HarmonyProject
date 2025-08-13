@@ -132,13 +132,22 @@ export struct MyView {
                 .lineHeight(22)
                 .fontWeight(500)
                 .fontColor($r('[basic].color.black'))
+                .onClick(() => {
+
+                })
+
               GridRow({ columns: 5 }) {
                 GridCol() {
                   HDMNavCol({ icon: $r('app.media.ic_user_order'), text: '全部订单' })
-                    .onClick(() => {
-                      // TODO 订单页，无参数
-                    })
+
                 }
+                .onClick(() => {
+                  // TODO 订单页，无参数
+                  //查看订单
+                  HMRouterMgr.push({
+                    pageUrl: PAGE_PATH.ORDER_PAGE
+                  })
+                })
 
                 GridCol() {
                   HDMNavCol({ icon: $r('app.media.ic_user_obligation'), text: '待付款' })

@@ -3,7 +3,8 @@
   "description": "Please describe the basic information.",
   "dependencies": {
     "@hadss/hmrouter": "^1.2.0-beta.1",
-    "@hadss/hmrouter-transitions": "^1.2.0-beta.1"
+    "@hadss/hmrouter-transitions": "^1.2.0-beta.1",
+    "@pura/harmony-dialog": "^1.1.7"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.21",
