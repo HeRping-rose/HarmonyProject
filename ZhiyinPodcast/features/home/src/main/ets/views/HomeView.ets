@@ -2,23 +2,18 @@
 export struct HomeView {
   @Local currentBannerIndex: number = 0
   @Local searchText: string = ''
+  // safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!//安全区
 
 
   // 轮播横幅数据
-   bannerData:banner[] = [
-    {
-      title: '10000热度 限定来袭',
-      subtitle: '电台/播客 有礼征集计划',
-      buttonText: '立即查看'
-    }
-  ]
+   banner:Banner[] = []
 
   // 快速分类数据
    quickCategories: quickCategory[] = [
-    { name: '我的播单', icon: '🔍' },
-    { name: '排行榜', icon: '📊' },
-    { name: '播客广场', icon: '🎤' },
-    { name: '全部分类', icon: '📁' }
+    { name: '我的播单', icon: $r('app.media.ic_pod') },
+    { name: '排行榜', icon: $r('app.media.ic_chart') },
+    { name: '播客广场', icon: $r('app.media.ic_square') },
+    { name: '全部分类', icon: $r('app.media.ic_category') }
   ]
 
   // 播客速递数据
@@ -56,6 +51,12 @@ export struct HomeView {
 
   async mockData() {
     // 模拟数据加载
+    this.banner=new Array(6).fill({
+        id:'42',
+        imgUrl:$r('app.media.swiper1'),
+        hrfUrl:'/category/1181622006',
+        type:'1'
+      })
   }
 
   aboutToAppear(): void {
@@ -63,7 +64,7 @@ export struct HomeView {
   }
 
   build() {
-    Column() {
+    Column({space:10}) {
       // 头部区域
       Row() {
         Text('智音播客')
@@ -72,8 +73,9 @@ export struct HomeView {
         Row({space:8}) {
           // 搜索框
           Row() {
-            Text('🔍')
-              .fontSize(16)
+            Image($r('app.media.ic_search'))
+              .width(20)
+              .height(20)
             TextInput({ placeholder: '请输入...' })
               .width(150)
               .height(36)
@@ -86,11 +88,11 @@ export struct HomeView {
           .padding({ left: 12, right: 12 })
 
           // 麦克风和菜单图标
-          Text('🎤')
-            .fontSize(24)
+          Image($r('app.media.ic_voice'))
+            .width(20).aspectRatio(1)
             .margin({ left: 12 })
-          Text('☰')
-            .fontSize(24)
+          Image($r('app.media.ic_menu'))
+            .width(20).aspectRatio(1)
             .margin({ left: 8 })
         }
       }
@@ -99,51 +101,25 @@ export struct HomeView {
 
       // 主要内容区域
       Column() {
-        // 轮播横幅
-        Column() {
-          Text(this.bannerData[0].title)
-            .fontSize(24)
-            .fontColor(Color.White)
-            .margin({ bottom: 8 })
-          
-          Text(this.bannerData[0].subtitle)
-            .fontSize(16)
-            .fontColor(Color.White)
-            .margin({ bottom: 16 })
-          
-          Button(this.bannerData[0].buttonText)
-            .backgroundColor('#9B59B6')
-            .borderRadius(20)
-            .fontColor(Color.White)
-            .width(120)
-            .height(40)
-        }
-        .width('100%')
-        .height(160)
-        .backgroundColor('#4A90E2')
-        .borderRadius(16)
-        .padding(20)
-        .margin({ bottom: 16 })
-
-        // 轮播指示器
-        Row() {
-          ForEach([0, 1, 2], (index:number) => {
-            Circle()
-              .width(8)
-              .height(8)
-              .fill(index === this.currentBannerIndex ? Color.White : Color.Gray)
-              .margin({ right: 4 })
+        // 轮播图
+        Swiper() {
+          ForEach(this.banner, (item: Banner, index: number) => {
+            Image(item.imgUrl)
           })
+
         }
-        .margin({ bottom: 24 })
+        .width('100%').height(200)
+        .margin({bottom: 16})
+        // .padding({ top: this.safeArea.topHeight })
+
+
 
         // 快速分类
         Row() {
           ForEach(this.quickCategories, (category: quickCategory) => {
             Column() {
               Image(category.icon)
-                .width(60)
-                .height(60)
+                .width(30).aspectRatio(1)
                 .fillColor('#87CEEB')
               // {
               //   Text(category.icon)
@@ -168,49 +144,33 @@ export struct HomeView {
             Text('播客速递')
               .fontSize(18)
               .fontColor('#333333')
-            
-            Text('→')
-              .fontSize(16)
-              .fontColor('#666666')
+
+            Image($r('app.media.ic_right')).width(16).aspectRatio(1)
           }
           .width('100%')
-          .margin({ bottom: 16 })
-
-          Row() {
-            ForEach(this.podcastExpress, (podcast: podcastExpress) => {
-              Column() {
-                // 使用占位符图片
-                // Rectangle()
-                //   .width(120)
-                //   .height(120)
-                //   .fill('#E5E5E5')
-                //   .borderRadius(8)
-                
-                Text(podcast.tag)
-                  .fontSize(10)
-                  .fontColor(Color.White)
-                  .backgroundColor('#FF4757')
-                  .padding({ left: 6, right: 6, top: 2, bottom: 2 })
-                  .borderRadius(4)
-                  .margin({ top: -120, left: 8 })
-                
-                Text(podcast.title)
-                  .fontSize(14)
-                  .fontColor('#333333')
-                  .maxLines(2)
-                  .width(120)
-                  .margin({ top: 8, bottom: 4 })
-                
-                Text(podcast.subtitle)
-                  .fontSize(12)
-                  .fontColor('#666666')
-                  .width(120)
-              }
-              .margin({ right: 16 })
-            })
-          }
+          .margin({bottom:16})
+          .justifyContent(FlexAlign.SpaceBetween)
         }
-        .margin({ bottom: 24 })
+
+        Column(){
+          List({space:10}){
+            ForEach(this.podcastExpress, (podcast: podcastExpress) => {
+              ListItem() {
+                Column() {
+                  Text(podcast.tag)
+                }
+              }
+              .width(120)
+              .height('100%')
+              .backgroundColor('#ccc')
+            })
+          }.align(Alignment.Center)
+          .listDirection(Axis.Horizontal)
+          .scrollBar(BarState.Off)
+        }.height(120)
+        .margin({bottom:16})
+
+
 
         // 热门播客
         Column() {
@@ -219,17 +179,16 @@ export struct HomeView {
               .fontSize(18)
               .fontColor('#333333')
             
-            Text('→')
-              .fontSize(16)
-              .fontColor('#666666')
+            Image($r('app.media.ic_right')).width(16).aspectRatio(1)
           }
           .width('100%')
-          .margin({ bottom: 16 })
+          .margin({bottom:16})
+          .justifyContent(FlexAlign.SpaceBetween)
 
           ForEach(this.popularPodcasts, (podcast: popularPodcast) => {
             Row() {
               // 排名徽章
-              Image(podcast.rank.toString())
+              Image($r('app.media.ic_no1'))
                 .width(32)
                 .height(32)
                 .fillColor(podcast.rank === 1 ? '#FFD700' : '#C0C0C0')
@@ -253,14 +212,10 @@ export struct HomeView {
                   .fontSize(14)
                   .fontColor('#666666')
               }
+              .alignItems(HorizontalAlign.Start)
               .layoutWeight(1)
 
-              // // 缩略图
-              // Rectangle()
-              //   .width(60)
-              //   .height(60)
-              //   .fill('#E5E5E5')
-              //   .borderRadius(8)
+              Image($r('app.media.swiper1')).width(30).aspectRatio(1)
             }
             .width('100%')
             .padding({ top: 12, bottom: 12 })
@@ -271,14 +226,16 @@ export struct HomeView {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#FFFFFF')
+    // .backgroundColor('#ff52acd0')
   }
 }
 
-interface banner{
-  title: string;
-  subtitle: string;
-  buttonText: string;
+interface Banner{
+  id:string,
+  imgUrl:ResourceStr,
+  hrfUrl:ResourceStr,
+  type:string
+
 }
 interface  quickCategory{
   icon: ResourceStr;
