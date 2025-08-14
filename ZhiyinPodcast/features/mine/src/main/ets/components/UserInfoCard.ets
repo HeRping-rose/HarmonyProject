@@ -44,7 +44,7 @@ export struct UserInfoCard {
         this.infoItem('59', '关注', () => this.onStatClick('follow'))
         this.infoItem('526', '粉丝', () => this.onStatClick('fans'))
         this.infoItem('1278', '获赞', () => this.onStatClick('likes'))
-        this.infoItem('17', '订单', () => this.onStatClick('orders'))
+        this.infoItem('17', '订阅', () => this.onStatClick('orders'))
       }
     }
     .padding(16)
