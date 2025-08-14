@@ -1,0 +1,7 @@
+meikoumall.p12
+密码:meikou1234
+alias别名:meikou_app
+Client ID:平台分配给当前应用的唯一身份标识
+6917581325078079504  
+Client Secret: 对应的密码
+93feccd432d113994b04c7b1d5a562ba7d9d9109aea23241b7ace3ef20a78dbb

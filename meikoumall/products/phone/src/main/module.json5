@@ -40,6 +40,12 @@
         ]
       }
     ],
+    "metadata": [
+      {
+        "name": "client_id",
+        "value": "6917581325078079504"
+      }
+    ],
     "extensionAbilities": [
       {
         "name": "EntryBackupAbility",

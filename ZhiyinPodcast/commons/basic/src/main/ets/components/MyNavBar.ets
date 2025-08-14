@@ -28,10 +28,17 @@ export struct MyNavBar {
   }
   @BuilderParam
   customTitle: () => void = this.defaultBuilder
+  @BuilderParam
+  customRight: () => void = this.defaultRightBuilder // 添加自定义右侧构建器
 
   @Builder
   defaultBuilder() {
   }
+
+  @Builder
+  defaultRightBuilder() { // 默认右侧构建器
+  }
+
 
   build() {
     RelativeContainer() {
@@ -50,6 +57,20 @@ export struct MyNavBar {
             this.onLeftClick()
           })
       }
+      if(this.customRight && this.customRight !== this.defaultRightBuilder){
+        Row(){
+          this.customRight()
+        }.alignRules({
+          center: {
+            anchor: "__container__",
+            align: VerticalAlign.Center
+          },
+          right: {
+            anchor: "__container__",
+            align: HorizontalAlign.End
+          }
+        })
+      }else
       if (this.showRightIcon) {
         Image(this.rightIcon)
           .width(30)
@@ -69,6 +90,7 @@ export struct MyNavBar {
             this.onRightClick()
           })
       }
+
       if (this.title) {
         Text(this.title)
           .fontColor(this.color)
@@ -87,6 +109,7 @@ export struct MyNavBar {
       if (this.customTitle) {
         this.customTitle() // 传入的UI结构
       }
+
     }
     .padding({
       top: this.appSafe.topHeight,

@@ -361,8 +361,9 @@ export struct HomeView {
       PlayStatus()
 
     }
+    .padding({ left: 16, right: 16 })
     .width('100%')
     .height('100%')
-    // .backgroundColor('#ff52acd0')
+    .backgroundColor('#F5F5F5')
   }
 }

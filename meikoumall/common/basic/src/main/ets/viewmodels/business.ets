@@ -211,3 +211,11 @@ export interface Property {
   propertyMainName: string;
   propertyValueName: string;
 }
+
+
+export class getContext2{
+  context:Context
+  constructor(ctx:Context){
+    this.context=ctx
+  }
+}

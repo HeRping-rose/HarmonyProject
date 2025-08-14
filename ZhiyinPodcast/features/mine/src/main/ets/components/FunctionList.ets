@@ -1,10 +1,10 @@
 @ComponentV2
 export struct FunctionList {
   private menuItems: MenuItem[] = [
-    { title: '定时关闭', icon: 'icon_interest.png' },
-    { title: '驾驶模式', icon: 'icon_drive.png' },
-    { title: '活动中心', icon: 'icon_event.png' },
-    { title: '帮助与反馈', icon: 'icon_help.png' }
+    { title: '定时关闭', icon: 'ic_watch.svg' },
+    { title: '驾驶模式', icon: 'ic_drive.svg' },
+    { title: '活动中心', icon: 'ic_activity.svg' },
+    { title: '帮助与反馈', icon: 'ic_feedback.svg' }
   ]
 
   private onItemClick: (itemName: string) => void = (name: string) => {

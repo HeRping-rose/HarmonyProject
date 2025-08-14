@@ -1,7 +1,7 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window ,UIContext, AppStorageV2} from '@kit.ArkUI';
-import { AppBreakPoint, BreakPointEnum, Log, screenManager } from 'basic';
+import { AppBreakPoint, BreakPointEnum, getContext2, Log, screenManager } from 'basic';
 import { HMRouterUtils } from '@hadss/hmrouter/src/main/ets/utils/HMRouterUtils';
 import { HMRouterMgr } from '@hadss/hmrouter';
 
@@ -13,6 +13,7 @@ export default class EntryAbility extends UIAbility {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
 
 
+    let appCtx=AppStorageV2.connect(getContext2,()=> new getContext2(this.context))
     //初始化 HmRouter  NavPathStack路由栈对象 提供历史页面管理 pushPathStack()
     // Mgr Manager管理器 管理路由栈对象 管理路由跳转 传参  对NavPathStack进行封装的
     HMRouterMgr.init({

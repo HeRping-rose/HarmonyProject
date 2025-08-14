@@ -38,3 +38,9 @@ export interface GetOrderResult {
   page: number
   items: OrderItem[]
 }
+
+export interface HuaweiLoginParams{
+  clientId:string  //客户端id
+  clientSecret:string  //客户端密钥
+  code:string  //华为授权码
+}

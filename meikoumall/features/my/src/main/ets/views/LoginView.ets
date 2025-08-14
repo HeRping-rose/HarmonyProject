@@ -1,10 +1,12 @@
 
-import { AppSafeArea, auth, authCart, AuthCart, HDMNavBar, Log, PAGE_PATH } from 'basic'
+import { AppSafeArea, auth, authCart, AuthCart, HDMNavBar, huaweiAuthManager, Log,
+  loginResult,
+  PAGE_PATH, User } from 'basic'
 import { AppStorageV2, promptAction } from '@kit.ArkUI'
 
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
-import { LoginFormModel } from '../viewmodels'
-import { loginAPI } from '../api'
+import { HuaweiLoginParams, LoginFormModel } from '../viewmodels'
+import { getHuaweiLoginAPI, loginAPI } from '../api'
 
 @Preview
 @HMRouter({ pageUrl: PAGE_PATH.LOGIN_PAGE })
@@ -146,6 +148,19 @@ export struct LoginView {
 
           Row() {
             // 后续放置华为登录
+            Image($r('app.media.ic_user_huawei'))
+              .width(60)
+              .onClick(async ()=>{
+                let code=(await huaweiAuthManager.launchAuth())!
+                let res=await getHuaweiLoginAPI({
+                  clientId:'6917581325078079504',
+                  clientSecret:'93feccd432d113994b04c7b1d5a562ba7d9d9109aea23241b7ace3ef20a78dbb',
+                  code:code
+                } as HuaweiLoginParams)
+
+                // 得到新用户  作为当前用户登录  将信息写入到auth中
+                auth.setUser(res as loginResult)
+              })
           }
         }
         .margin({ top: 200 })
