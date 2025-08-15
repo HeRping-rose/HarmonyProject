@@ -32,3 +32,4 @@ export class  AppUser{
 }
 export * from './break_point'
 export * from './common'
+export * from './music'

@@ -1,0 +1,16 @@
+num=1
+print(type(num))
+Float=3.15
+print(type(Float))
+List=[4,5,6]
+print(type(List))
+print(List)
+Tuple=(2,4,5)
+print(Tuple)
+print(type(Tuple))
+Set={6,8,9,10}
+print(Set)
+print(type(Set))
+Dict={'name':'Tom','age':30,'weihgt':150}
+print(Dict)
+print(type(Dict))

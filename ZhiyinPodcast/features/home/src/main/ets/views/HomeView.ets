@@ -1,4 +1,5 @@
-import { PlayStatus } from "basic"
+import { HMRouterMgr } from "@hadss/hmrouter"
+import { PAGE_PATH, PlayStatus } from "basic"
 import { Banner, EditorChoice, podcastExpress, popularPodcast, quickCategory, RecentlyNew } from "../viewmodels/home"
 
 @ComponentV2
@@ -359,6 +360,11 @@ export struct HomeView {
 
       //播放栏
       PlayStatus()
+        .onClick(() => {
+          HMRouterMgr.push({
+            pageUrl:PAGE_PATH.PLAY_PAGE
+          })
+        })
 
     }
     .padding({ left: 16, right: 16 })

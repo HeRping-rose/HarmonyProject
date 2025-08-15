@@ -1,5 +1,6 @@
 {
   "devDependencies": {
-    "@hadss/hmrouter-plugin": "^1.2.0-beta.3"
+    "@hadss/hmrouter": "^1.2.0-beta.1",
+    "@hadss/hmrouter-transitions": "^1.2.0-beta.1"
   }
 }

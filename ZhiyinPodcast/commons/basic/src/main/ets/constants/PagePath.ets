@@ -9,4 +9,7 @@ export class PAGE_PATH {
   static readonly AI_CUSTOMER_PAGE: string = "AICustomerView" // 搜索结构页面
   static readonly SETTING_PAGE: string = "SettingView" // 设置页面
   static readonly GOODS_PAGE: string = "GoodsView" // 商品详情页面
+  //Play
+  static readonly PLAY_PAGE: string = "PlayView"
+
 }
