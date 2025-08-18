@@ -1,10 +1,11 @@
 
 import { AppStorageV2, KeyboardAvoidMode } from "@kit.ArkUI"
 import util from "@ohos.util"
-import { auth, getContext2, MyNavBar, User } from "basic"
+import { auth, getContext2, MyNavBar, PAGE_PATH, User } from "basic"
 import { DeepSeekMsgItem } from "../components/DeepSeekMsgItem"
 import { LLMData, MessageItem } from "../viewmodels"
 import { rcpClient } from "../utils/rcpClient"
+import { HMRouterMgr } from "@hadss/hmrouter"
 
 @ComponentV2
 export  struct IntelligenceView {
@@ -34,7 +35,7 @@ export  struct IntelligenceView {
   @Local sysId: string = ''
   @Local printing: boolean = false  //现在大模型是不是在打印中
   // 提示词
-  startPrompt:string=` `
+  startPrompt:string=`hi `
 
 
 
@@ -106,6 +107,12 @@ export  struct IntelligenceView {
       Column() {
         //头部
         MyNavBar({ title: 'AI面试官', showRightIcon: true})
+        Button('aiView')
+          .onClick(()=>{
+            HMRouterMgr.push({
+              pageUrl:PAGE_PATH.AI_CREATION_PAGE
+            })
+          })
         // Text(this.temp) //测试
 
         //对话 列表

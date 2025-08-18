@@ -11,5 +11,7 @@ export class PAGE_PATH {
   static readonly GOODS_PAGE: string = "GoodsView" // 商品详情页面
   //Play
   static readonly PLAY_PAGE: string = "PlayView"
+  //AiPage
+  static readonly AI_CREATION_PAGE: string = "AICreationView"
 
 }
