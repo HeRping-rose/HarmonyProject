@@ -1,6 +1,6 @@
-import { Context } from "@kit.AbilityKit"
+import { application, Context } from "@kit.AbilityKit"
 import { AppStorageV2, display, window, UIContext } from "@kit.ArkUI"
-import { AppBreakPoint, AppSafeArea, BreakPointEnum } from "../viewmodels"
+import { AppBreakPoint, AppSafeArea, BreakPointEnum, getContext2 } from "../viewmodels"
 import { deviceInfo } from "@kit.BasicServicesKit"
 
 export class ScreenManager {
@@ -43,8 +43,8 @@ export class ScreenManager {
     const win = await this.getWin()
     win.setWindowLayoutFullScreen(true)
     this.setAreaHeight(deviceInfo.deviceType === "2in1" ? 0 :
-    px2vp(win.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM).topRect.height),
-      px2vp(deviceInfo.deviceType === "2in1" ? 0 :
+    new UIContext().px2vp(win.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM).topRect.height),
+      new UIContext().px2vp(deviceInfo.deviceType === "2in1" ? 0 :
       win.getWindowAvoidArea(window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR).bottomRect.height))
     // 顶部安全区高度
     // 底部安全区高度
@@ -74,9 +74,17 @@ export class ScreenManager {
     })
   }
 
+  getContext():Context{
+    return AppStorageV2.connect(getContext2)!.context
+  }
+
 
   getWin() {
-    return window.getLastWindow(this.ctx || getContext())
+    // 新方式
+
+    // const context = application.getContext(); // 全局应用上下文
+    // const context = ApplicationContextHolder.getCurrentContext(); // 根据框架API
+    return window.getLastWindow(this.ctx || this.getContext())
   }
 }
 

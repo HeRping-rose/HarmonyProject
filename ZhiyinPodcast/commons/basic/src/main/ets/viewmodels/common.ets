@@ -46,3 +46,10 @@ export class  AppUser{
   @Type(User)
   @Trace user:User=new User()
 }
+
+export class getContext2{
+  context:Context
+  constructor(ctx:Context){
+    this.context=ctx
+  }
+}

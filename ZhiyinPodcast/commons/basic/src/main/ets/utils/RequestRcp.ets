@@ -91,7 +91,7 @@ export class RequestRcp {
       // promptAction.openToast({ message: result.msg })
       // throw new Error(result.msg)
     }
-    promptAction.openToast({ message: result.msg })
+    promptAction.showToast({ message: result.msg })
     return Promise.reject(new Error(result.msg))
   }
 

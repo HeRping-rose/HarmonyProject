@@ -4,12 +4,16 @@ import backgroundTaskManager from '@ohos.resourceschedule.backgroundTaskManager'
 
 import { AppStorageV2 } from '@kit.ArkUI';
 import { playerManager } from './AvPlayerManager';
-import { GlobalMusic, SongItemType } from '../viewmodels';
+import { getContext2, GlobalMusic, SongItemType } from '../viewmodels';
 
 // import backgroundTaskManager from '@ohos.resourceschedule.backgroundTaskManager'
 
 // 创建后台管理器
 class AvSessionManager{
+
+  getContext():Context{
+    return AppStorageV2.connect(getContext2)!.context
+  }
   // private context: Context | undefined = this.getUIContext().getHostContext();
   session:avSession.AVSession|null =null
 
@@ -42,7 +46,7 @@ class AvSessionManager{
     const want=await wantAgent.getWantAgent(wantAgentInfo)
     // const list=backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK
     let list: Array<string> = ["audioPlayback"];
-    await backgroundTaskManager.startBackgroundRunning(getContext(), backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK, want)
+    await backgroundTaskManager.startBackgroundRunning(this.getContext(), backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK, want)
 
   }
 

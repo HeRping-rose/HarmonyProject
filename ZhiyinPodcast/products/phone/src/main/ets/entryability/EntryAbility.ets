@@ -1,18 +1,19 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { window } from '@kit.ArkUI';
+import { AppStorageV2, window } from '@kit.ArkUI';
 import { screenManager } from 'mine';
 import { HMRouterMgr } from '@hadss/hmrouter';
+import { getContext2 } from 'basic';
 
 const DOMAIN = 0x0000;
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
+    let appCtx=AppStorageV2.connect(getContext2,()=> new getContext2(this.context))
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
     HMRouterMgr.init({
       context:this.context,//在这里初始化 是为了 在封装的类中 获取上下文对象
-
     })
   }
 
