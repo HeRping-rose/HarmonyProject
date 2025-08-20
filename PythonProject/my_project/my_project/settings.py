@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework', #restful请求
     # 添加应用到项目中 
     "shop",
+    "order",  # 注册订单应用
     "news"
 ]
 
@@ -166,3 +167,13 @@ CORS_ALLOW_HEADERS = (  # 允许的请求头
     'x-csrftoken',
     'x-requested-with',
 )
+
+# DRF 全局配置（分页核心配置） Django REST framework
+REST_FRAMEWORK = {
+    # 默认分页类（全局生效，若视图单独指定则覆盖全局）
+    # 通过这个类 会返回一个分页查询的 对象 这个对象是提供了分页功能的 并返回了前端所需要的信息
+    #当前页  哪一页  一共有多少页 一共有多少条 上一页 哪一页
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 全局默认每页显示数量
+    'PAGE_SIZE': 5,
+}

@@ -61,8 +61,9 @@ export class RequestRcp<T> {
     // return RequestRcp.toRightData<T>(instance.delete(url + RequestRcp.objectToQuery(params)),data)
   }
 
-  static put<T>(url: string, data?: object): Promise<T> {
-    return RequestRcp.toRightData<T>(instance.put(url, data))
+  static put<T>(url: string,params?: object, data?: object): Promise<T> {
+    // return RequestRcp.toRightData<T>(instance.put(url, data))
+    return RequestRcp.toRightData<T>(instance.put(url + RequestRcp.objectToQuery(params),data))
   }
 
   static patch<T>(url: string, data?: object) {

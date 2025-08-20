@@ -591,8 +591,11 @@ python manage.py startapp user
 
 ​	2.安装所需依赖：
 
+djangorestframework    pillow
+
 ```bash
-pip install djangorestframework djangorestframework-simplejwt pillow
+pip install  djangorestframework-simplejwt 
+
 ```
 
 
@@ -867,7 +870,13 @@ class ShopView(APIView):
         })
 ```
 
+**是否通过用户认证**
+
+from rest_framework.permissions import IsAuthenticated #是否通过用户认证
+
 authentication_classes = [JWTAuthentication]指定接口的认证方式，验证 JWT 令牌
+
+
 
 **作用**：
 为当前接口指定 “认证类”，这里指定的 `JWTAuthentication` 是专门用于验证 JWT令牌的认证类。

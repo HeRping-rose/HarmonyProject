@@ -29,6 +29,8 @@ urlpatterns = [
     # It allows access to the news application's views, such as news_list
     path("news/",include('news.urls')),
     path('shop/', include('shop.urls')),
+    # 注册订单应用路由（访问前缀为空，直接通过/orders/访问）
+    path('order/', include('order.urls')),
 ]
 
 # 第二步 图片资源需要手动配置路由才能通过 URL 访问上传的图片（生产环境通常由 Nginx 等服务器处理）：
