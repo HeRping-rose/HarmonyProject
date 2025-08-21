@@ -13,5 +13,7 @@ export class PAGE_PATH {
   static readonly PLAY_PAGE: string = "PlayView"
   //AiPage
   static readonly AI_CREATION_PAGE: string = "AICreationView"
+  //注册
+  static readonly REGISTER_PAGE: string = "RegisterView"
 
 }

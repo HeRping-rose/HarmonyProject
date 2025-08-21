@@ -151,17 +151,17 @@ export struct AICreationView {
 
 // 功能数据
 const functions: functionItem[] = [
-  { title: "内容生成", icon: "resources/base/media/ic_content.png" },
-  { title: "多语言支持", icon: "resources/base/media/ic_language.png" },
-  { title: "专题报道", icon: "resources/base/media/ic_topic.png" },
-  { title: "脚本生成", icon: "resources/base/media/ic_script.png" },
-  { title: "剪辑优化", icon: "resources/base/media/ic_edit.png" },
-  { title: "更多支持", icon: "resources/base/media/ic_more.png" }
+  { title: "内容生成", icon: $r('app.media.ic_content') },
+  { title: "多语言支持", icon: $r('app.media.ic_language') },
+  { title: "专题报道", icon: $r('app.media.ic_topic')},
+  { title: "脚本生成", icon: $r('app.media.ic_script') },
+  { title: "剪辑优化", icon: $r('app.media.ic_edit') },
+  { title: "更多支持", icon: $r('app.media.ic_more') }
 ];
 
 interface functionItem {
   title: string;
-  icon: string;
+  icon: ResourceStr;
 }
 
 // 热门话题数据

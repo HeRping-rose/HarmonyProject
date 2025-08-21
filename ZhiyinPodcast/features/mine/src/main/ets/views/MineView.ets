@@ -1,4 +1,5 @@
-import { MyNavBar, PlayStatus } from "basic"
+import { HMRouterMgr } from "@hadss/hmrouter"
+import { MyNavBar, PAGE_PATH, PlayStatus } from "basic"
 import { ActivityBadgeCard } from "../components/ActivityBadgeCard"
 import { FunctionList } from "../components/FunctionList"
 import { ServiceGrid } from "../components/ServiceGrid"
@@ -29,6 +30,8 @@ function  customRight() {
 
 @ComponentV2
 export struct MineView {
+  @Local isLogin: boolean = false
+
   build() {
     Column() {
       // 顶部navBar
@@ -45,6 +48,18 @@ export struct MineView {
           ActivityBadgeCard()
           FunctionList().width('100%')
 
+          //根据判断是否是登陆状态显示 登录或者登出按钮
+          if (this.isLogin) {
+            Button('登录')
+              .onClick(() => {
+                HMRouterMgr.push({pageUrl:PAGE_PATH.LOGIN_PAGE})
+              })
+          }else {
+            Button('登出')
+            .onClick(()=>{
+              this.isLogin = false
+            })
+          }
         }
       }
       .scrollBar(BarState.Off)
@@ -58,4 +73,9 @@ export struct MineView {
     .padding({right: 16, left: 16})
     .backgroundColor('#F5F5F5')
   }
+
+  logout() {
+    throw new Error("Method not implemented.")
+  }
 }
+

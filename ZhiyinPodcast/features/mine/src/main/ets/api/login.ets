@@ -16,3 +16,8 @@ export interface UserRegResult {
   message: string
   data: UserRegData
 }
+export interface UserRegData {
+  id: number
+  username: string
+  token: string
+}
