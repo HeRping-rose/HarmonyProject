@@ -6,5 +6,39 @@
 方式3：使用mixin扩展一个类，扩展类中定义唱歌的方法
 [mixin] 表示一个没有构造函数的类，这个类的方法可以组合到其他类中实现代码复用
 [mixin] 可以同时对某个类设置多个扩展类，也可以扩展属性
+
+mixin 混入 解决了不能多继承问题  
+// 一个类需要有大量的公共方法需要引入  就可以使用mixin
  */
-void main() {}
+
+
+import './08_Mixin扩展 copy.dart';
+void main() {
+
+  //
+  Teacher teacher = Teacher('小何', 18);
+  teacher.eat();
+
+}
+
+//人的父类
+class Person {
+  String? name;
+  int? age;
+  Person({this.name, this.age});
+  eat() {
+    print('吃饭');
+  }
+}
+
+//老师子类
+class Teacher extends Person with Utils {
+  Teacher(String name, int age ):super();
+  
+  @override
+  eat() {
+    print('老师在吃饭');
+
+    this.sing(); // 调用mixin中的方法
+  }
+}

@@ -57,8 +57,10 @@ export struct MineView {
           }else {
             Button('登出')
             .onClick(()=>{
-              this.isLogin = false
+              this.isLogin = true
+              HMRouterMgr.push({ pageUrl: PAGE_PATH.REGISTER_PAGE })
             })
+
           }
         }
       }

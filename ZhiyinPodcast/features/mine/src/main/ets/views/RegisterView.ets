@@ -1,7 +1,10 @@
 // import { TextInput, Button, Text, Column, Row, Divider, Toggle, Image } from '@kit.ArkTS';
 import { userRegAPI } from '../api/login';
 import { promptAction } from '@kit.ArkUI';
+import { PAGE_PATH } from 'basic';
+import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 
+@HMRouter({ pageUrl: PAGE_PATH.REGISTER_PAGE })
 @ComponentV2
 export  struct RegisterView {
   @Local username: string = '';
@@ -73,6 +76,7 @@ export  struct RegisterView {
   // 跳转到登录页面
   private navigateToLogin() {
     // 这里可以实现页面跳转逻辑
+    HMRouterMgr.push({ pageUrl: PAGE_PATH.LOGIN_PAGE });
     console.log('跳转到登录页面');
   }
 
@@ -94,7 +98,7 @@ export  struct RegisterView {
 
           TextInput({
             placeholder: '请输入用户名',
-            text: this.username
+            text: $$this.username
           })
             .onChange((value: string) => {
               this.username = value;
@@ -137,7 +141,7 @@ export  struct RegisterView {
           Row() {
             TextInput({
               placeholder: '请输入密码',
-              text: this.password,
+              text: $$this.password,
               // secure: !this.showPassword
             })
               .onChange((value: string) => {
@@ -169,7 +173,7 @@ export  struct RegisterView {
           Row() {
             TextInput({
               placeholder: '请再次输入密码',
-              text: this.confirmPassword,
+              text: $$this.confirmPassword,
               // secure: !this.showConfirmPassword
             })
               .onChange((value: string) => {
@@ -231,8 +235,16 @@ export  struct RegisterView {
           .borderRadius(24)
           .backgroundColor(this.isRegisterButtonEnabled() ? '#007DFF' : '#CCCCCC')
           .fontColor('#FFFFFF')
-          .onClick(() => {
-            this.handleRegister();
+          .onClick(async () => {
+            // this.handleRegister();
+            HMRouterMgr.replace({ pageUrl: PAGE_PATH.LOGIN_PAGE })
+            let res = await userRegAPI({
+              username: this.username,
+              password: this.password,
+              confirmPassword: this.confirmPassword
+            })
+
+            promptAction.openToast({ message: JSON.stringify(res) })
           })
 
         // 登录跳转
