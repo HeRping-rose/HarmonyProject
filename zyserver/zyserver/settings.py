@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-zs-zvflnntk*jg)r^1b4&9l_owii%%ya*wf1yz6$kv6tz0#e17
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['192.168.0.67', 'localhost','0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.0.67', 'localhost','0.0.0.0', '127.0.0.1','192.168.10.4cd']
 
 # 配置自定义用户模型（关键！必须在第一次迁移前设置）
 AUTH_USER_MODEL = 'user.User'
@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'zyserver',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
