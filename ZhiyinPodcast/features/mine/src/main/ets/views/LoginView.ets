@@ -7,8 +7,8 @@ import { userLoginAPI } from '../api/login';
 @HMRouter({ pageUrl: PAGE_PATH.LOGIN_PAGE })
 @ComponentV2
 export  struct LoginView {
-  username: string = '';
-  password: string = '';
+  @Local username: string = '';
+  @Local password: string = '';
 
   build() {
     //登录页面结构

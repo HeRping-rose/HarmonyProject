@@ -93,16 +93,16 @@ class LoginView(APIView):
         })
 
 
-class LogoutView(APIView):
-    """退出视图：将令牌加入黑名单"""
-    def post(self, request):
-        refresh_token = request.data.get('refresh')
-        if not refresh_token:
-            return Response({'msg': '缺少refresh令牌'}, status=status.HTTP_400_BAD_REQUEST)
+# class LogoutView(APIView):
+#     """退出视图：将令牌加入黑名单"""
+#     def post(self, request):
+#         refresh_token = request.data.get('refresh')
+#         if not refresh_token:
+#             return Response({'msg': '缺少refresh令牌'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            token = RefreshToken(refresh_token)
-            token.blacklist()  # 加入黑名单
-            return Response({'msg': '退出成功'})
-        except Exception:
-            return Response({'msg': '令牌无效'}, status=status.HTTP_400_BAD_REQUEST)
+#         try:
+#             token = RefreshToken(refresh_token)
+#             token.blacklist()  # 加入黑名单
+#             return Response({'msg': '退出成功'})
+#         except Exception:
+#             return Response({'msg': '令牌无效'}, status=status.HTTP_400_BAD_REQUEST)
