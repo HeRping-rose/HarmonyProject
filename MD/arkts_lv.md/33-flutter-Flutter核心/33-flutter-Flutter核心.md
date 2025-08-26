@@ -501,8 +501,8 @@ Flutter是以组件化的思想构建客户端页面的，类似于 vue 和 reac
 
 Flutter的组件分为两大类：**无状态组件** 和 **有状态组件**
 
-- **StatelessWidget：** 没有状态改变的Widget，通常这种Widget仅仅是做一些展示工作而已；
-- **StatefulWidget：** 需要保存状态，并且可能出现状态改变的Widget；
+- **StatelessWidget：** 没有状态改变的Widget，通常这种Widget仅仅是做一些展示工作而已；这个组件中只负责(只能)渲染和现实内容;eg:新闻页和详情(只读),订单,页面能传参,请求渲染数据
+- **StatefulWidget：** 需要保存状态，并且可能出现状态改变的Widget；渲染后 内容,还需要更新状态,视图需要重新刷新,eg:可改页面 购物车,列表 
 
 #### 3.2.1 无状态组件
 
@@ -713,11 +713,14 @@ class _MyApp2State extends State<MyApp2> {
 
 为了练习方便，设置项目忽略部分错误提示
 
+
+
 ```yaml
 # 代码分析器（analyzer）
 analyzer:
   # 错误分析
   errors:
+    #camel_case_types: ignore
     # 忽略对使用 print 函数的警告
     avoid_print: ignore
     # 忽略文件命名不符合规范的警告
@@ -1317,9 +1320,9 @@ class RowComp extends StatelessWidget {
 
 1. **弹性布局** 
 
-`Expanded` 组件是用于展开`Column`、`Row`和`Flex`的所有子级的组件
+`Expanded` 组件是用于展开(扩展 ,放大)`Column`、`Row`和`Flex`的所有子级的组件
 
-使用`Expanded`可以使`Column`、`Row`和`Flex`的所有子级扩展以填充主轴中的可用空间，从而实现弹性布局
+使用`Expanded`可以使`Column`、`Row`和`Flex`的所有**子级扩展以填充主轴中的可用空间**，从而实现弹性布局
 
 ```dart
 class Expanded extends Flexible {
