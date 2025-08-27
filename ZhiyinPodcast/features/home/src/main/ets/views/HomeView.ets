@@ -1,5 +1,6 @@
 import { HMRouterMgr } from "@hadss/hmrouter"
 import { PAGE_PATH, PlayStatus } from "basic"
+import { HotSearchTag } from "../components/HotSearchSection"
 import { Banner, EditorChoice, podcastExpress, popularPodcast, quickCategory, RecentlyNew } from "../viewmodels/home"
 
 @ComponentV2
@@ -27,17 +28,17 @@ export struct HomeView {
     {
       tag: '热门推荐',
       title: '深度放松,听音乐寻找内心的安宁',
-      subtitle: '温柔一刀'
+      author: '温柔一刀'
     },
     {
       tag: '热门推荐',
       title: '梵高背后的调色盘,探寻艺术大师的创...',
-      subtitle: '暖暖阳光min'
+      author: '暖暖阳光min'
     },
     {
       tag: '热门推荐',
       title: '中国正能量,的中国吹响',
-      subtitle: '听风吟'
+      author: '听风吟'
     }
   ]
 
@@ -46,7 +47,7 @@ export struct HomeView {
     {
       rank: 1,
       title: '189.想了解职场转型、创业起步...',
-      category: '贝望录|商业财经'
+      category: '备忘录|商业财经'
     },
     {
       rank: 2,
@@ -70,24 +71,18 @@ export struct HomeView {
       })
     this.editorChoice=new Array(6).fill({
         imgUrl:$r('app.media.swiper1'),
-        title:'听风吟',
+        title:'如何改变人生',
         authorAvatar:$r('app.media.swiper1'),
-        author:'小橘',
-        subtitle:'听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟'
+        author:'秦时明月',
+        subtitle:'"处世让一步为高,退步即为进步的根本",与自己较劲,结果往往是身心俱疲,得不偿失'
       })
     this.recentlyNew=new Array(6).fill({
-      // imgUrl: ResourceStr;
-      //   title: string;
-      //   authorAvatar: ResourceStr;
-      //   author: ResourceStr;
-      //   listenCount: number;
-      //   signature: string; //描述
       imgUrl:$r('app.media.swiper1'),
-        title:'听风吟',
+        title:'国风古韵',
         authorAvatar:$r('app.media.swiper1'),
-        author:'小橘',
+        author:'小满意',
         listenCount: 1000,
-        signature:'听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟听风吟'
+        signature:'断舍离: 最精辟的人生哲学'
       })
 
   }
@@ -103,31 +98,41 @@ export struct HomeView {
         Text('智音播客')
           .fontSize(24)
           .fontColor('#4A90E2')
-        Row({space:8}) {
+        Row({space:5}) {
           // 搜索框
           Row() {
             Image($r('app.media.ic_search'))
               .width(20)
               .height(20)
-            TextInput({ placeholder: '请输入...' })
-              .width(150)
+            Text('请输入...')
+              .width(120)
               .height(36)
+              .fontColor('#999999')
+              .fontSize(14)
               .backgroundColor('#F5F5F5')
               .borderRadius(18)
               .padding({ left: 12, right: 12 })
           }
-          .backgroundColor('#F5F5F5')
+          // .backgroundColor('#ffdbb6b6')
           .borderRadius(18)
+          // .layoutWeight(1)
           .padding({ left: 12, right: 12 })
+          .onClick(()=>{
+            HMRouterMgr.push({
+              pageUrl: PAGE_PATH.SEARCH_PAGE
+            })
+          })
 
-          // 麦克风和菜单图标
-          Image($r('app.media.ic_voice'))
-            .width(20).aspectRatio(1)
-            .margin({ left: 12 })
-          Image($r('app.media.ic_menu'))
-            .width(20).aspectRatio(1)
-            .margin({ left: 8 })
-        }
+          Row({space:5}){
+            // 麦克风和菜单图标
+            Image($r('app.media.ic_voice'))
+              .width(20).aspectRatio(1)
+              .margin({ left: 12 })
+            Image($r('app.media.ic_menu'))
+              .width(20).aspectRatio(1)
+              .margin({ left: 8 })
+          }
+        }.justifyContent(FlexAlign.SpaceBetween)
       }
       .width('100%')
       .padding({ left: 16, right: 16, bottom: 16 })
@@ -181,18 +186,32 @@ export struct HomeView {
               ForEach(this.podcastExpress, (podcast: podcastExpress) => {
                 ListItem() {
                   Column() {
-                    Text(podcast.tag)
+                    HotSearchTag({ keyword: podcast.tag,bgColor: '#ff5989e7' }).margin({ left: 6, top: 6 }).width('100%')
+                    Column({space:4}){
+                      Image($r('app.media.ic_play')).width(20).aspectRatio(1).fillColor('#ffa0a0f6').alignSelf(ItemAlign.Start)
+                      Text(podcast.title).fontColor(Color.White)
+                        .maxLines(2)
+                        .textOverflow({overflow:TextOverflow.Ellipsis})
+                        .alignSelf(ItemAlign.Start)
+                      Text(podcast.author).fontColor('#999999').fontSize(12).alignSelf(ItemAlign.Start)
+                    }.margin({ left: 6, right: 6, bottom: 6 }).width('100%')
                   }
+                  .justifyContent(FlexAlign.SpaceBetween)
+                  .width('100%')
+                  .height('100%')
                 }
+                .backgroundImage($r('app.media.swiper1'))
                 .width(120)
                 .height('100%')
                 .backgroundColor('#ccc')
+                .borderRadius(8)
               })
             }.align(Alignment.Center)
             .listDirection(Axis.Horizontal)
             .scrollBar(BarState.Off)
-          }.height(120)
+          }.height(180)
           .margin({ bottom: 16 })
+          .alignItems(HorizontalAlign.Start)
 
 
           // 热门播客
@@ -317,23 +336,28 @@ export struct HomeView {
                 ListItem() {
                   Column({space:5}) {
                     Row() {
-                      Image($r('app.media.swiper1'))
-                        .width(80)
-                        .height(80)
-                        .margin({ right: 16 })
-                      Column({space:5}) {
-                        Text(item.title)
-                          .fontSize(18)
-                          .fontColor('#333333')
-                        Row(){
-                          Image($r('app.media.ic_vip')).width(16).aspectRatio(1)
+                      Row({space:10}){
+                        Image($r('app.media.swiper1'))
+                          .width(80)
+                          .height(80)
+                          .borderRadius(8)
+                          .margin(2)
+                        Column({space:5}) {
+                          Text(item.title)
+                            .fontSize(18)
+                            .fontColor('#333333')
                           Row(){
-                            Image(item.authorAvatar).width(12).aspectRatio(1)
-                            Text(item.listenCount.toString()).fontSize(12)
-                          }
-                        }.justifyContent(FlexAlign.SpaceBetween)
+                            Image($r('app.media.ic_vip')).width(16).aspectRatio(1)
+                            Row(){
+                              Image(item.authorAvatar).width(12).aspectRatio(1)
+                              Text(item.listenCount.toString()).fontSize(12)
+                            }
+                          }.justifyContent(FlexAlign.SpaceBetween)
+
+                        }
                       }
-                      Image($r('app.media.ic_play')).width(24).aspectRatio(1)
+
+                      Image($r('app.media.ic_play')).width(24).aspectRatio(1).margin({ right: 16 })
                     }.justifyContent(FlexAlign.SpaceBetween)
                     .width('100%')
                     Column(){
@@ -345,26 +369,23 @@ export struct HomeView {
                           .textOverflow({ overflow: TextOverflow.Ellipsis })
                           .textAlign(TextAlign.Start)
                       }
-                    }
+                    }.width('100%')
                   }
                 }
                 .backgroundColor('#ff7fbcaf')
+                .borderRadius(8)
               })
             }
           }
         }
-        .padding({ left: 16, right: 16, bottom: 100 })
+        .padding({ left: 16, right: 16, bottom: 50 })
       }
       .scrollBar(BarState.Off)
       .layoutWeight(1)
 
       //播放栏
       PlayStatus()
-        .onClick(() => {
-          HMRouterMgr.push({
-            pageUrl:PAGE_PATH.PLAY_PAGE
-          })
-        })
+
 
     }
     .padding({ left: 16, right: 16 })

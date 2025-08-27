@@ -14,7 +14,7 @@ export interface quickCategory {
 export interface podcastExpress {
   tag: string;
   title: string;
-  subtitle: string;
+  author: string;
 }
 
 export class podcast {

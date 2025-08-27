@@ -2,6 +2,7 @@ import { Context } from "@kit.AbilityKit"
 import { AppStorageV2, display, window, UIContext } from "@kit.ArkUI"
 import { AppBreakPoint, AppSafeArea, BreakPointEnum } from "../viewmodels"
 import { deviceInfo } from "@kit.BasicServicesKit"
+import { Log } from "basic"
 
 export class ScreenManager {
   ctx?: Context
@@ -41,6 +42,10 @@ export class ScreenManager {
   // 全屏
   async full() {
     const win = await this.getWin()
+    let names: Array<'status' | 'navigation'> = [];
+    win.setWindowSystemBarEnable(names).then(() => {
+      Log.info('设置状态栏和导航栏的显示')
+    }); // 隐藏状态栏 & 导航栏
     win.setWindowLayoutFullScreen(true)
     this.setAreaHeight(deviceInfo.deviceType === "2in1" ? 0 :
     px2vp(win.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM).topRect.height),
