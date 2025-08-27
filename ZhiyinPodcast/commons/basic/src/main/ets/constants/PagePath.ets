@@ -15,5 +15,7 @@ export class PAGE_PATH {
   static readonly AI_CREATION_PAGE: string = "AICreationView"
   //注册
   static readonly REGISTER_PAGE: string = "RegisterView"
+  //我的播放列表
+  static readonly MY_PLAYLIST_PAGE: string = "MyPlayListView"
 
 }

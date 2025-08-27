@@ -151,7 +151,8 @@ export struct HomeView {
 
           // 快速分类
           Row() {
-            ForEach(this.quickCategories, (category: quickCategory) => {
+            ForEach(this.quickCategories, (category: quickCategory,index: number) => {
+
               Column() {
                 Image(category.icon)
                   .width(30).aspectRatio(1)
@@ -162,6 +163,26 @@ export struct HomeView {
                   .margin({ top: 8 })
               }
               .layoutWeight(1)
+              .onClick(() => {
+                // 在这里处理点击事件，可以使用 category 和 index
+                console.log('点击了分类:', category.name, '索引:', index)
+                // 根据不同的分类执行不同操作
+                switch (index) {
+                  case 0:
+                    // 我的播单
+                    HMRouterMgr.push({pageUrl: PAGE_PATH.MY_PLAYLIST_PAGE})
+                    break;
+                  case 1:
+                    // 排行榜
+                    break;
+                  case 2:
+                    // 播客广场
+                    break;
+                  case 3:
+                    // 全部分类
+                    break;
+                }
+              })
             })
           }
           .width('100%')
