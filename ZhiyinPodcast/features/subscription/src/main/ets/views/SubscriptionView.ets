@@ -1,5 +1,8 @@
-import { auth, DiscoverCard, MyCell, MyNavBar, MyNavCol, PlayStatus, PodcastCard, RecommendCard } from "basic"
+import { auth, DiscoverCard, MyCell, MyNavBar, MyNavCol,
+  PAGE_PATH,
+  PlayStatus, PodcastCard, RecommendCard } from "basic"
 import { audio } from "@kit.AudioKit"
+import { HMRouterMgr } from "@hadss/hmrouter"
 
 interface NavCol{
   icon:ResourceStr,
@@ -100,6 +103,10 @@ export  struct SubscriptionView {
 
           MyCell({
             title: '猜你喜欢', onRightClick: () => {
+              //GUESS_YOU_LIKE_PAGE
+              HMRouterMgr.push({
+                pageUrl:PAGE_PATH.GUESS_YOU_LIKE_PAGE
+              })
             }
           })
 

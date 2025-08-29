@@ -1,17 +1,19 @@
-import { HMRouter } from "@hadss/hmrouter"
+import { HMParamType, HMRouter, HMRouterMgr } from "@hadss/hmrouter"
 import { AppStorageV2 } from "@kit.ArkUI"
-import { PAGE_PATH, playerManager } from "basic"
+import { AppSafeArea, PAGE_PATH, playerManager } from "basic"
 import { GlobalMusic, SongItemType } from "../viewmodels"
 
 // 跳转页面入口函数
-@Builder
-export function PlayBuilder() {
-  PlayView()
-}
+// @Builder
+// export function PlayBuilder() {
+//   PlayView()
+// }
 
 @HMRouter({ pageUrl: PAGE_PATH.PLAY_PAGE })
 @ComponentV2
 export struct PlayView {
+  //安全区
+  safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!
   @Local panelHeight: string = '0%'
   @Local panelOpacity: number = 0
   // pathStack: NavPathStack = new NavPathStack();
@@ -130,9 +132,20 @@ export struct PlayView {
       id: '0015'
     }
   ]
+  // songs: SongItemType = {
+  //   img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/0.jpg',
+  //   name: '直到世界的尽头',
+  //   author: 'WANDS',
+  //   url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/0.m4a',
+  //   id: '0000'
+  // }
   // 当前播放的歌曲
   // @Local playState:SongItemType = this.songs[0]
   @Local playState: GlobalMusic = AppStorageV2.connect(GlobalMusic, 'SONG_KEY', () => new GlobalMusic())!
+  aboutToAppear(): void {
+    //获取参数
+    // this.songs = HMRouterMgr.getCurrentParam() as SongItemType[]
+  }
 
   @Builder
   deleteButton(index: number) {
@@ -407,8 +420,8 @@ export struct PlayView {
           .width('100%')
           .layoutWeight(1)
           .onClick(() => {
-            this.panelHeight = '0%'
-            this.panelOpacity = 0
+            this.panelHeight = '0%' //
+            this.panelOpacity = 0 //
           })
 
           Column() {
@@ -520,7 +533,8 @@ export struct PlayView {
       }
       .width('100%')
       .height('100%')
-      .backgroundColor('#121212')
+      .padding({top:this.safeArea.topHeight, bottom:this.safeArea.bottomHeight})
+      .backgroundColor('#f5f5f5')
       // .backgroundColor(Color.Transparent)
 
     }

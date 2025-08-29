@@ -3,6 +3,8 @@
     "requestPermissions": [
       {"name":"ohos.permission.INTERNET"},
       {"name":"ohos.permission.GET_NETWORK_INFO"},
+      //      申请后台尝试任务的权限
+      {"name": "ohos.permission.KEEP_BACKGROUND_RUNNING"},
     ],
     "name": "phone",
     "type": "entry",
@@ -18,6 +20,7 @@
     "pages": "$profile:main_pages",
     "abilities": [
       {
+        "backgroundModes": ["audioPlayback"],
         "name": "EntryAbility",
         "srcEntry": "./ets/entryability/EntryAbility.ets",
         "description": "$string:EntryAbility_desc",

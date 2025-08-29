@@ -22,6 +22,12 @@ export default class EntryAbility extends UIAbility {
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
+    screenManager.ctx = this.context
+    screenManager.registerWindowSizeChange()
+    screenManager.full()
+    // screenManager.setStateBarColor("white")
+
+
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
@@ -38,11 +44,11 @@ export default class EntryAbility extends UIAbility {
     // Main window is destroyed, release UI related resources
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
     screenManager.ctx = this.context
-    screenManager.registerWindowSizeChange()
-    screenManager.full()
+    screenManager.unRegisterWindowSizeChange()
+    // screenManager.full()
   }
   onWindowStageRestore(windowStage: window.WindowStage): void {
-    screenManager.unRegisterWindowSizeChange()  //卸载监听事件
+    // screenManager.unRegisterWindowSizeChange()  //卸载监听事件
   }
 
   onForeground(): void {

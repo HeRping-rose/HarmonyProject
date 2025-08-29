@@ -1,8 +1,0 @@
-{
-  "/api": {
-    "target": "https://smart-shop.itheima.net",
-    "changeOrigin": true,
-    "secure": false,
-    "pathRewrite": { "^/api": "" }
-  }
-}

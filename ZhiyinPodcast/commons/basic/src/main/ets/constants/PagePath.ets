@@ -17,5 +17,7 @@ export class PAGE_PATH {
   static readonly REGISTER_PAGE: string = "RegisterView"
   //我的播放列表
   static readonly MY_PLAYLIST_PAGE: string = "MyPlayListView"
+  //猜你喜欢
+  static readonly GUESS_YOU_LIKE_PAGE: string = "GuessYouLikeView"
 
 }

@@ -1,14 +1,15 @@
 import { HMRouterMgr } from "@hadss/hmrouter"
-import { PAGE_PATH, PlayStatus } from "basic"
+import { AppSafeArea, PAGE_PATH, PlayStatus } from "basic"
 import { HotSearchTag } from "../components/HotSearchSection"
 import { Banner, EditorChoice, podcastExpress, popularPodcast, quickCategory, RecentlyNew } from "../viewmodels/home"
+import { AppStorageV2 } from "@kit.ArkUI"
 
 @ComponentV2
 export struct HomeView {
 
   @Local currentBannerIndex: number = 0
   @Local searchText: string = ''
-  // safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!//安全区
+  safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!//安全区
 
   // 轮播横幅数据
    banner:Banner[] = []
@@ -410,6 +411,8 @@ export struct HomeView {
 
     }
     .padding({ left: 16, right: 16 })
+
+    .padding({ top: this.safeArea.topHeight})
     .width('100%')
     .height('100%')
     .backgroundColor('#F5F5F5')
