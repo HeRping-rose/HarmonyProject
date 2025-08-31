@@ -5,6 +5,7 @@ import backgroundTaskManager from '@ohos.resourceschedule.backgroundTaskManager'
 import { AppStorageV2 } from '@kit.ArkUI';
 import { playerManager } from './AvPlayerManager';
 import { getContext2, GlobalMusic, SongItemType } from '../viewmodels';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 // import backgroundTaskManager from '@ohos.resourceschedule.backgroundTaskManager'
 
@@ -30,9 +31,10 @@ class AvSessionManager{
      let wantAgentInfo: wantAgent.WantAgentInfo = {
       // 点击通知后，将要执行的动作列表
       // 添加需要被拉起应用的bundleName和abilityName
+       //want 参数:中 换成自己项目的包名
       wants: [
         {
-          bundleName: "com.ron.music",
+          bundleName: "com.ron.com.ron.zhiyinpodcast",
           abilityName: "EntryAbility"
         }
       ],
@@ -68,16 +70,17 @@ class AvSessionManager{
       state:this.playState.isPlay? avSession.PlaybackState.PLAYBACK_STATE_PLAY:avSession.PlaybackState.PLAYBACK_STATE_PAUSE,
       speed:1,
       position:{
-        elapsedTime:this.playState.time, //歌曲播放的时间
-        updateTime:new Date().getTime()// 获取ms系统时间
+        elapsedTime:this.playState.time, //歌曲播放的时间  播放到第几秒
+        updateTime:new Date().getTime()// 获取系统时间 单位毫秒 ms
       },
-      duration:this.playState.duration
+      duration:this.playState.duration //总时长
 
     })
   }
 
 //   注册控制 播控命令事件
   registerEvent(){
+
     this.session?.on('play',()=>{
       playerManager.singPlay(this.playState.playList[this.playState.playIndex])
     })
@@ -91,8 +94,47 @@ class AvSessionManager{
       playerManager.nextPlay()
     })
     this.session?.on('seek',(value:number)=>{
-      playerManager.seekPlay(value
-      )
+      playerManager.seekPlay(value)
+    })
+    //循环播放
+    // 应用启动时/内部切换循环模式，需要把应用内的当前的循环模式设置给AVSession。
+    let playBackState: avSession.AVPlaybackState = {
+      loopMode: avSession.LoopMode.LOOP_MODE_SHUFFLE,
+    };
+    this.session?.setAVPlaybackState(playBackState).then(() => {
+      console.info(`set AVPlaybackState successfully`);
+    }).catch((err: BusinessError) => {
+      console.error(`Failed to set AVPlaybackState. Code: ${err.code}, message: ${err.message}`);
+    });
+
+    this.session?.on('setLoopMode',( loopMode:avSession.LoopMode)=>{
+
+      console.info(`on setLoopMode ${loopMode}`);
+      switch (loopMode){
+        case avSession.LoopMode.LOOP_MODE_SEQUENCE:
+          playerManager.setLoopMode('auto')
+          break;
+        case avSession.LoopMode.LOOP_MODE_SINGLE:
+          playerManager.setLoopMode('random')
+          break;
+        case avSession.LoopMode.LOOP_MODE_SHUFFLE:
+
+          playerManager.setLoopMode('random')
+          break;
+      }
+
+      // 应用收到设置循环模式的指令后，应用自定下一个模式，切换完毕后通过AVPlaybackState上报切换后的LoopMode。
+      let playBackState: avSession.AVPlaybackState = {
+        loopMode: avSession.LoopMode.LOOP_MODE_SHUFFLE,
+      };
+      this.session?.setAVPlaybackState(playBackState).then(() => {
+        console.info(`set AVPlaybackState successfully`);
+      }).catch((err: BusinessError) => {
+        console.error(`Failed to set AVPlaybackState. Code: ${err.code}, message: ${err.message}`);
+      });
+      // playerManager.setLoopMode(mode)
+
+
     })
 
     this.session?.activate() // 激活命令

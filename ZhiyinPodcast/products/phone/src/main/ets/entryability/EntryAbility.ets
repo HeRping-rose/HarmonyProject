@@ -3,7 +3,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { AppStorageV2, window } from '@kit.ArkUI';
 import { screenManager } from 'mine';
 import { HMRouterMgr } from '@hadss/hmrouter';
-import { getContext2 } from 'basic';
+import { getContext2, playerManager, sessionManager } from 'basic';
 
 const DOMAIN = 0x0000;
 
@@ -27,6 +27,12 @@ export default class EntryAbility extends UIAbility {
     screenManager.full()
     // screenManager.setStateBarColor("white")
 
+    // 准备播放器
+    playerManager.init()
+
+    //会话启用  创建会话 后台播放
+    sessionManager.init(this.context)
+
 
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
@@ -46,6 +52,9 @@ export default class EntryAbility extends UIAbility {
     screenManager.ctx = this.context
     screenManager.unRegisterWindowSizeChange()
     // screenManager.full()
+
+    sessionManager.destroy() //销毁会话
+    playerManager.release() //销毁播放器
   }
   onWindowStageRestore(windowStage: window.WindowStage): void {
     // screenManager.unRegisterWindowSizeChange()  //卸载监听事件

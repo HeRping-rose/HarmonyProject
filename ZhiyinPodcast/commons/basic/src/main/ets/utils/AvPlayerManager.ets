@@ -155,6 +155,14 @@ class AvPlayerManager {
     this.singPlay((this.currentSong.playList[this.currentSong.playIndex]))
   }
 
+  //设置播放模式
+  setLoopMode(mode: 'auto' | 'random' | 'repeat') {
+    this.currentSong.playMode = mode
+    sessionManager.setAvPlayBackState()
+    sessionManager.setAvMetaData(this.currentSong.playList[this.currentSong.playIndex])
+
+  }
+
   // 列表移除歌曲
   removeSong(index: number) {
     if (index === this.currentSong.playIndex) {
