@@ -534,7 +534,7 @@ export struct PlayView {
       .width('100%')
       .height('100%')
       .padding({top:this.safeArea.topHeight, bottom:this.safeArea.bottomHeight})
-      .backgroundColor('#f5f5f5')
+      .backgroundColor('#75747c')
       // .backgroundColor(Color.Transparent)
 
     }

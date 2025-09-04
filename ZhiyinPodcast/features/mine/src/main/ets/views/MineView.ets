@@ -5,38 +5,50 @@ import { FunctionList } from "../components/FunctionList"
 import { ServiceGrid } from "../components/ServiceGrid"
 import { UserInfoCard } from "../components/UserInfoCard"
 import { VipCard } from "../components/VipCard"
+import { promptAction } from "@kit.ArkUI"
+
 
 // 自定义右侧图标区域
-@Builder
-function  customRight() {
-  Row() {
-    Image($r('[basic].media.ic_message'))
-      .width(30)
-      .aspectRatio(1)
-      .onClick(() => {
-        console.log("点击了消息图标")
-      })
 
-    Image($r('[basic].media.ic_setting'))
-      .width(30)
-      .aspectRatio(1)
-      .margin({ left: 16 })
-      .onClick(() => {
-        console.log("点击了设置图标")
-      })
-  }
-  .alignItems(VerticalAlign.Center)
-}
+
 
 @ComponentV2
 export struct MineView {
+  @Local listData: number[] = [0, 0, 0];
   @Local isLogin: boolean = false
+
+  @Builder
+  customRight() {
+    Row() {
+      Image($r('[basic].media.ic_message'))
+        .width(30)
+        .aspectRatio(1)
+        .onClick(() => {
+          console.log("点击了消息图标")
+        })
+
+      Image($r('[basic].media.ic_setting'))
+        .width(30)
+        .aspectRatio(1)
+        .margin({ left: 16 })
+        .onClick(() => {
+          console.log("点击了设置图标")
+          // 打开设置页面
+          HMRouterMgr.push({pageUrl:PAGE_PATH.SETTING_PAGE})
+
+
+        })
+
+    }
+    .alignItems(VerticalAlign.Center)
+  }
+
 
   build() {
     Column() {
       // 顶部navBar
       MyNavBar({title:'',showLeftIcon:false,showRightIcon:false,
-        customRight: customRight,bgColor:'#f5f5f5'})
+        customRight: this.customRight,bgColor:'#f5f5f5'})
       // rightIcon: $r('[basic].media.ic_setting')
 
       Scroll() {

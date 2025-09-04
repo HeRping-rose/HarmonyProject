@@ -117,7 +117,8 @@ export struct SearchView {
       }
       .padding({ top: this.safeArea.topHeight, right: 16 })
       .linearGradient({
-        angle: 135,
+        angle: 180,
+
         colors: [[$r('[basic].color.linear_begin'), 0], [$r('[basic].color.linear_end'), 1]]
       })
 

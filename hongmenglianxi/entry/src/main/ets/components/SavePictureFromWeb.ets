@@ -15,7 +15,7 @@
 
 import { webview } from '@kit.ArkWeb';
 import { common } from '@kit.AbilityKit';
-import { fileIo as fs } from '@kit.CoreFileKit';
+import { fileIo as fs } from '@kit.CoreFileKit'; //新版引入fs
 import { BusinessError, request } from '@kit.BasicServicesKit';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import { buffer } from '@kit.ArkTS';
@@ -38,7 +38,8 @@ export struct SavePictureFromWeb {
   controller: webview.WebviewController = new webview.WebviewController();
   @State imageUrl: string = ''; // web上的图片链接
   @State showMenu: boolean = false; // 控制bindPopup是否显示
-  private context = getContext(this) as common.UIAbilityContext;
+  // private context = getContext(this) as common.UIAbilityContext;
+  private context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   /**
    * 下载图片到沙箱路径，并且保存到相册
@@ -46,14 +47,18 @@ export struct SavePictureFromWeb {
   downloadImage() {
     // 获取沙箱路径
     let filesDir = this.context.filesDir;
+    // let file= this.context.filesDir+'/'+Date.now()+'xxx.png'
 
     try {
       // 将web页面的图片下载到沙箱路径
       request.downloadFile(this.context, {
         url: this.imageUrl,
+        // filePath: `${filesDir}/savePictureFromWeb.png`
+        // 加时间戳Date.now()防止沙箱中图片重名
         filePath: `${filesDir}/savePictureFromWeb.png`
       }).then((downloadTask: request.DownloadTask) => {
         downloadTask.on('complete', async () => {
+          // 下载成功完成性后的事件 还有 on progress进度 pause暂停  off取消
           logger.info(TAG, 'download image succeed');
           // 下载成功后图片的沙箱路径
           const srcFileUris: string[] = [`${filesDir}/savePictureFromWeb.png`];
@@ -72,15 +77,16 @@ export struct SavePictureFromWeb {
    * @param srcFileUris 图片的沙箱路径
    */
   async saveImage(srcFileUris: Array<string>) {
+    // 获取相册模块管理实例
     let phAccessHelper: photoAccessHelper.PhotoAccessHelper = photoAccessHelper.getPhotoAccessHelper(this.context);
 
     try {
       let photoCreationConfigs: Array<photoAccessHelper.PhotoCreationConfig> = [
         {
-          title: 'savePictureFromWeb',
-          fileNameExtension: 'png',
-          photoType: photoAccessHelper.PhotoType.IMAGE,
-          subtype: photoAccessHelper.PhotoSubtype.DEFAULT,
+          title: 'savePictureFromWeb',// 图片的标题 //建议不能写死 `${date.now()}`
+          fileNameExtension: 'png',// 图片的扩展名  或者 jpg
+          photoType: photoAccessHelper.PhotoType.IMAGE,// 图片类型  文件是否图片
+          subtype: photoAccessHelper.PhotoSubtype.DEFAULT,// 图片的子类型 当前只支持默认/  动态/连拍
         }
       ];
       // 拉起授予权限的弹窗，获取将图片保存到相册的权限
@@ -89,15 +95,17 @@ export struct SavePictureFromWeb {
       // 转换为uri
       let uri: string = fileUri.getUriFromPath(srcFileUris[0]);
       // 打开沙箱路径下图片
-      const file: fs.File = fs.openSync(uri, fs.OpenMode.READ_WRITE);
+      const file: fs.File = fs.openSync(uri, fs.OpenMode.READ_WRITE); //读图
       // 读取沙箱路径下图片为buffer
-      const photoSize: number = fs.statSync(file.fd).size;
-      let arrayBuffer: ArrayBuffer = new ArrayBuffer(photoSize);
-      let readLength: number = fs.readSync(file.fd, arrayBuffer);
-      let imageBuffer: ArrayBuffer = buffer.from(arrayBuffer, 0, readLength).buffer;
+      const photoSize: number = fs.statSync(file.fd).size;  // 图片大小  当前文件信息的  图片的大小
+      let arrayBuffer: ArrayBuffer = new ArrayBuffer(photoSize); // 创建大小的一定要够的 ArrayBuffer  初始化buffer大小
+      let readLength: number = fs.readSync(file.fd, arrayBuffer); // 读取图片大小 指定读取长度到原图中读取信息 ,把读到的信息一并赋给buffer
+      // 到buffer中截取有用信息 从0到readLength真实图片的数据长度
+      let imageBuffer: ArrayBuffer = buffer.from(arrayBuffer, 0, readLength).buffer; // 将ArrayBuffer转为buffer
 
+      //  把buffer写入到相册
       try {
-        // 打开相册下路径
+        // 打开相册下路径   //desFileUris[0]这已经是指向相册空路径
         let fileInAlbum = fs.openSync(desFileUris[0], fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE);
 
         // 写入相册
@@ -173,13 +181,13 @@ export struct SavePictureFromWeb {
           }
           return true;
         })
-        // 保存图片弹窗 
+        // 保存图片弹窗
         .bindPopup(this.showMenu, {
           builder: this.savePopBuilder(),
           placement: Placement.Top,
           popupColor: $r('app.color.photo_pick_and_save_bind_popup_color'),
           autoCancel: false,
-          backgroundBlurStyle: BlurStyle.Thin,
+          backgroundBlurStyle: BlurStyle.Thin, // 背景模糊模式-效果
           enableArrow: false,
           mask: { color: $r('app.color.photo_pick_and_save_bind_popup_mask_color') }
         })
