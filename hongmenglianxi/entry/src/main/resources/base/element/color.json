@@ -15,6 +15,10 @@
     {
       "name": "photo_pick_and_save_bind_popup_mask_color",
       "value": "#33000000"
+    },
+    {
+      "name": "item_title_font",
+      "value": "#E6000000"
     }
   ]
 }
