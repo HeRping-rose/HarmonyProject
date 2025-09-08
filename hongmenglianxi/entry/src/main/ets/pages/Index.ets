@@ -15,7 +15,7 @@ struct Index {
       Button('发送消息给卡片')
         .onClick(() => {
           // 发送消息
-          commonEvent.publish('updateCard', 'hello Card')
+          commonEvent.publish('updateCard', 'hel+lo Card')
         //   依赖entryFormAbility窗口
         })
     }

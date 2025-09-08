@@ -1,0 +1,18 @@
+{
+  "appSelected": {
+    "appId": "6917583557214564089",
+    "appName": "duanyun",
+    "deviceTypes": [
+      {
+        "deviceType": 4
+      }
+    ],
+    "enableSites": "CN",
+    "installationFree": 1,
+    "packageType": 7,
+    "projectId": "461323198430396869",
+    "projectName": "duanyun",
+    "siteId": "CN"
+  },
+  "teamId": "10086000859584249"
+}
