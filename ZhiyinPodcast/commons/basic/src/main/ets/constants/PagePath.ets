@@ -17,7 +17,14 @@ export class PAGE_PATH {
   static readonly REGISTER_PAGE: string = "RegisterView"
   //我的播放列表
   static readonly MY_PLAYLIST_PAGE: string = "MyPlayListView"
+  //RANK_PAGE
+  static readonly RANK_PAGE: string = "RankView"
+  //PODCAST_SQUARE_PAGE
+  static readonly PODCAST_SQUARE_PAGE: string = "PodcastSquareView"
+  //ALL_CATEGORY_PAGE
+  static readonly ALL_CATEGORY_PAGE: string = "AllCategoryView"
   //猜你喜欢
   static readonly GUESS_YOU_LIKE_PAGE: string = "GuessYouLikeView"
+
 
 }

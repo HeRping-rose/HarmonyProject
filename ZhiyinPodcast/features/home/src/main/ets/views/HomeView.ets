@@ -2,20 +2,18 @@ import { HMRouterMgr } from "@hadss/hmrouter"
 import { AppSafeArea, PAGE_PATH, PlayStatus } from "basic"
 import { HotSearchTag } from "../components/HotSearchSection"
 import { Banner, EditorChoice, podcastExpress, popularPodcast, quickCategory, RecentlyNew } from "../viewmodels/home"
-import { AppStorageV2 } from "@kit.ArkUI"
+import { AppStorageV2, promptAction } from "@kit.ArkUI"
+import { HomeHeader } from "../components/HomeHeader"
 
 @ComponentV2
 export struct HomeView {
-
   @Local currentBannerIndex: number = 0
   @Local searchText: string = ''
   safeArea: AppSafeArea = AppStorageV2.connect(AppSafeArea, () => new AppSafeArea())!//安全区
-
   // 轮播横幅数据
    banner:Banner[] = []
    editorChoice: EditorChoice[]=[]
    recentlyNew: RecentlyNew[] = []
-
   // 快速分类数据
    quickCategories: quickCategory[] = [
     { name: '我的播单', icon: $r('app.media.ic_pod') },
@@ -23,69 +21,42 @@ export struct HomeView {
     { name: '播客广场', icon: $r('app.media.ic_square') },
     { name: '全部分类', icon: $r('app.media.ic_category') }
   ]
-
   // 播客速递数据
    podcastExpress: podcastExpress[] = [
-    {
-      tag: '热门推荐',
-      title: '深度放松,听音乐寻找内心的安宁',
-      author: '温柔一刀'
-    },
-    {
-      tag: '热门推荐',
-      title: '梵高背后的调色盘,探寻艺术大师的创...',
-      author: '暖暖阳光min'
-    },
-    {
-      tag: '热门推荐',
-      title: '中国正能量,的中国吹响',
-      author: '听风吟'
-    }
+    { tag: '热门推荐', title: '深度放松,听音乐寻找内心的安宁', author: '温柔一刀' },
+    { tag: '热门推荐', title: '梵高背后的调色盘,探寻艺术大师的创...', author: '暖暖阳光min' },
+    { tag: '热门推荐', title: '中国正能量,的中国吹响', author: '听风吟' }
   ]
-
   // 热门播客数据
    popularPodcasts: popularPodcast[] = [
-    {
-      rank: 1,
-      title: '189.想了解职场转型、创业起步...',
-      category: '备忘录|商业财经'
-    },
-    {
-      rank: 2,
-      title: 'Vol.198 | 历史长河中,情感才更...',
-      category: '历史情感'
-    },
-     {
-       rank: 3,
-       title: '1997 | 历史长河中,情感才更...',
-       category: '历史情感'
-     }
+    { rank: 1, title: '189.想了解职场转型、创业起步...', category: '备忘录|商业财经'},
+    { rank: 2, title: 'Vol.198 | 历史长河中,情感才更...', category: '历史情感' },
+    {rank: 3,title: '1997 | 历史长河中,情感才更...',category: '历史情感' }
   ]
 
   async mockData() {
-    // 模拟数据加载
-    this.banner=new Array(6).fill({
+    // 模拟数据加载  轮播图数据
+    this.banner=new Array(5).fill({
         id:'42',
-        imgUrl:$r('app.media.swiper1'),
+        imgUrl:$r('app.media.swiper2'),
         hrfUrl:'/category/1181622006',
         type:'1'
       })
-    this.editorChoice=new Array(6).fill({
-        imgUrl:$r('app.media.swiper1'),
+    this.editorChoice=new Array(3).fill({
+        imgUrl:$r('app.media.swiper2'),
         title:'如何改变人生',
-        authorAvatar:$r('app.media.swiper1'),
+        authorAvatar:$r('app.media.swiper2'),
         author:'秦时明月',
         subtitle:'"处世让一步为高,退步即为进步的根本",与自己较劲,结果往往是身心俱疲,得不偿失'
       })
-    this.recentlyNew=new Array(6).fill({
-      imgUrl:$r('app.media.swiper1'),
+    this.recentlyNew=new Array(3).fill({
+      imgUrl:$r('app.media.swiper3'),
         title:'国风古韵',
-        authorAvatar:$r('app.media.swiper1'),
+        authorAvatar:$r('app.media.swiper3'),
         author:'小满意',
         listenCount: 1000,
         signature:'断舍离: 最精辟的人生哲学'
       })
-
   }
 
   aboutToAppear(): void {
@@ -95,48 +66,7 @@ export struct HomeView {
   build() {
     Column({space:10}) {
       // 头部区域
-      Row() {
-        Text('智音播客')
-          .fontSize(24)
-          .fontColor('#4A90E2')
-        Row({space:5}) {
-          // 搜索框
-          Row() {
-            Image($r('app.media.ic_search'))
-              .width(20)
-              .height(20)
-            Text('请输入...')
-              .width(120)
-              .height(36)
-              .fontColor('#999999')
-              .fontSize(14)
-              .backgroundColor('#F5F5F5')
-              .borderRadius(18)
-              .padding({ left: 12, right: 12 })
-          }
-          // .backgroundColor('#ffdbb6b6')
-          .borderRadius(18)
-          // .layoutWeight(1)
-          .padding({ left: 12, right: 12 })
-          .onClick(()=>{
-            HMRouterMgr.push({
-              pageUrl: PAGE_PATH.SEARCH_PAGE
-            })
-          })
-
-          Row({space:5}){
-            // 麦克风和菜单图标
-            Image($r('app.media.ic_voice'))
-              .width(20).aspectRatio(1)
-              .margin({ left: 12 })
-            Image($r('app.media.ic_menu'))
-              .width(20).aspectRatio(1)
-              .margin({ left: 8 })
-          }
-        }.justifyContent(FlexAlign.SpaceBetween)
-      }
-      .width('100%')
-      .padding({ left: 16, right: 16, bottom: 16 })
+      HomeHeader()
 
       // 主要内容区域
       Scroll(){
@@ -166,7 +96,7 @@ export struct HomeView {
               .layoutWeight(1)
               .onClick(() => {
                 // 在这里处理点击事件，可以使用 category 和 index
-                console.log('点击了分类:', category.name, '索引:', index)
+                promptAction.openToast({message:'点击'+category.name+'索引为'+index})
                 // 根据不同的分类执行不同操作
                 switch (index) {
                   case 0:
@@ -175,12 +105,15 @@ export struct HomeView {
                     break;
                   case 1:
                     // 排行榜
+                    HMRouterMgr.push({pageUrl: PAGE_PATH.RANK_PAGE})
                     break;
                   case 2:
                     // 播客广场
+                    HMRouterMgr.push({pageUrl: PAGE_PATH.PODCAST_SQUARE_PAGE})
                     break;
                   case 3:
                     // 全部分类
+                    HMRouterMgr.push({pageUrl: PAGE_PATH.ALL_CATEGORY_PAGE})
                     break;
                 }
               })
@@ -318,7 +251,6 @@ export struct HomeView {
                         .width('100%')
                         .alignItems(HorizontalAlign.Start)
                       }
-
                       Row() {
                         Text(item.subtitle)
                           .fontSize(16)
@@ -329,8 +261,14 @@ export struct HomeView {
                           .textAlign(TextAlign.Start)
                       }
                       .width('100%')
-                      .backgroundColor('#ccc')
+                      // .backgroundColor('#ccc')
                     }.alignItems(HorizontalAlign.Start)
+                    .border({
+                      width: 1,
+                      color: '#eeeeee',
+                      radius:8,
+                      style: BorderStyle.Solid,
+                    })
                   }
                 })
               }
@@ -390,7 +328,7 @@ export struct HomeView {
                           .maxLines(1)
                           .textOverflow({ overflow: TextOverflow.Ellipsis })
                           .textAlign(TextAlign.Start)
-                      }
+                      }.justifyContent(FlexAlign.Start)
                     }.width('100%')
                   }
                 }
@@ -405,7 +343,7 @@ export struct HomeView {
       .scrollBar(BarState.Off)
       .layoutWeight(1)
 
-      //播放栏
+      //播放mini栏
       PlayStatus()
     }
     .padding({ top: this.safeArea.topHeight, left: 16, right: 16 })
