@@ -62,6 +62,7 @@ export struct HomeView {
   aboutToAppear(): void {
     this.mockData()
   }
+  
 
   build() {
     Column({space:10}) {
